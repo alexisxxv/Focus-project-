@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0b0b14">
+<title>Focus</title>
+<style>
+:root{
+  --bg:#0b0b14; --card:rgba(255,255,255,.06); --bd:rgba(255,255,255,.11);
+  --tx:#f4f4f8; --mut:#9a9ab3; --violet:#8b5cf6; --blue:#3b82f6;
+  --grad:linear-gradient(135deg,#a855f7 0%,#6366f1 50%,#3b82f6 100%);
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{
+  min-height:100vh; color:var(--tx);
+  font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(60% 40% at 0% 0%,rgba(139,92,246,.2),transparent 70%),
+    radial-gradient(50% 40% at 100% 100%,rgba(59,130,246,.18),transparent 70%),
+    var(--bg);
+  background-attachment:fixed;
+  padding:max(20px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
+}
+.app{max-width:760px;margin:0 auto;position:relative;z-index:1}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+h1{font-size:1.55rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.today-pill{font-size:.85rem;color:var(--mut);background:var(--card);border:1px solid var(--bd);padding:6px 12px;border-radius:99px}
+.today-pill b{color:var(--tx)}
+nav{display:flex;gap:6px;background:var(--card);border:1px solid var(--bd);padding:5px;border-radius:16px;margin-bottom:18px;overflow-x:auto;scrollbar-width:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:1 0 auto;white-space:nowrap;border:0;background:none;color:var(--mut);font:inherit;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:12px;cursor:pointer;transition:.2s}
+nav button.on{background:var(--grad);color:#fff;box-shadow:0 4px 18px rgba(139,92,246,.35)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:24px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);margin-bottom:16px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:14px}
+section{display:none}
+section.on{display:block}
+.big{font-size:clamp(3rem,15vw,5.2rem);font-weight:800;text-align:center;letter-spacing:-.03em;font-variant-numeric:tabular-nums;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.1;margin:8px 0 18px}
+label{display:block;font-size:.8rem;color:var(--mut);margin-bottom:6px}
+input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--tx);background:rgba(0,0,0,.35);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(139,92,246,.25)}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+.btns{display:flex;gap:10px;margin-top:16px}
+.btn{flex:1;border:0;font:inherit;font-weight:700;font-size:1rem;color:#fff;padding:14px;border-radius:14px;cursor:pointer;background:var(--grad);transition:transform .12s,opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--card);border:1px solid var(--bd);color:var(--tx)}
+.btn.stop{background:rgba(239,68,68,.16);border:1px solid rgba(239,68,68,.45);color:#fca5a5}
+.btn:disabled{opacity:.35;cursor:default}
+.ring{position:relative;width:min(280px,76vw);aspect-ratio:1;margin:4px auto 6px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .t .big{font-size:clamp(2.6rem,12vw,3.6rem);margin:0}
+.phase{font-size:.9rem;font-weight:700;color:var(--mut)}
+.phase.work{color:#c4b5fd} .phase.rest{color:#93c5fd}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px}
+.stat small{color:var(--mut);font-size:.78rem}
+.stat b{display:block;font-size:1.6rem;margin:4px 0 2px;letter-spacing:-.02em}
+.up{color:#4ade80;font-size:.82rem;font-weight:600}
+.down{color:#f87171;font-size:.82rem;font-weight:600}
+.flat{color:var(--mut);font-size:.82rem}
+.chart{display:flex;align-items:flex-end;gap:8px;height:170px;padding-top:22px}
+.col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;min-width:0}
+.bar{width:100%;border-radius:8px 8px 4px 4px;background:var(--grad);min-height:3px;position:relative;transition:height .4s}
+.bar.dim{background:rgba(255,255,255,.14)}
+.bar i{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-style:normal;font-size:.68rem;color:var(--mut);white-space:nowrap}
+.col span{font-size:.72rem;color:var(--mut)}
+.subj{margin-bottom:12px}
+.subj div{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:5px}
+.subj .tr{height:8px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden}
+.subj .tr i{display:block;height:100%;background:var(--grad);border-radius:9px}
+.hist{list-style:none;padding:0}
+.hist li{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--bd);font-size:.9rem}
+.hist li:last-child{border:0}
+.hist .m{flex:1;min-width:0}
+.hist .m small{display:block;color:var(--mut);font-size:.75rem}
+.hist .d{font-weight:700}
+.hist button{border:0;background:none;color:var(--mut);font-size:1.1rem;cursor:pointer;padding:4px 8px}
+.empty{color:var(--mut);font-size:.9rem;text-align:center;padding:10px 0}
+.toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translate(-50%,120px);background:#1c1c2e;border:1px solid var(--bd);padding:12px 18px;border-radius:14px;font-size:.9rem;transition:transform .3s;z-index:9}
+.toast.show{transform:translate(-50%,0)}
+textarea{resize:none}
+.glow{position:fixed;left:0;top:0;border-radius:50%;pointer-events:none;z-index:0;will-change:transform,opacity}
+#gA{width:560px;height:560px;margin:-280px 0 0 -280px;background:radial-gradient(circle,rgba(139,92,246,.55),transparent 68%);filter:blur(60px)}
+#gB{width:680px;height:680px;margin:-340px 0 0 -340px;background:radial-gradient(circle,rgba(59,130,246,.45),transparent 68%);filter:blur(70px)}
+#gC{width:260px;height:260px;margin:-130px 0 0 -130px;background:radial-gradient(circle,rgba(129,140,248,.6),transparent 70%);filter:blur(40px)}
+.seg{display:flex;gap:6px;background:rgba(0,0,0,.3);border:1px solid var(--bd);border-radius:14px;padding:4px;margin-bottom:12px}
+.seg button{flex:1;border:0;background:none;color:var(--mut);font:inherit;font-weight:700;font-size:.9rem;padding:10px;border-radius:10px;cursor:pointer;transition:.2s}
+.seg button.on{background:var(--grad);color:#fff}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.hd h2{margin:0}
+.mini{border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:.8rem;font-weight:600;padding:6px 12px;border-radius:99px;cursor:pointer}
+.chart.all{overflow-x:auto;padding-bottom:6px}
+.chart.all .col{flex:0 0 46px}
+.modal{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;padding:16px;background:rgba(5,5,12,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);visibility:hidden;transition:background .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s,visibility 0s .35s}
+.modal.open{background:rgba(5,5,12,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);visibility:visible;transition:background .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s,visibility 0s}
+.sheet{width:min(460px,100%);background:#14141f;border:1px solid var(--bd);border-radius:24px;padding:24px;transform:translateY(40px) scale(.97);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s;margin-bottom:env(safe-area-inset-bottom)}
+.modal.open .sheet{transform:none;opacity:1}
+@media (min-width:600px){.modal{align-items:center}}
+.cheer{font-size:1.7rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+.cheer:empty{display:none}
+.sheet h3{font-size:1.15rem;margin-bottom:4px}
+.sheet p{color:var(--mut);font-size:.88rem;margin-bottom:16px}
+.moods{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:14px}
+.mood{border:1px solid var(--bd);background:rgba(255,255,255,.04);color:var(--tx);font:inherit;border-radius:14px;padding:10px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.2s}
+.mood b{font-size:1.5rem;line-height:1;font-weight:400}
+.mood span{font-size:.66rem;color:var(--mut)}
+.mood.on{border-color:var(--violet);background:rgba(139,92,246,.22);transform:translateY(-2px)}
+.sheet{max-height:92vh;overflow-y:auto}
+.btn.yes{background:linear-gradient(135deg,#22c55e,#16a34a)}
+.sws{display:flex;gap:10px;margin:4px 0 6px}
+.sw{width:32px;height:32px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:.2s}
+.sw.on{border-color:#fff;transform:scale(1.12)}
+.c0{background:linear-gradient(135deg,#8b5cf6,#6366f1)}
+.c1{background:linear-gradient(135deg,#3b82f6,#2563eb)}
+.c2{background:linear-gradient(135deg,#06b6d4,#0891b2)}
+.c3{background:linear-gradient(135deg,#ec4899,#be185d)}
+.c4{background:linear-gradient(135deg,#10b981,#059669)}
+.c5{background:linear-gradient(135deg,#f43f5e,#be123c)}
+.sgrid{display:grid;grid-template-columns:40px repeat(5,minmax(0,1fr));gap:3px}
+.dh{font-size:.75rem;font-weight:700;color:var(--mut);text-align:center;align-self:center}
+.hl{font-size:.68rem;color:var(--mut);text-align:right;padding:4px 6px 0 0}
+.cell{border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.025);border-radius:8px;cursor:pointer;transition:background .2s;padding:0}
+.cell:hover{background:rgba(139,92,246,.22)}
+.blk{border:0;border-radius:10px;color:#fff;font:inherit;font-size:.72rem;font-weight:700;text-align:left;padding:6px 7px;overflow:hidden;cursor:pointer;line-height:1.2;box-shadow:0 4px 14px rgba(0,0,0,.25);word-break:break-word;z-index:1}
+.blk small{display:block;font-weight:500;opacity:.8;font-size:.64rem;margin-top:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:.88rem;font-weight:600;padding:8px 14px;border-radius:99px;cursor:pointer}
+.chip.on{background:var(--grad);border-color:transparent}
+.chip.add{color:var(--mut);border-style:dashed}
+.gGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.sq{aspect-ratio:1;border-radius:12px;border:1px solid var(--bd);background:rgba(255,255,255,.05);color:var(--mut);font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s,background .3s}
+.sq:hover{transform:translateY(-2px);background:rgba(255,255,255,.1)}
+.sq.yes{background:linear-gradient(135deg,#22c55e,#16a34a);border-color:#4ade80;color:#fff}
+.sq.no{background:linear-gradient(135deg,#ef4444,#b91c1c);border-color:#f87171;color:#fff}
+.sq.pop-yes{animation:popYes .8s cubic-bezier(.2,.9,.3,1.3)}
+.sq.pop-yes::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.75) 50%,transparent 70%);transform:translateX(-120%);animation:shine .8s .15s ease-out forwards}
+@keyframes popYes{0%{transform:scale(.6);box-shadow:0 0 0 0 rgba(74,222,128,.8)}40%{transform:scale(1.22) rotate(-4deg);box-shadow:0 0 0 0 rgba(74,222,128,.7)}70%{transform:scale(.97);box-shadow:0 0 0 14px rgba(74,222,128,.15)}100%{transform:scale(1);box-shadow:0 0 0 24px rgba(74,222,128,0)}}
+@keyframes shine{to{transform:translateX(120%)}}
+.sq.pop-no{animation:popNo .6s ease-out}
+@keyframes popNo{0%{opacity:.3;transform:scale(.9)}100%{opacity:1;transform:scale(1)}}
+.mstage{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:18px;transition:opacity .3s,filter .3s,transform .3s}
+.mstage.out{opacity:0;filter:blur(8px);transform:translateY(-10px)}
+.mph{position:relative;width:92px;height:92px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem;animation:phIn .8s cubic-bezier(.2,.9,.3,1.25) both}
+.mph::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(139,92,246,.7);animation:ring 1.3s .2s ease-out both}
+.mph img{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;object-fit:cover;opacity:0;transition:opacity .6s}
+.mph img.ok{opacity:1}
+@keyframes phIn{from{opacity:0;transform:scale(.4) rotate(-12deg)}to{opacity:1;transform:none}}
+@keyframes ring{from{opacity:1;transform:scale(.9)}to{opacity:0;transform:scale(1.6)}}
+.mq{font-size:clamp(1.15rem,4.6vw,1.6rem);font-weight:700;line-height:1.35;letter-spacing:-.01em;max-width:34ch}
+.w{display:inline-block;opacity:0;animation:wIn .7s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes wIn{from{opacity:0;transform:translateY(14px);filter:blur(8px)}to{opacity:1;transform:none;filter:blur(0)}}
+.ma{font-size:.9rem;color:var(--mut);opacity:0;animation:wIn .7s forwards}
+.ma b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+#mBtn.pulse{animation:pulseBtn .7s ease-out}
+@keyframes pulseBtn{0%{box-shadow:0 0 0 0 rgba(139,92,246,.7)}100%{box-shadow:0 0 0 26px rgba(139,92,246,0)}}
+.fwrap{width:min(100%,400px);margin:0 auto}
+#fSvg{width:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
+#fSvg.win{animation:winGlow 1.2s ease-out forwards}
+@keyframes winGlow{0%{filter:drop-shadow(0 0 0 rgba(168,85,247,0))}40%{filter:drop-shadow(0 0 22px rgba(139,92,246,.9))}100%{filter:drop-shadow(0 0 8px rgba(59,130,246,.5))}}
+.fnote{color:var(--mut);font-size:.84rem;margin-bottom:14px}
+.fstat{display:flex;justify-content:space-between;gap:10px;color:var(--mut);font-size:.82rem;margin-top:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:420px){.card{padding:18px}.stats{gap:10px}}
+</style>
+</head>
+<body>
+<div class="glow" id="gA"></div><div class="glow" id="gB"></div><div class="glow" id="gC"></div>
+<div class="app">
+  <header>
+    <h1>Focus</h1>
+    <div class="today-pill">Aujourd'hui <b id="pillToday">0h 00m</b></div>
+  </header>
+
+  <nav id="nav">
+    <button data-t="chrono" class="on">Chrono</button>
+    <button data-t="pomo">Pomodoro</button>
+    <button data-t="add">Ajouter</button>
+    <button data-t="stats">Stats</button>
+    <button data-t="sched">Emploi du temps</button>
+    <button data-t="goals">Objectifs</button>
+    <button data-t="moti">Motivation</button>
+  </nav>
+
+  <!-- CHRONO -->
+  <section id="chrono" class="on">
+    <div class="card">
+      <div class="big" id="cClock">00:00:00</div>
+      <label for="cSubj">Matière</label>
+      <input id="cSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
+      <div class="btns">
+        <button class="btn" id="cToggle">Démarrer</button>
+        <button class="btn stop" id="cStop">Terminer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- POMODORO -->
+  <section id="pomo">
+    <div class="card">
+      <div class="seg" id="pMode"><button data-m="50" class="on">50 / 10</button><button data-m="30">30 / 5</button></div>
+      <div class="ring">
+        <svg viewBox="0 0 200 200">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#a855f7"/><stop offset=".5" stop-color="#6366f1"/><stop offset="1" stop-color="#3b82f6"/>
+          </linearGradient></defs>
+          <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="12"/>
+          <circle id="pRing" cx="100" cy="100" r="88" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="552.92" stroke-dashoffset="0"/>
+        </svg>
+        <div class="t">
+          <div class="big" id="pClock">50:00</div>
+          <div class="phase work" id="pPhase">Travail</div>
+        </div>
+      </div>
+      <label for="pSubj" style="margin-top:14px">Matière</label>
+      <input id="pSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
+      <div class="btns">
+        <button class="btn" id="pToggle">Démarrer</button>
+        <button class="btn stop" id="pStop">Terminer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AJOUT MANUEL -->
+  <section id="add">
+    <div class="card">
+      <h2>Ajouter du temps travaillé</h2>
+      <label for="aDate">Date</label>
+      <input type="date" id="aDate">
+      <div class="row" style="margin-top:12px">
+        <div><label for="aH">Heures</label><input type="number" id="aH" min="0" max="24" inputmode="numeric" placeholder="0"></div>
+        <div><label for="aM">Minutes</label><input type="number" id="aM" min="0" max="59" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <label for="aSubj" style="margin-top:12px">Matière</label>
+      <input id="aSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
+      <div class="btns"><button class="btn" id="aSave">Ajouter</button></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="stats">
+    <div class="stats">
+      <div class="stat"><small>Aujourd'hui</small><b id="sToday">0h 00m</b><span id="sTodayD" class="flat"></span></div>
+      <div class="stat"><small>Cette semaine</small><b id="sWeek">0h 00m</b><span id="sWeekD" class="flat"></span></div>
+    </div>
+    <div class="card"><h2>7 derniers jours</h2><div class="chart" id="chDays"></div></div>
+    <div class="card"><div class="hd"><h2>Semaines</h2><button class="mini" id="wToggle">Tout voir</button></div><div class="chart" id="chWeeks"></div></div>
+    <div class="card"><h2>Matières cette semaine</h2><div id="subjs"></div></div>
+    <div class="card"><h2>Historique</h2><ul class="hist" id="hist"></ul></div>
+  </section>
+
+  <!-- EMPLOI DU TEMPS -->
+  <section id="sched">
+    <div class="card">
+      <div class="sgrid" id="sGrid"></div>
+      <div class="btns"><button class="btn ghost" id="sLess">Retirer une heure</button><button class="btn ghost" id="sMore">Ajouter une heure</button></div>
+    </div>
+  </section>
+
+  <!-- OBJECTIFS -->
+  <section id="goals">
+    <div class="chips" id="gChips"></div>
+    <p class="empty" id="gEmpty">Crée ton premier objectif.</p>
+    <div class="card" id="gCard">
+      <div class="hd"><button class="mini" id="gPrev" aria-label="Mois précédent">‹</button><h2 id="gMonth"></h2><button class="mini" id="gNext" aria-label="Mois suivant">›</button></div>
+      <div class="gGrid" id="gGrid"></div>
+      <div class="btns"><button class="btn ghost" id="gDel">Supprimer cet objectif</button></div>
+    </div>
+  </section>
+
+  <!-- MOTIVATION -->
+  <section id="moti">
+    <div class="card">
+      <div class="mstage" id="mStage"><p class="empty">Un coup de boost ? Appuie sur le bouton.</p></div>
+      <div class="btns"><button class="btn" id="mBtn">Besoin de motivation</button></div>
+    </div>
+    <div class="card">
+      <div class="hd"><h2>Flow</h2><div class="seg" id="fSize" style="margin:0;width:150px"><button data-n="5" class="on">5×5</button><button data-n="6">6×6</button></div></div>
+      <p class="fnote">Relie les lettres identiques et remplis toute la grille.</p>
+      <div class="fwrap"><svg id="fSvg" viewBox="0 0 500 500"></svg></div>
+      <div class="fstat"><span id="fStat"></span><span id="fWins"></span></div>
+      <div class="btns"><button class="btn ghost" id="fReset">Recommencer</button><button class="btn" id="fNew">Nouvelle grille</button></div>
+    </div>
+  </section>
+</div>
+
+<datalist id="subjList"></datalist>
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="bk"><div class="sheet" role="dialog" aria-modal="true">
+  <h3 id="bkH">Créneau</h3><p id="bkSub"></p>
+  <label for="bkTitle">Titre</label>
+  <input id="bkTitle" placeholder="Ex : Cours de maths" autocomplete="off" maxlength="40">
+  <label style="margin-top:12px">Durée</label>
+  <div class="seg" id="bkDur"><button data-n="1">1 h</button><button data-n="2">2 h</button><button data-n="4">4 h</button></div>
+  <label>Couleur</label>
+  <div class="sws" id="bkCol"><button class="sw c0" data-c="c0"></button><button class="sw c1" data-c="c1"></button><button class="sw c2" data-c="c2"></button><button class="sw c3" data-c="c3"></button><button class="sw c4" data-c="c4"></button><button class="sw c5" data-c="c5"></button></div>
+  <div class="btns"><button class="btn stop" id="bkDel">Supprimer</button><button class="btn" id="bkSave">Enregistrer</button></div>
+</div></div>
+
+<div class="modal" id="q"><div class="sheet" role="dialog" aria-modal="true">
+  <h3 id="qT"></h3><p>Objectif atteint ?</p>
+  <div class="btns" style="margin-top:0"><button class="btn stop" id="qNo">Non</button><button class="btn yes" id="qYes">Oui</button></div>
+  <button class="mini" id="qClr" style="margin-top:14px">Effacer la réponse</button>
+</div></div>
+
+<div class="modal" id="gm"><div class="sheet" role="dialog" aria-modal="true">
+  <h3>Nouvel objectif</h3><p>Donne un nom à cet objectif.</p>
+  <input id="gName" placeholder="Ex : Réviser 1 h" autocomplete="off" maxlength="40">
+  <div class="btns"><button class="btn ghost" id="gCancel">Annuler</button><button class="btn" id="gCreate">Créer</button></div>
+</div></div>
+
+
+<div class="modal" id="fb">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fbT">
+    <div class="cheer" id="fbCheer"></div>
+    <h3 id="fbT">Comment était la session ?</h3>
+    <p id="fbSub"></p>
+    <div class="moods" id="fbMoods"></div>
+    <textarea id="fbNote" rows="3" placeholder="Un mot sur cette session (facultatif)"></textarea>
+    <div class="btns"><button class="btn ghost" id="fbSkip">Passer</button><button class="btn" id="fbSave">Enregistrer</button></div>
+  </div>
+</div>
+
+<!-- Firebase SDKs (Compat version pour intégration HTML direct) -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+/* ---------- Configuration Firebase & Stockage hybride Local + Cloud ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyCOtvIPRuHnV_7e38A95cVuA9EbiQu-6Fs",
+  authDomain: "focus-website-841d6.firebaseapp.com",
+  projectId: "focus-website-841d6",
+  storageBucket: "focus-website-841d6.firebasestorage.app",
+  messagingSenderId: "69460511852",
+  appId: "1:69460511852:web:e95be218878b681ededc49",
+  measurementId: "G-X1S7YXVD9D"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Gestion du stockage local avec synchronisation Cloud Firestore automatique
+const store = {
+  get(k, d){ 
+    try{ const v = JSON.parse(localStorage.getItem(k)); return v ?? d; }catch(e){ return d; } 
+  },
+  set(k, v){ 
+    try{ 
+      localStorage.setItem(k, JSON.stringify(v)); 
+      // Sauvegarde automatique en arrière-plan sur Firestore
+      db.collection("focus_data").doc(k).set({ data: v, updatedAt: new Date().toISOString() })
+        .catch(err => console.log("Erreur synchro cloud:", err));
+    }catch(e){} 
+  }
+};
+
+// Chargement initial depuis Firestore pour synchroniser les appareils (PC / iPhone)
+async function initCloudSync() {
+  try {
+    const keys = ['focus_sessions', 'focus_sched', 'focus_goals', 'focus_flowwins'];
+    for (const key of keys) {
+      const doc = await db.collection("focus_data").doc(key).get();
+      if (doc.exists && doc.data().data) {
+        localStorage.setItem(key, JSON.stringify(doc.data().data));
+      }
+    }
+    // Recharger les données après synchro
+    sessions = store.get('focus_sessions', []);
+    sched = store.get('focus_sched', {end:18, blocks:[]});
+    goals = store.get('focus_goals', []);
+    F.wins = store.get('focus_flowwins', 0);
+    
+    refreshSubjects(); renderStats(); renderPill(); renderSched(); renderGoals(); renderFlow();
+    toast("☁️ Synchronisé avec le Cloud");
+  } catch (e) {
+    console.log("Mode hors-ligne ou erreur de synchro", e);
+  }
+}
+
+let sessions = store.get('focus_sessions', []);
+let chrono = store.get('focus_chrono', {running:false, start:0, acc:0, subj:''});
+let pomo = store.get('focus_pomo', {phase:'work', running:false, end:0, left:3000, subj:''});
+const MODES = {'50':{w:3000,r:600}, '30':{w:1800,r:300}};
+if(!MODES[pomo.mode]) pomo.mode = '50';
+const W = () => MODES[pomo.mode].w, R = () => MODES[pomo.mode].r;
+
+/* ---------- Utilitaires ---------- */
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2,'0');
+const dkey = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = sec => { const m = Math.round(sec/60); return Math.floor(m/60)+'h '+pad(m%60)+'m'; };
+const clock = sec => pad(Math.floor(sec/3600))+':'+pad(Math.floor(sec%3600/60))+':'+pad(sec%60);
+const mondayOf = d => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - (x.getDay()+6)%7); return x; };
+const addDays = (d,n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const DAYS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+
+function toast(msg){
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast.t); toast.t = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function beep(){
+  try{
+    const c = new (window.AudioContext||window.webkitAudioContext)();
+    [0,.25,.5].forEach(o=>{
+      const osc = c.createOscillator(), g = c.createGain();
+      osc.frequency.value = 880; osc.connect(g); g.connect(c.destination);
+      g.gain.setValueAtTime(.15, c.currentTime+o); g.gain.exponentialRampToValueAtTime(.001, c.currentTime+o+.2);
+      osc.start(c.currentTime+o); osc.stop(c.currentTime+o+.2);
+    });
+  }catch(e){}
+  if(navigator.vibrate) navigator.vibrate(200);
+}
+
+/* ---------- Données ---------- */
+function addSession(sec, subj, src, date){
+  sec = Math.round(sec);
+  if(sec < 1) return null;
+  const id = Date.now()+Math.random();
+  sessions.push({id, date: date || dkey(new Date()), sec, subj: (subj||'').trim() || 'Sans matière', src});
+  store.set('focus_sessions', sessions);
+  refreshSubjects(); renderStats(); renderPill();
+  return id;
+}
+const totalOn = (from, to) => sessions.filter(s => s.date >= dkey(from) && s.date <= dkey(to)).reduce((a,s)=>a+s.sec,0);
+const dayTotal = d => totalOn(d, d);
+
+/* ---------- Navigation ---------- */
+$('#nav').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('section').forEach(s => s.classList.toggle('on', s.id === b.dataset.t));
+  if(b.dataset.t === 'stats') renderStats();
+  if(b.dataset.t === 'sched') renderSched();
+  if(b.dataset.t === 'goals') renderGoals();
+  b.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
+});
+
+/* ---------- Chrono ---------- */
+const cElapsed = () => Math.floor((chrono.acc + (chrono.running ? Date.now()-chrono.start : 0))/1000);
+$('#cSubj').value = chrono.subj || '';
+$('#cSubj').addEventListener('input', e => { chrono.subj = e.target.value; store.set('focus_chrono', chrono); });
+$('#cToggle').onclick = () => {
+  if(chrono.running){ chrono.acc += Date.now()-chrono.start; chrono.running = false; }
+  else { chrono.start = Date.now(); chrono.running = true; }
+  store.set('focus_chrono', chrono); renderChrono();
+};
+$('#cStop').onclick = () => {
+  const s = cElapsed();
+  if(s < 1) return;
+  const id = addSession(s, chrono.subj, 'chrono');
+  chrono = {running:false, start:0, acc:0, subj:chrono.subj};
+  store.set('focus_chrono', chrono); renderChrono();
+  askFeedback(id, s, s >= 5400);
+};
+function renderChrono(){
+  $('#cClock').textContent = clock(cElapsed());
+  $('#cToggle').textContent = chrono.running ? 'Pause' : (chrono.acc ? 'Reprendre' : 'Démarrer');
+  $('#cStop').disabled = cElapsed() < 1;
+}
+
+/* ---------- Pomodoro ---------- */
+const pLeft = () => pomo.running ? Math.max(0, Math.round((pomo.end-Date.now())/1000)) : pomo.left;
+$('#pSubj').value = pomo.subj || '';
+$('#pSubj').addEventListener('input', e => { pomo.subj = e.target.value; store.set('focus_pomo', pomo); });
+$('#pMode').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b || b.dataset.m === pomo.mode) return;
+  if(pomo.running || pomo.phase !== 'work' || pLeft() !== W()){ toast('Termine la session en cours avant de changer'); return; }
+  pomo.mode = b.dataset.m; pomo.left = W();
+  store.set('focus_pomo', pomo); renderPomo();
+});
+$('#pToggle').onclick = () => {
+  if(pomo.running){ pomo.left = pLeft(); pomo.running = false; }
+  else { pomo.end = Date.now()+pomo.left*1000; pomo.running = true; }
+  store.set('focus_pomo', pomo); renderPomo();
+};
+$('#pStop').onclick = () => {
+  let id = null, done = 0;
+  if(pomo.phase === 'work'){
+    done = W() - pLeft();
+    if(done >= 60) id = addSession(done, pomo.subj, 'pomodoro');
+  }
+  pomo = {mode:pomo.mode, phase:'work', running:false, end:0, left:W(), subj:pomo.subj};
+  store.set('focus_pomo', pomo); renderPomo();
+  askFeedback(id, done, false);
+};
+function pomoCheck(){
+  if(pomo.running && pLeft() <= 0){
+    beep();
+    if(pomo.phase === 'work'){
+      const id = addSession(W(), pomo.subj, 'pomodoro');
+      pomo.phase = 'rest'; pomo.left = R(); pomo.end = Date.now()+R()*1000; pomo.running = true;
+      store.set('focus_pomo', pomo);
+      askFeedback(id, W(), false);
+    } else {
+      pomo.phase = 'work'; pomo.left = W(); pomo.running = false;
+      store.set('focus_pomo', pomo);
+      toast('Pause terminée. Prêt pour une nouvelle session.');
+    }
+  }
+}
+function renderPomo(){
+  const left = pLeft(), total = pomo.phase === 'work' ? W() : R();
+  $('#pClock').textContent = pad(Math.floor(left/60))+':'+pad(left%60);
+  $('#pRing').style.strokeDashoffset = 552.92 * (1 - left/total);
+  const ph = $('#pPhase');
+  ph.textContent = pomo.phase === 'work' ? 'Travail' : 'Pause';
+  ph.className = 'phase ' + (pomo.phase === 'work' ? 'work' : 'rest');
+  $('#pToggle').textContent = pomo.running ? 'Pause' : (left < total ? 'Reprendre' : 'Démarrer');
+  $('#pStop').disabled = !pomo.running && left === total;
+  document.querySelectorAll('#pMode button').forEach(b => b.classList.toggle('on', b.dataset.m === pomo.mode));
+}
+
+/* ---------- Ajout manuel ---------- */
+$('#aDate').value = dkey(new Date());
+$('#aSave').onclick = () => {
+  const h = parseInt($('#aH').value)||0, m = parseInt($('#aM').value)||0;
+  const sec = h*3600 + m*60;
+  if(sec <= 0){ toast('Entre une durée'); return; }
+  addSession(sec, $('#aSubj').value, 'manuel', $('#aDate').value || dkey(new Date()));
+  $('#aH').value = ''; $('#aM').value = '';
+  toast('Ajouté : '+fmt(sec));
+};
+
+/* ---------- Stats ---------- */
+function refreshSubjects(){
+  const set = [...new Set(sessions.map(s => s.subj).filter(s => s !== 'Sans matière'))];
+  $('#subjList').innerHTML = set.map(s => '<option value="'+esc(s)+'">').join('');
+}
+function renderPill(){ $('#pillToday').textContent = fmt(dayTotal(new Date())); }
+function delta(cur, prev, label){
+  if(!prev && !cur) return '<span class="flat">–</span>';
+  const d = cur - prev, cls = d > 0 ? 'up' : d < 0 ? 'down' : 'flat';
+  return '<span class="'+cls+'">'+(d>0?'+':d<0?'−':'')+fmt(Math.abs(d))+' '+label+'</span>';
+}
+function bars(el, items){
+  const max = Math.max(...items.map(i => i.v), 1);
+  el.innerHTML = items.map(i =>
+    '<div class="col"><div class="bar'+(i.dim?' dim':'')+'" style="height:'+(i.v/max*100)+'%"><i>'+(i.v ? fmt(i.v).replace(' 0','') : '')+'</i></div><span>'+i.l+'</span></div>'
+  ).join('');
+}
+let allWeeks = false;
+function renderStats(){
+  const now = new Date(), today = dayTotal(now), yest = dayTotal(addDays(now,-1));
+  const wk = mondayOf(now), wkTot = totalOn(wk, now);
+  const prevWk = mondayOf(addDays(wk,-7));
+  const prevSame = totalOn(prevWk, addDays(prevWk, (now.getDay()+6)%7));
+  $('#sToday').textContent = fmt(today);
+  $('#sTodayD').innerHTML = delta(today, yest, 'vs hier');
+  $('#sWeek').textContent = fmt(wkTot);
+  $('#sWeekD').innerHTML = delta(wkTot, prevSame, 'vs sem. dernière');
+
+  const days = [];
+  for(let i=6;i>=0;i--){ const d = addDays(now,-i); days.push({l:DAYS[d.getDay()], v:dayTotal(d), dim:i!==0}); }
+  bars($('#chDays'), days);
+
+  let startW = addDays(wk,-35);
+  if(allWeeks && sessions.length){
+    const first = sessions.reduce((m,s) => s.date < m ? s.date : m, sessions[0].date).split('-').map(Number);
+    const fw = mondayOf(new Date(first[0], first[1]-1, first[2]));
+    if(fw < startW) startW = fw;
+  }
+  const weeks = [];
+  for(let s = new Date(startW); s <= wk; s = addDays(s,7)){
+    weeks.push({l:pad(s.getDate())+'/'+pad(s.getMonth()+1), v:totalOn(s, addDays(s,6)), dim:dkey(s) !== dkey(wk)});
+  }
+  bars($('#chWeeks'), weeks);
+  const ch = $('#chWeeks'); ch.classList.toggle('all', allWeeks);
+  if(allWeeks) ch.scrollLeft = ch.scrollWidth;
+
+  const by = {};
+  sessions.filter(s => s.date >= dkey(wk) && s.date <= dkey(now)).forEach(s => by[s.subj] = (by[s.subj]||0)+s.sec);
+  const list = Object.entries(by).sort((a,b)=>b[1]-a[1]), mx = list.length ? list[0][1] : 1;
+  $('#subjs').innerHTML = list.length
+    ? list.map(([k,v]) => '<div class="subj"><div><span>'+esc(k)+'</span><b>'+fmt(v)+'</b></div><div class="tr"><i style="width:'+(v/mx*100)+'%"></i></div></div>').join('')
+    : '<p class="empty">Aucune session cette semaine.</p>';
+
+  const recent = [...sessions].sort((a,b)=> a.date===b.date ? b.id-a.id : (a.date<b.date?1:-1)).slice(0,20);
+  $('#hist').innerHTML = recent.length
+    ? recent.map(s => '<li><div class="m">'+(s.mood ? s.mood+' ' : '')+esc(s.subj)+'<small>'+s.date.split('-').reverse().join('/')+' · '+s.src+(s.note ? ' · '+esc(s.note) : '')+'</small></div><span class="d">'+fmt(s.sec)+'</span><button data-id="'+s.id+'" aria-label="Supprimer">✕</button></li>').join('')
+    : '<li class="empty">Rien pour le moment. Lance le chrono ou ajoute du temps.</li>';
+}
+$('#hist').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  sessions = sessions.filter(s => String(s.id) !== b.dataset.id);
+  store.set('focus_sessions', sessions); refreshSubjects(); renderStats(); renderPill();
+});
+
+$('#wToggle').onclick = () => {
+  allWeeks = !allWeeks;
+  $('#wToggle').textContent = allWeeks ? 'Réduire' : 'Tout voir';
+  renderStats();
+};
+
+/* ---------- Retour de session ---------- */
+const MOODS = [['😄','Top'],['🙂','Bien'],['😐','Moyen'],['😩','Difficile'],['😴','Épuisé']];
+const CHEERS = ['Bravo !','Bien joué !','Lourd !'];
+let fbQueue = [], fbCur = null, fbMood = null;
+$('#fbMoods').innerHTML = MOODS.map(m => '<button class="mood" data-m="'+m[0]+'"><b>'+m[0]+'</b><span>'+m[1]+'</span></button>').join('');
+$('#fbMoods').addEventListener('click', e => {
+  const b = e.target.closest('.mood'); if(!b) return;
+  fbMood = fbMood === b.dataset.m ? null : b.dataset.m;
+  document.querySelectorAll('.mood').forEach(x => x.classList.toggle('on', x.dataset.m === fbMood));
+});
+function askFeedback(id, sec, cheer){
+  if(!id) return;
+  fbQueue.push({id, sec, cheer});
+  if(!fbCur) nextFeedback();
+}
+function nextFeedback(){
+  fbCur = fbQueue.shift();
+  if(!fbCur) return;
+  fbMood = null; $('#fbNote').value = '';
+  document.querySelectorAll('.mood').forEach(x => x.classList.remove('on'));
+  $('#fbCheer').textContent = fbCur.cheer ? CHEERS[Math.floor(Math.random()*CHEERS.length)] : '';
+  $('#fbSub').textContent = fmt(fbCur.sec)+' enregistrées';
+  $('#fb').classList.add('open');
+}
+function closeFeedback(save){
+  if(!fbCur) return;
+  if(save){
+    const s = sessions.find(x => x.id === fbCur.id);
+    if(s){ s.mood = fbMood; s.note = $('#fbNote').value.trim(); store.set('focus_sessions', sessions); renderStats(); }
+  }
+  $('#fb').classList.remove('open'); fbCur = null;
+  if(fbQueue.length) setTimeout(nextFeedback, 450);
+}
+$('#fbSave').onclick = () => closeFeedback(true);
+$('#fbSkip').onclick = () => closeFeedback(false);
+$('#fb').addEventListener('click', e => { if(e.target.id === 'fb') closeFeedback(false); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeFeedback(false); ['#bk','#q','#gm'].forEach(closeM); } });
+
+/* ---------- Lueur qui suit la souris ---------- */
+(function(){
+  if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const A = $('#gA'), B = $('#gB'), C = $('#gC');
+  let tx = innerWidth*.3, ty = innerHeight*.25, lx = tx, ly = ty, boost = 0;
+  const a = {x:tx, y:ty}, b = {x:innerWidth-tx, y:innerHeight-ty}, c = {x:tx, y:ty};
+  addEventListener('pointermove', e => {
+    boost = Math.min(1, boost + Math.hypot(e.clientX-lx, e.clientY-ly)/150);
+    tx = lx = e.clientX; ty = ly = e.clientY;
+  });
+  (function loop(){
+    a.x += (tx-a.x)*.06;  a.y += (ty-a.y)*.06;
+    b.x += ((innerWidth-tx)-b.x)*.03; b.y += ((innerHeight-ty)-b.y)*.03;
+    c.x += (tx-c.x)*.16;  c.y += (ty-c.y)*.16;
+    boost *= .95;
+    const o = (.36 + boost*.28).toFixed(3);
+    A.style.transform = 'translate3d('+a.x+'px,'+a.y+'px,0)';
+    B.style.transform = 'translate3d('+b.x+'px,'+b.y+'px,0)';
+    C.style.transform = 'translate3d('+c.x+'px,'+c.y+'px,0)';
+    A.style.opacity = B.style.opacity = o; C.style.opacity = (.2 + boost*.32).toFixed(3);
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ---------- Modales utilitaires ---------- */
+function openM(id){ $(id).classList.add('open'); }
+function closeM(id){ $(id).classList.remove('open'); }
+['#bk','#q','#gm'].forEach(id => $(id).addEventListener('click', e => { if(e.target === $(id)) closeM(id); }));
+
+/* ---------- Emploi du temps ---------- */
+let sched = store.get('focus_sched', {end:18, blocks:[]});
+if(!sched.end || sched.end < 18) sched.end = 18;
+const DAYS5 = ['Lun','Mar','Mer','Jeu','Ven'], DAYS5L = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi'];
+const saveSched = () => store.set('focus_sched', sched);
+let bkCur = null;
+function renderSched(){
+  const n = sched.end - 8;
+  const g = $('#sGrid');
+  g.style.gridTemplateRows = '30px repeat('+n+',56px)';
+  let h = '<div style="grid-row:1;grid-column:1"></div>' + DAYS5.map((d,i) => '<div class="dh" style="grid-row:1;grid-column:'+(i+2)+'">'+d+'</div>').join('');
+  for(let i=0;i<n;i++){
+    h += '<div class="hl" style="grid-row:'+(i+2)+';grid-column:1">'+pad(8+i)+'h</div>';
+    for(let d=0;d<5;d++) h += '<button class="cell" aria-label="'+DAYS5L[d]+' '+(8+i)+'h" data-day="'+d+'" data-h="'+(8+i)+'" style="grid-row:'+(i+2)+';grid-column:'+(d+2)+'"></button>';
+  }
+  sched.blocks.forEach(b => {
+    h += '<button class="blk '+b.color+'" data-id="'+b.id+'" style="grid-row:'+(b.start-8+2)+' / span '+b.dur+';grid-column:'+(b.day+2)+'">'+esc(b.title)+'<small>'+pad(b.start)+'h–'+pad((b.start+b.dur)%24)+'h</small></button>';
+  });
+  g.innerHTML = h;
+  $('#sMore').style.display = sched.end < 24 ? '' : 'none';
+  $('#sMore').textContent = 'Ajouter '+pad(sched.end)+'h–'+pad((sched.end+1)%24)+'h';
+  $('#sLess').style.display = (sched.end > 18 && sched.blocks.every(b => b.start+b.dur <= sched.end-1)) ? '' : 'none';
+}
+$('#sMore').onclick = () => { if(sched.end < 24){ sched.end++; saveSched(); renderSched(); } };
+$('#sLess').onclick = () => { if(sched.end > 18){ sched.end--; saveSched(); renderSched(); } };
+function openBlock(x){
+  bkCur = x;
+  $('#bkH').textContent = x.isNew ? 'Nouveau créneau' : 'Modifier le créneau';
+  $('#bkSub').textContent = DAYS5L[x.day]+' · à partir de '+pad(x.start)+'h';
+  $('#bkTitle').value = x.title;
+  document.querySelectorAll('#bkDur button').forEach(b => b.classList.toggle('on', +b.dataset.n === x.dur));
+  document.querySelectorAll('#bkCol .sw').forEach(b => b.classList.toggle('on', b.dataset.c === x.color));
+  $('#bkDel').style.display = x.isNew ? 'none' : '';
+  openM('#bk');
+}
+$('#sGrid').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.dataset.id){ const x = sched.blocks.find(k => String(k.id) === b.dataset.id); if(x) openBlock({...x}); }
+  else if(b.dataset.day !== undefined) openBlock({day:+b.dataset.day, start:+b.dataset.h, dur:1, title:'', color:'c0', isNew:true});
+});
+$('#bkDur').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  bkCur.dur = +b.dataset.n;
+  document.querySelectorAll('#bkDur button').forEach(x => x.classList.toggle('on', x === b));
+});
+$('#bkCol').addEventListener('click', e => {
+  const b = e.target.closest('.sw'); if(!b) return;
+  bkCur.color = b.dataset.c;
+  document.querySelectorAll('#bkCol .sw').forEach(x => x.classList.toggle('on', x === b));
+});
+$('#bkSave').onclick = () => {
+  const x = bkCur; x.title = $('#bkTitle').value.trim() || 'Sans titre';
+  if(x.start + x.dur > 24){ toast('Dépasse minuit'); return; }
+  if(sched.blocks.some(k => k.id !== x.id && k.day === x.day && k.start < x.start+x.dur && x.start < k.start+k.dur)){ toast('Créneau déjà occupé'); return; }
+  if(x.start + x.dur > sched.end) sched.end = x.start + x.dur;
+  if(x.isNew){ x.id = Date.now()+Math.random(); delete x.isNew; sched.blocks.push(x); }
+  else Object.assign(sched.blocks.find(k => k.id === x.id), x);
+  saveSched(); closeM('#bk'); renderSched();
+};
+$('#bkDel').onclick = () => {
+  sched.blocks = sched.blocks.filter(k => k.id !== bkCur.id);
+  saveSched(); closeM('#bk'); renderSched();
+};
+
+/* ---------- Objectifs ---------- */
+let goals = store.get('focus_goals', []);
+let goalSel = goals.length ? goals[0].id : null;
+let gMonth = new Date(); gMonth = new Date(gMonth.getFullYear(), gMonth.getMonth(), 1);
+const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const mkey = d => d.getFullYear()+'-'+pad(d.getMonth()+1);
+const saveGoals = () => store.set('focus_goals', goals);
+let gDay = null;
+function renderGoals(animDay, animType){
+  $('#gChips').innerHTML = goals.map(g => '<button class="chip'+(g.id === goalSel ? ' on' : '')+'" data-id="'+g.id+'">'+esc(g.name)+'</button>').join('')
+    + '<button class="chip add" data-add="1">+ Nouvel objectif</button>';
+  const g = goals.find(x => x.id === goalSel);
+  $('#gCard').style.display = g ? '' : 'none';
+  $('#gEmpty').style.display = g ? 'none' : '';
+  if(!g) return;
+  $('#gMonth').textContent = MONTHS[gMonth.getMonth()]+' '+gMonth.getFullYear();
+  const n = new Date(gMonth.getFullYear(), gMonth.getMonth()+1, 0).getDate();
+  const st = (g.days || {})[mkey(gMonth)] || {};
+  let h = '';
+  for(let i=1;i<=n;i++){
+    const v = st[i];
+    h += '<button class="sq'+(v ? ' '+v : '')+(animDay === i && v ? ' pop-'+v : '')+'" data-day="'+i+'" aria-label="Jour '+i+'">'+i+'</button>';
+  }
+  $('#gGrid').innerHTML = h;
+}
+$('#gChips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.dataset.add){ $('#gName').value = ''; openM('#gm'); setTimeout(() => $('#gName').focus(), 350); return; }
+  const g = goals.find(x => String(x.id) === b.dataset.id); if(g){ goalSel = g.id; renderGoals(); }
+});
+function createGoal(){
+  const name = $('#gName').value.trim(); if(!name) return;
+  const g = {id:Date.now(), name, days:{}};
+  goals.push(g); goalSel = g.id; saveGoals(); closeM('#gm'); renderGoals();
+}
+$('#gCreate').onclick = createGoal;
+$('#gName').addEventListener('keydown', e => { if(e.key === 'Enter') createGoal(); });
+$('#gCancel').onclick = () => closeM('#gm');
+$('#gPrev').onclick = () => { gMonth = new Date(gMonth.getFullYear(), gMonth.getMonth()-1, 1); renderGoals(); };
+$('#gNext').onclick = () => { gMonth = new Date(gMonth.getFullYear(), gMonth.getMonth()+1, 1); renderGoals(); };
+$('#gDel').onclick = () => {
+  if(!confirm('Supprimer cet objectif et tout son historique ?')) return;
+  goals = goals.filter(x => x.id !== goalSel); goalSel = goals.length ? goals[0].id : null;
+  saveGoals(); renderGoals();
+};
+$('#gGrid').addEventListener('click', e => {
+  const b = e.target.closest('.sq'); if(!b) return;
+  gDay = +b.dataset.day;
+  const g = goals.find(x => x.id === goalSel);
+  $('#qT').textContent = g.name+' · '+gDay+' '+MONTHS[gMonth.getMonth()].toLowerCase();
+  $('#qClr').style.display = ((g.days[mkey(gMonth)] || {})[gDay]) ? '' : 'none';
+  openM('#q');
+});
+function answerGoal(v){
+  const g = goals.find(x => x.id === goalSel), k = mkey(gMonth), day = gDay;
+  g.days = g.days || {}; g.days[k] = g.days[k] || {};
+  if(v) g.days[k][day] = v; else delete g.days[k][day];
+  saveGoals(); closeM('#q');
+  setTimeout(() => renderGoals(day, v), 280);
+}
+$('#qYes').onclick = () => answerGoal('yes');
+$('#qNo').onclick = () => answerGoal('no');
+$('#qClr').onclick = () => answerGoal(null);
+
+/* ---------- Motivation ---------- */
+const QUOTES = [
+  ["Une vie sans examen ne vaut pas la peine d'être vécue.","Socrate","philosophe","Socrates"],
+  ["Le commencement est la partie la plus importante du travail.","Platon","philosophe","Plato"],
+  ["Ce que nous devons apprendre à faire, nous l'apprenons en le faisant.","Aristote","philosophe","Aristotle"],
+  ["L'éducation a des racines amères, mais ses fruits sont doux.","Aristote","philosophe","Aristotle"],
+  ["Le caractère d'un homme est son destin.","Héraclite","philosophe","Heraclitus"],
+  ["Ce ne sont pas les choses qui troublent les hommes, mais les jugements qu'ils portent sur les choses.","Épictète","philosophe stoïcien","Epictetus"],
+  ["Si tu veux progresser, accepte de passer pour un sot et un ignorant.","Épictète","philosophe stoïcien","Epictetus"],
+  ["Ce qui entrave l'action fait avancer l'action. Ce qui bloque le chemin devient le chemin.","Marc Aurèle","empereur et philosophe","Marcus_Aurelius"],
+  ["Au lever, quand tu rechignes, dis-toi : je me lève pour accomplir mon travail d'être humain.","Marc Aurèle","empereur et philosophe","Marcus_Aurelius"],
+  ["Ce n'est pas parce que les choses sont difficiles que nous n'osons pas ; c'est parce que nous n'osons pas qu'elles sont difficiles.","Sénèque","philosophe","Seneca_the_Younger"],
+  ["Nous souffrons plus souvent en imagination qu'en réalité.","Sénèque","philosophe","Seneca_the_Younger"],
+  ["Il faut toute une vie pour apprendre à vivre.","Sénèque","philosophe","Seneca_the_Younger"],
+  ["Apprendre sans réfléchir est vain ; réfléchir sans apprendre est dangereux.","Confucius","philosophe","Confucius"],
+  ["Un voyage de mille lieues commence toujours par un premier pas.","Lao Tseu","philosophe","Laozi"],
+  ["Donnez-moi un point d'appui et je soulèverai le monde.","Archimède","mathématicien et inventeur","Archimedes"],
+  ["La vie est courte, l'art est long.","Hippocrate","médecin","Hippocrates"],
+  ["Ce n'est pas assez d'avoir l'esprit bon : le principal est de l'appliquer bien.","René Descartes","philosophe et mathématicien","René_Descartes"],
+  ["Toute notre dignité consiste donc en la pensée.","Blaise Pascal","mathématicien et philosophe","Blaise_Pascal"],
+  ["Toutes les choses excellentes sont aussi difficiles que rares.","Spinoza","philosophe","Baruch_Spinoza"],
+  ["Aie le courage de te servir de ton propre entendement.","Emmanuel Kant","philosophe","Immanuel_Kant"],
+  ["Celui qui a un pourquoi qui lui tient lieu de tout peut supporter presque n'importe quel comment.","Friedrich Nietzsche","philosophe","Friedrich_Nietzsche"],
+  ["Ce qui ne me tue pas me rend plus fort.","Friedrich Nietzsche","philosophe","Friedrich_Nietzsche"],
+  ["La plus grande chose du monde, c'est de savoir être à soi.","Montaigne","philosophe","Michel_de_Montaigne"],
+  ["Le travail éloigne de nous trois grands maux : l'ennui, le vice et le besoin.","Voltaire","philosophe","Voltaire"],
+  ["Savoir, c'est pouvoir.","Francis Bacon","philosophe","Francis_Bacon"],
+  ["La lutte elle-même vers les sommets suffit à remplir un cœur d'homme.","Albert Camus","écrivain et philosophe","Albert_Camus"],
+  ["L'homme n'est rien d'autre que ce qu'il se fait.","Jean-Paul Sartre","philosophe","Jean-Paul_Sartre"],
+  ["Rien de grand ne s'est accompli dans le monde sans passion.","Hegel","philosophe","Georg_Wilhelm_Friedrich_Hegel"],
+  ["Rien de grand ne s'est jamais accompli sans enthousiasme.","Ralph Waldo Emerson","philosophe","Ralph_Waldo_Emerson"],
+  ["Va avec confiance dans la direction de tes rêves. Vis la vie que tu as imaginée.","Henry David Thoreau","philosophe","Henry_David_Thoreau"],
+  ["Il ne suffit pas de savoir, il faut appliquer ; il ne suffit pas de vouloir, il faut faire.","Goethe","écrivain et penseur","Johann_Wolfgang_von_Goethe"],
+  ["Ceux qui vivent, ce sont ceux qui luttent.","Victor Hugo","écrivain","Victor_Hugo"],
+  ["L'attention est la forme la plus rare et la plus pure de la générosité.","Simone Weil","philosophe","Simone_Weil"],
+  ["Aimes-tu la vie ? Alors ne gaspille pas le temps, car c'est l'étoffe dont la vie est faite.","Benjamin Franklin","savant et inventeur","Benjamin_Franklin"],
+  ["L'important est de ne jamais cesser de se poser des questions. La curiosité a sa propre raison d'être.","Albert Einstein","physicien","Albert_Einstein"],
+  ["L'imagination est plus importante que le savoir.","Albert Einstein","physicien","Albert_Einstein"],
+  ["Je n'ai aucun talent particulier, je suis juste passionnément curieux.","Albert Einstein","physicien","Albert_Einstein"],
+  ["Si j'ai vu plus loin, c'est en me tenant sur les épaules de géants.","Isaac Newton","physicien et mathématicien","Isaac_Newton"],
+  ["Si j'ai découvert quelque chose, c'est en y pensant sans cesse.","Isaac Newton","physicien et mathématicien","Isaac_Newton"],
+  ["Le grand livre de l'univers est écrit dans la langue des mathématiques.","Galilée","astronome et physicien","Galileo_Galilei"],
+  ["L'ignorance engendre plus souvent la confiance que le savoir.","Charles Darwin","naturaliste","Charles_Darwin"],
+  ["Il faut croire que l'on est doué pour quelque chose et que cette chose, coûte que coûte, on doit l'atteindre.","Marie Curie","physicienne et chimiste","Marie_Curie"],
+  ["Je suis de ceux qui pensent que la science est d'une grande beauté.","Marie Curie","physicienne et chimiste","Marie_Curie"],
+  ["Le présent est à eux ; l'avenir, pour lequel j'ai réellement travaillé, est à moi.","Nikola Tesla","inventeur","Nikola_Tesla"],
+  ["Le scientifique ne vise pas un résultat immédiat : son travail est celui du semeur, il œuvre pour l'avenir.","Nikola Tesla","inventeur","Nikola_Tesla"],
+  ["Le génie, c'est 1 % d'inspiration et 99 % de transpiration.","Thomas Edison","inventeur","Thomas_Edison"],
+  ["Il n'existe aucun substitut au travail acharné.","Thomas Edison","inventeur","Thomas_Edison"],
+  ["Le premier principe est de ne pas te tromper toi-même, et tu es la personne la plus facile à tromper.","Richard Feynman","physicien","Richard_Feynman"],
+  ["Ce que je ne peux pas créer, je ne le comprends pas.","Richard Feynman","physicien","Richard_Feynman"],
+  ["Le hasard ne favorise que les esprits préparés.","Louis Pasteur","chimiste et biologiste","Louis_Pasteur"],
+  ["Le secret qui m'a conduit au but : ma force tient uniquement à ma ténacité.","Louis Pasteur","chimiste et biologiste","Louis_Pasteur"],
+  ["La science est plus qu'un ensemble de connaissances : c'est une manière de penser.","Carl Sagan","astronome","Carl_Sagan"],
+  ["Nous sommes une façon pour le cosmos de se connaître lui-même.","Carl Sagan","astronome","Carl_Sagan"],
+  ["L'imagination nous emmène vers des mondes qui n'ont jamais existé ; sans elle, nous n'allons nulle part.","Carl Sagan","astronome","Carl_Sagan"],
+  ["Regarde les étoiles et non tes pieds. Essaie de comprendre ce que tu vois. Sois curieux.","Stephen Hawking","physicien","Stephen_Hawking"],
+  ["Ostinato rigore : obstination et rigueur. (sa devise)","Léonard de Vinci","peintre et ingénieur","Leonardo_da_Vinci"],
+  ["Nous ne pouvons voir qu'un peu de l'avenir, mais assez pour comprendre qu'il y a beaucoup à faire.","Alan Turing","mathématicien","Alan_Turing"],
+  ["Rien n'est trop merveilleux pour être vrai, s'il est conforme aux lois de la nature.","Michael Faraday","physicien et chimiste","Michael_Faraday"],
+  ["Douter de tout ou tout croire sont deux solutions également commodes, qui l'une et l'autre nous dispensent de réfléchir.","Henri Poincaré","mathématicien","Henri_Poincaré"],
+  ["Ancora imparo : j'apprends encore.","Michel-Ange","sculpteur et peintre","Michelangelo"]
+];
+let deck = [];
+function nextQuote(){
+  if(!deck.length) deck = QUOTES.map((_,i) => i).sort(() => Math.random()-.5);
+  return QUOTES[deck.pop()];
+}
+function showMoti(){
+  const st = $('#mStage'), btn = $('#mBtn'), has = !!st.querySelector('.mq');
+  btn.classList.remove('pulse'); void btn.offsetWidth; btn.classList.add('pulse');
+  if(navigator.vibrate) navigator.vibrate(12);
+  const q = nextQuote();
+  const build = () => {
+    const words = q[0].split(' ');
+    words[0] = '«\u00a0'+words[0]; words[words.length-1] += '\u00a0»';
+    const wh = words.map((w,i) => '<span class="w" style="animation-delay:'+(.3+i*.05).toFixed(2)+'s">'+esc(w)+'</span>').join(' ');
+    const ad = (.3 + words.length*.05 + .15).toFixed(2);
+    st.innerHTML = '<div class="mph"><span>'+esc(q[1].split(' ').map(x => x[0]).slice(0,2).join(''))+'</span><img alt=""></div>'
+      + '<div class="mq">'+wh+'</div>'
+      + '<div class="ma" style="animation-delay:'+ad+'s"><b>'+esc(q[1])+'</b> · '+esc(q[2])+'</div>';
+    const img = st.querySelector('img');
+    img.onload = () => img.classList.add('ok');
+    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(q[3]))
+      .then(r => r.json()).then(j => { if(j.thumbnail && j.thumbnail.source) img.src = j.thumbnail.source; }).catch(() => {});
+    st.classList.remove('out');
+  };
+  btn.textContent = 'Une autre citation';
+  if(has){ st.classList.add('out'); setTimeout(build, 320); } else build();
+}
+$('#mBtn').onclick = showMoti;
+
+/* ---------- Mini-jeu Flow ---------- */
+const FCOL = ['#a855f7','#3b82f6','#06b6d4','#ec4899','#10b981','#f43f5e'], FLET = 'ABCDEF';
+let F = {n:5, ends:[], paths:[], act:-1, won:false, wins:store.get('focus_flowwins', 0)};
+function hamPath(n){
+  const N = n*n; let steps = 0; const vis = new Array(N).fill(false), path = [];
+  const nb = i => {
+    const r = Math.floor(i/n), c = i%n, o = [];
+    if(r>0) o.push(i-n); if(r<n-1) o.push(i+n); if(c>0) o.push(i-1); if(c<n-1) o.push(i+1);
+    return o.sort(() => Math.random()-.5);
+  };
+  const deg = j => nb(j).filter(x => !vis[x]).length;
+  function dfs(i){
+    if(++steps > 30000) return false;
+    vis[i] = true; path.push(i);
+    if(path.length === N) return true;
+    const c = nb(i).filter(j => !vis[j]).map(j => [deg(j), j]).sort((a,b) => a[0]-b[0]);
+    for(const x of c) if(dfs(x[1])) return true;
+    vis[i] = false; path.pop(); return false;
+  }
+  let s; do { s = Math.floor(Math.random()*N); } while(n%2 && (Math.floor(s/n)+s%n)%2);
+  return dfs(s) ? path : null;
+}
+function newFlow(n){
+  if(n) F.n = n;
+  const N = F.n*F.n, k = F.n === 5 ? 5 : 6;
+  let path = null; while(!path) path = hamPath(F.n);
+  const len = Array(k).fill(3);
+  for(let r = N-3*k; r > 0; r--) len[Math.floor(Math.random()*k)]++;
+  F.ends = []; let pos = 0;
+  len.forEach(l => { F.ends.push([path[pos], path[pos+l-1]]); pos += l; });
+  F.paths = F.ends.map(() => []); F.act = -1; F.won = false; renderFlow();
+}
+const isDone = c => { const p = F.paths[c]; return p.length > 1 && p[0] !== p[p.length-1] && F.ends[c].includes(p[0]) && F.ends[c].includes(p[p.length-1]); };
+const endOf = i => F.ends.findIndex(e => e[0] === i || e[1] === i);
+const ownerOf = i => F.paths.findIndex(p => p.includes(i));
+function renderFlow(){
+  const n = F.n, N = n*n; let s = '';
+  const xy = i => [(i%n)*100, Math.floor(i/n)*100];
+  for(let i=0;i<N;i++){ const [x,y] = xy(i); s += '<rect x="'+(x+3)+'" y="'+(y+3)+'" width="94" height="94" rx="16" fill="rgba(255,255,255,.04)"/>'; }
+  F.paths.forEach((p,c) => {
+    p.forEach(i => { const [x,y] = xy(i); s += '<rect x="'+(x+3)+'" y="'+(y+3)+'" width="94" height="94" rx="16" fill="'+FCOL[c]+'" opacity=".16"/>'; });
+    if(p.length > 1) s += '<polyline points="'+p.map(i => { const [x,y] = xy(i); return (x+50)+','+(y+50); }).join(' ')+'" fill="none" stroke="'+FCOL[c]+'" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>';
+  });
+  F.ends.forEach((e,c) => e.forEach(i => {
+    const [x,y] = xy(i);
+    s += '<circle cx="'+(x+50)+'" cy="'+(y+50)+'" r="31" fill="'+FCOL[c]+'"/><text x="'+(x+50)+'" y="'+(y+51)+'" fill="#fff" font-size="34" font-weight="800" text-anchor="middle" dominant-baseline="central" style="font-family:inherit">'+FLET[c]+'</text>';
+  }));
+  const svg = $('#fSvg'); svg.setAttribute('viewBox','0 0 '+(n*100)+' '+(n*100)); svg.innerHTML = s;
+  svg.classList.toggle('win', F.won);
+  const done = F.paths.filter((p,c) => isDone(c)).length, filled = F.paths.reduce((a,p) => a+p.length, 0);
+  $('#fStat').textContent = F.won ? 'Bravo, grille complétée' : done+'/'+F.ends.length+' reliés · '+Math.round(filled/N*100)+' % rempli';
+  $('#fWins').textContent = 'Grilles réussies : '+F.wins;
+}
+function cellAt(e){
+  const r = $('#fSvg').getBoundingClientRect(), x = (e.clientX-r.left)/r.width, y = (e.clientY-r.top)/r.height;
+  if(x < 0 || y < 0 || x >= 1 || y >= 1) return -1;
+  return Math.floor(y*F.n)*F.n + Math.floor(x*F.n);
+}
+function tryMove(nx){
+  const a = F.act, p = F.paths[a], idx = p.indexOf(nx);
+  if(idx >= 0){ p.length = idx+1; return true; }
+  if(isDone(a)) return false;
+  const e = endOf(nx);
+  if(e >= 0 && e !== a) return false;
+  if(e < 0){
+    const o = ownerOf(nx);
+    if(o >= 0 && o !== a) F.paths[o] = F.paths[o].slice(0, F.paths[o].indexOf(nx));
+  }
+  p.push(nx); return true;
+}
+function stepTo(target){
+  const n = F.n;
+  for(let g = 0; g < n*n; g++){
+    const p = F.paths[F.act], h = p[p.length-1];
+    if(h === target) return;
+    const dr = Math.floor(target/n)-Math.floor(h/n), dc = target%n - h%n;
+    const nx = Math.abs(dr) >= Math.abs(dc) ? h + Math.sign(dr)*n : h + Math.sign(dc);
+    if(!tryMove(nx)) return;
+  }
+}
+function checkWin(){
+  const filled = F.paths.reduce((a,p) => a+p.length, 0);
+  if(!F.won && F.ends.every((e,c) => isDone(c)) && filled === F.n*F.n){
+    F.won = true; F.wins++; store.set('focus_flowwins', F.wins);
+    if(navigator.vibrate) navigator.vibrate([30,40,30]);
+  }
+  renderFlow();
+}
+const fs = $('#fSvg');
+fs.addEventListener('pointerdown', e => {
+  if(F.won) return;
+  e.preventDefault();
+  const i = cellAt(e); if(i < 0) return;
+  let c = endOf(i);
+  if(c >= 0){ F.act = c; F.paths[c] = [i]; }
+  else {
+    c = ownerOf(i); if(c < 0) return;
+    F.act = c; F.paths[c] = F.paths[c].slice(0, F.paths[c].indexOf(i)+1);
+  }
+  fs.setPointerCapture(e.pointerId); renderFlow();
+});
+fs.addEventListener('pointermove', e => {
+  if(F.act < 0) return;
+  const i = cellAt(e); if(i >= 0){ stepTo(i); renderFlow(); }
+});
+['pointerup','pointercancel'].forEach(ev => fs.addEventListener(ev, () => { if(F.act < 0) return; F.act = -1; checkWin(); }));
+$('#fNew').onclick = () => newFlow();
+$('#fReset').onclick = () => { F.paths = F.ends.map(() => []); F.won = false; F.act = -1; renderFlow(); };
+$('#fSize').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#fSize button').forEach(x => x.classList.toggle('on', x === b));
+  newFlow(+b.dataset.n);
+});
+
+/* ---------- Boucle & Initialisation Cloud ---------- */
+function tick(){ pomoCheck(); renderChrono(); renderPomo(); }
+document.addEventListener('visibilitychange', tick);
+setInterval(tick, 250);
+
+// Lancement initial
+refreshSubjects(); renderPill(); renderStats(); renderSched(); renderGoals(); newFlow(5); tick();
+initCloudSync(); // Récupère les données de Firestore en arrière-plan
+</script>
+</body>
+</html>
