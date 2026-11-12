@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0b0b14">
+<script>try{if(localStorage.getItem('focus_theme')==='matte')document.documentElement.dataset.theme='matte'}catch(e){}</script>
 <title>Focus</title>
 <style>
 :root{
@@ -165,6 +166,68 @@ textarea{resize:none}
 @keyframes winGlow{0%{filter:drop-shadow(0 0 0 rgba(168,85,247,0))}40%{filter:drop-shadow(0 0 22px rgba(139,92,246,.9))}100%{filter:drop-shadow(0 0 8px rgba(59,130,246,.5))}}
 .fnote{color:var(--mut);font-size:.84rem;margin-bottom:14px}
 .fstat{display:flex;justify-content:space-between;gap:10px;color:var(--mut);font-size:.82rem;margin-top:12px}
+/* --- Graphique 7 jours : survol --- */
+.days .col{cursor:pointer;outline:none}
+.days .bar{transform-origin:50% 100%;transition:height .4s,transform .25s cubic-bezier(.2,.8,.2,1),filter .25s}
+.days .col:hover .bar,.days .col:focus-visible .bar{transform:scale(1.1,1.04);filter:brightness(1.18)}
+.days .col:hover span,.days .col:focus-visible span{color:var(--tx)}
+/* --- Vue détaillée d'un jour --- */
+:root{--panel:#14141f}
+.dv{position:fixed;inset:0;z-index:30;background:rgba(5,5,12,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);visibility:hidden;transition:background .45s,backdrop-filter .45s,-webkit-backdrop-filter .45s,visibility 0s .5s}
+.dv.open{background:rgba(5,5,12,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);visibility:visible;transition:background .45s,backdrop-filter .45s,-webkit-backdrop-filter .45s,visibility 0s}
+.dpanel{position:fixed;overflow:hidden;border-radius:10px;background:var(--panel);border:1px solid var(--bd);box-shadow:0 30px 80px rgba(0,0,0,.5);transition:left .5s cubic-bezier(.2,.8,.2,1),top .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1),border-radius .5s}
+.dpanel::before{content:"";position:absolute;inset:0;background:var(--grad);transition:opacity .5s}
+.dv.full .dpanel{border-radius:24px}
+.dv.full .dpanel::before{opacity:0}
+.dbody{position:relative;z-index:1;height:100%;overflow-y:auto;padding:28px 24px;opacity:0;transition:opacity .2s}
+.dv.full .dbody{opacity:1;transition:opacity .4s .25s}
+.dx{position:absolute;top:12px;right:14px;z-index:2;border:0;background:var(--card);color:var(--tx);width:32px;height:32px;border-radius:50%;cursor:pointer;opacity:0;transition:opacity .3s}
+.dv.full .dx{opacity:1}
+.dsub{display:block;color:var(--mut);font-size:.85rem;text-transform:capitalize}
+.dbig{text-align:left;font-size:clamp(2.4rem,10vw,3.4rem);margin:4px 0 4px}
+.dmeta{color:var(--mut);font-size:.85rem}
+.stack{display:flex;gap:3px;height:18px;border-radius:99px;overflow:hidden;margin:20px 0 18px}
+.stack i{display:block;min-width:4px;transform-origin:left;animation:seg .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes seg{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.dlist{list-style:none;padding:0}
+.dlist li{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--bd);opacity:0;animation:wIn .5s both}
+.dlist li:last-child{border:0}
+.dlist .dot{width:12px;height:12px;border-radius:50%;flex:0 0 12px}
+.dlist .dn{flex:1;min-width:0;word-break:break-word}
+.dlist em{font-style:normal;color:var(--mut);width:46px;text-align:right;font-size:.85rem}
+/* --- Interrupteur de thème --- */
+.hr{display:flex;gap:10px;align-items:center}
+.tlab{font-size:.8rem;color:var(--mut)}
+.tsw{position:relative;width:48px;height:27px;border-radius:99px;border:1px solid var(--bd);background:var(--card);cursor:pointer;padding:0;transition:background .3s,border-color .3s}
+.tsw .knob{position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:var(--mut);transition:transform .3s cubic-bezier(.2,.8,.2,1),background .3s}
+.tsw[aria-checked="true"]{background:#1b1b1d;border-color:rgba(255,255,255,.25)}
+.tsw[aria-checked="true"] .knob{transform:translateX(21px);background:#fff}
+@media (max-width:520px){.tlab,.lbl{display:none}}
+/* --- Thème noir mat profond --- */
+html[data-theme="matte"]{
+  --bg:#060606; --card:rgba(255,255,255,.045); --bd:rgba(255,255,255,.09);
+  --tx:#ececec; --mut:#8c8c92; --violet:#a1a1aa; --blue:#71717a;
+  --grad:linear-gradient(135deg,#5a5a62 0%,#46464d 50%,#303036 100%);
+  --panel:#0e0e0f;
+}
+html[data-theme="matte"] body{background:radial-gradient(60% 40% at 0% 0%,rgba(255,255,255,.07),transparent 70%),radial-gradient(50% 40% at 100% 100%,rgba(255,255,255,.05),transparent 70%),var(--bg);background-attachment:fixed}
+html[data-theme="matte"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(135deg,#fafafa,#a1a1aa 60%,#6b6b73)}
+html[data-theme="matte"] .bar:not(.dim){background:linear-gradient(180deg,#d4d4d8,#6b6b73)}
+html[data-theme="matte"] .subj .tr i{background:linear-gradient(90deg,#71717a,#d4d4d8)}
+html[data-theme="matte"] nav button.on{box-shadow:0 4px 18px rgba(0,0,0,.5)}
+html[data-theme="matte"] .cell:hover{background:rgba(255,255,255,.1)}
+html[data-theme="matte"] .mood.on{border-color:#a1a1aa;background:rgba(255,255,255,.1)}
+html[data-theme="matte"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(255,255,255,.12)}
+html[data-theme="matte"] .sheet{background:#0e0e0f}
+html[data-theme="matte"] .toast{background:#18181a}
+html[data-theme="matte"] .phase.work{color:#d4d4d8}
+html[data-theme="matte"] .phase.rest{color:#a1a1aa}
+html[data-theme="matte"] #g stop:nth-child(1){stop-color:#f4f4f5}
+html[data-theme="matte"] #g stop:nth-child(2){stop-color:#a1a1aa}
+html[data-theme="matte"] #g stop:nth-child(3){stop-color:#71717a}
+html[data-theme="matte"] #gA{background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%)}
+html[data-theme="matte"] #gB{background:radial-gradient(circle,rgba(190,190,200,.1),transparent 68%)}
+html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:420px){.card{padding:18px}.stats{gap:10px}}
 </style>
@@ -174,7 +237,11 @@ textarea{resize:none}
 <div class="app">
   <header>
     <h1>Focus</h1>
-    <div class="today-pill">Aujourd'hui <b id="pillToday">0h 00m</b></div>
+    <div class="hr">
+      <div class="today-pill"><span class="lbl">Aujourd'hui </span><b id="pillToday">0h 00m</b></div>
+      <span class="tlab">Noir mat</span>
+      <button class="tsw" id="tSw" role="switch" aria-checked="false" aria-label="Thème noir mat" title="Thème noir mat"><span class="knob"></span></button>
+    </div>
   </header>
 
   <nav id="nav">
@@ -248,7 +315,7 @@ textarea{resize:none}
       <div class="stat"><small>Aujourd'hui</small><b id="sToday">0h 00m</b><span id="sTodayD" class="flat"></span></div>
       <div class="stat"><small>Cette semaine</small><b id="sWeek">0h 00m</b><span id="sWeekD" class="flat"></span></div>
     </div>
-    <div class="card"><h2>7 derniers jours</h2><div class="chart" id="chDays"></div></div>
+    <div class="card"><h2>7 derniers jours</h2><div class="chart days" id="chDays"></div></div>
     <div class="card"><div class="hd"><h2>Semaines</h2><button class="mini" id="wToggle">Tout voir</button></div><div class="chart" id="chWeeks"></div></div>
     <div class="card"><h2>Matières cette semaine</h2><div id="subjs"></div></div>
     <div class="card"><h2>Historique</h2><ul class="hist" id="hist"></ul></div>
@@ -324,6 +391,13 @@ textarea{resize:none}
     <div class="moods" id="fbMoods"></div>
     <textarea id="fbNote" rows="3" placeholder="Un mot sur cette session (facultatif)"></textarea>
     <div class="btns"><button class="btn ghost" id="fbSkip">Passer</button><button class="btn" id="fbSave">Enregistrer</button></div>
+  </div>
+</div>
+
+<div class="dv" id="dv" aria-hidden="true">
+  <div class="dpanel" id="dp" role="dialog" aria-modal="true" aria-label="Détail du jour">
+    <button class="dx" id="dx" aria-label="Fermer">✕</button>
+    <div class="dbody" id="db"></div>
   </div>
 </div>
 
@@ -543,7 +617,7 @@ function delta(cur, prev, label){
 function bars(el, items){
   const max = Math.max(...items.map(i => i.v), 1);
   el.innerHTML = items.map(i =>
-    '<div class="col"><div class="bar'+(i.dim?' dim':'')+'" style="height:'+(i.v/max*100)+'%"><i>'+(i.v ? fmt(i.v).replace(' 0','') : '')+'</i></div><span>'+i.l+'</span></div>'
+    '<div class="col"'+(i.k ? ' data-k="'+i.k+'" role="button" tabindex="0" aria-label="Détail du '+i.k+'"' : '')+'><div class="bar'+(i.dim?' dim':'')+'" style="height:'+(i.v/max*100)+'%"><i>'+(i.v ? fmt(i.v).replace(' 0','') : '')+'</i></div><span>'+i.l+'</span></div>'
   ).join('');
 }
 let allWeeks = false;
@@ -558,7 +632,7 @@ function renderStats(){
   $('#sWeekD').innerHTML = delta(wkTot, prevSame, 'vs sem. dernière');
 
   const days = [];
-  for(let i=6;i>=0;i--){ const d = addDays(now,-i); days.push({l:DAYS[d.getDay()], v:dayTotal(d), dim:i!==0}); }
+  for(let i=6;i>=0;i--){ const d = addDays(now,-i); days.push({l:DAYS[d.getDay()], v:dayTotal(d), dim:i!==0, k:dkey(d)}); }
   bars($('#chDays'), days);
 
   let startW = addDays(wk,-35);
@@ -999,6 +1073,64 @@ $('#fSize').addEventListener('click', e => {
   document.querySelectorAll('#fSize button').forEach(x => x.classList.toggle('on', x === b));
   newFlow(+b.dataset.n);
 });
+
+/* ---------- Détail d'un jour ---------- */
+const SUBJ_COL = ['#a78bfa','#60a5fa','#22d3ee','#f472b6','#34d399','#fb7185','#818cf8','#2dd4bf'];
+const subjColor = name => SUBJ_COL[Math.max(0, [...new Set(sessions.map(s => s.subj))].sort().indexOf(name)) % SUBJ_COL.length];
+const DAYS_L = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+const MONTHS_L = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+let dvFrom = null, dvKey = null;
+function dvTarget(){ const w = Math.min(520, innerWidth-32), h = Math.min(innerHeight*.84, 600); return {l:(innerWidth-w)/2, t:(innerHeight-h)/2, w, h}; }
+function dvBox(r){ const p = $('#dp'); p.style.left = r.l+'px'; p.style.top = r.t+'px'; p.style.width = r.w+'px'; p.style.height = r.h+'px'; }
+const rectOf = el => { const b = el.getBoundingClientRect(); return {l:b.left, t:b.top, w:b.width, h:Math.max(b.height, 8)}; };
+function dayContent(k){
+  const list = sessions.filter(s => s.date === k), tot = list.reduce((a,s) => a+s.sec, 0);
+  const by = {}; list.forEach(s => by[s.subj] = (by[s.subj]||0)+s.sec);
+  const rows = Object.entries(by).sort((a,b) => b[1]-a[1]);
+  const p = k.split('-'), d = new Date(+p[0], +p[1]-1, +p[2]);
+  let h = '<small class="dsub">'+DAYS_L[d.getDay()]+' '+d.getDate()+' '+MONTHS_L[d.getMonth()]+'</small><div class="big dbig">'+fmt(tot)+'</div>';
+  if(!rows.length) return h+'<p class="empty">Aucune session ce jour-là.</p>';
+  h += '<p class="dmeta">'+list.length+' session'+(list.length>1?'s':'')+' · '+rows.length+' matière'+(rows.length>1?'s':'')+'</p>';
+  h += '<div class="stack">'+rows.map((r,i) => '<i style="width:'+(r[1]/tot*100)+'%;background:'+subjColor(r[0])+';animation-delay:'+(.35+i*.08).toFixed(2)+'s"></i>').join('')+'</div>';
+  h += '<ul class="dlist">'+rows.map((r,i) => '<li style="animation-delay:'+(.45+i*.07).toFixed(2)+'s"><span class="dot" style="background:'+subjColor(r[0])+'"></span><span class="dn">'+esc(r[0])+'</span><b>'+fmt(r[1])+'</b><em>'+Math.round(r[1]/tot*100)+' %</em></li>').join('')+'</ul>';
+  return h;
+}
+function openDay(k, barEl){
+  dvKey = k; dvFrom = rectOf(barEl);
+  const dv = $('#dv'), p = $('#dp');
+  $('#db').innerHTML = dayContent(k); $('#db').scrollTop = 0;
+  p.style.transition = 'none'; dv.classList.remove('full'); dvBox(dvFrom);
+  void p.offsetWidth; p.style.transition = '';
+  dv.classList.add('open'); dv.setAttribute('aria-hidden','false');
+  requestAnimationFrame(() => { dvBox(dvTarget()); dv.classList.add('full'); });
+  document.body.style.overflow = 'hidden';
+}
+function closeDay(){
+  const dv = $('#dv'); if(!dv.classList.contains('open')) return;
+  const bar = document.querySelector('#chDays .col[data-k="'+dvKey+'"] .bar');
+  dv.classList.remove('full'); dvBox(bar ? rectOf(bar) : dvFrom);
+  dv.classList.remove('open'); dv.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+$('#chDays').addEventListener('click', e => { const c = e.target.closest('.col'); if(c && c.dataset.k) openDay(c.dataset.k, c.querySelector('.bar')); });
+$('#chDays').addEventListener('keydown', e => { if(e.key !== 'Enter' && e.key !== ' ') return; const c = e.target.closest('.col'); if(c && c.dataset.k){ e.preventDefault(); openDay(c.dataset.k, c.querySelector('.bar')); } });
+$('#dv').addEventListener('click', e => { if(e.target.id === 'dv') closeDay(); });
+$('#dx').onclick = closeDay;
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDay(); });
+addEventListener('resize', () => { if($('#dv').classList.contains('full')) dvBox(dvTarget()); });
+
+/* ---------- Thème (noir mat) ---------- */
+(function(){
+  const sw = $('#tSw'), tc = document.querySelector('meta[name="theme-color"]');
+  let on = false; try{ on = localStorage.getItem('focus_theme') === 'matte'; }catch(e){}
+  const apply = v => {
+    document.documentElement.dataset.theme = v ? 'matte' : 'dark';
+    sw.setAttribute('aria-checked', v ? 'true' : 'false');
+    if(tc) tc.content = v ? '#060606' : '#0b0b14';
+  };
+  apply(on);
+  sw.onclick = () => { on = !on; apply(on); try{ localStorage.setItem('focus_theme', on ? 'matte' : 'dark'); }catch(e){} };
+})();
 
 /* ---------- Boucle & Initialisation Cloud ---------- */
 function tick(){ pomoCheck(); renderChrono(); renderPomo(); }
