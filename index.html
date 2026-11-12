@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0b0b14">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%232e2e34'/%3E%3Cstop offset='50%25' stop-color='%2318181b'/%3E%3Cstop offset='100%25' stop-color='%23080809'/%3E%3C/linearGradient%3E%3ClinearGradient id='fg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='100%25' stop-color='%23a1a1aa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='15' fill='url(%23bg)' stroke='rgba(255,255,255,0.18)' stroke-width='2'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif' font-weight='800' font-size='38' fill='url(%23fg)'%3EF%3C/text%3E%3C/svg%3E">
 <script>try{if(localStorage.getItem('focus_theme')==='matte')document.documentElement.dataset.theme='matte'}catch(e){}</script>
 <title>Focus</title>
 <style>
@@ -13,6 +14,12 @@
   --bg:#0b0b14; --card:rgba(255,255,255,.06); --bd:rgba(255,255,255,.11);
   --tx:#f4f4f8; --mut:#9a9ab3; --violet:#8b5cf6; --blue:#3b82f6;
   --grad:linear-gradient(135deg,#a855f7 0%,#6366f1 50%,#3b82f6 100%);
+  --panel:#14141f;
+  --glass-bg:linear-gradient(145deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.035) 55%, rgba(255,255,255,.07) 100%);
+  --glass-bd:rgba(255,255,255,.16);
+  --glass-bd-hover:rgba(255,255,255,.32);
+  --glass-shadow:0 18px 42px -12px rgba(0,0,0,.55), inset 0 1px 1px rgba(255,255,255,.38), inset 0 -1px 1px rgba(255,255,255,.06);
+  --glass-shadow-hover:0 26px 54px -12px rgba(0,0,0,.68), inset 0 1px 1.5px rgba(255,255,255,.55), inset 0 -1px 1px rgba(255,255,255,.12);
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
@@ -29,41 +36,164 @@ body{
 .app{max-width:760px;margin:0 auto;position:relative;z-index:1}
 header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
 h1{font-size:1.55rem;font-weight:800;letter-spacing:.2em;text-transform:uppercase;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.today-pill{font-size:.85rem;color:var(--mut);background:var(--card);border:1px solid var(--bd);padding:6px 12px;border-radius:99px}
+.today-pill{
+  font-size:.85rem;color:var(--mut);
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bd);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.28), 0 8px 20px rgba(0,0,0,.25);
+  backdrop-filter:blur(22px) saturate(180%);
+  -webkit-backdrop-filter:blur(22px) saturate(180%);
+  padding:6px 12px;border-radius:99px;
+}
 .today-pill b{color:var(--tx)}
-nav{display:flex;gap:6px;background:var(--card);border:1px solid var(--bd);padding:5px;border-radius:16px;margin-bottom:18px;overflow-x:auto;scrollbar-width:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+
+/* Barre de navigation Liquid Glass */
+nav{
+  display:flex;gap:6px;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bd);
+  box-shadow:var(--glass-shadow);
+  padding:5px;border-radius:18px;margin-bottom:18px;
+  overflow-x:auto;scrollbar-width:none;
+  backdrop-filter:blur(26px) saturate(185%);
+  -webkit-backdrop-filter:blur(26px) saturate(185%);
+}
 nav::-webkit-scrollbar{display:none}
-nav button{flex:1 0 auto;white-space:nowrap;border:0;background:none;color:var(--mut);font:inherit;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:12px;cursor:pointer;transition:.2s}
-nav button.on{background:var(--grad);color:#fff;box-shadow:0 4px 18px rgba(139,92,246,.35)}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:22px;padding:24px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);margin-bottom:16px}
+nav button{flex:1 0 auto;white-space:nowrap;border:0;background:none;color:var(--mut);font:inherit;font-size:.9rem;font-weight:600;padding:10px 14px;border-radius:13px;cursor:pointer;transition:.22s cubic-bezier(.22,1,.36,1)}
+nav button:hover{color:var(--tx)}
+nav button.on{background:var(--grad);color:#fff;box-shadow:0 4px 18px rgba(139,92,246,.35), inset 0 1px 0 rgba(255,255,255,.35)}
+
+/* Blocs Liquid Glass Apple Style + Micro-zoom au survol */
+.card{
+  position:relative;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bd);
+  border-radius:24px;
+  padding:24px;
+  backdrop-filter:blur(28px) saturate(190%);
+  -webkit-backdrop-filter:blur(28px) saturate(190%);
+  box-shadow:var(--glass-shadow);
+  margin-bottom:16px;
+  transform:translateZ(0) scale(1);
+  transition:transform .42s cubic-bezier(.22,1,.36,1), border-color .35s ease, box-shadow .42s cubic-bezier(.22,1,.36,1), background .35s ease;
+  will-change:transform;
+}
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 80% at 15% 0%, rgba(255,255,255,.16) 0%, rgba(255,255,255,.02) 45%, transparent 70%);
+  opacity:.85;transition:opacity .35s ease;
+}
+.card:hover{
+  transform:translateZ(0) scale(1.012);
+  border-color:var(--glass-bd-hover);
+  box-shadow:var(--glass-shadow-hover);
+}
+.card:hover::before{opacity:1}
 .card h2{font-size:1rem;font-weight:700;margin-bottom:14px}
+
 section{display:none}
 section.on{display:block}
 .big{font-size:clamp(3rem,15vw,5.2rem);font-weight:800;text-align:center;letter-spacing:-.03em;font-variant-numeric:tabular-nums;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.1;margin:8px 0 18px}
 label{display:block;font-size:.8rem;color:var(--mut);margin-bottom:6px}
-input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--tx);background:rgba(0,0,0,.35);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;outline:none;transition:.2s}
+input,select,textarea{width:100%;font:inherit;font-size:16px;color:var(--tx);background:rgba(0,0,0,.32);border:1px solid var(--bd);border-radius:12px;padding:12px 14px;outline:none;transition:.2s}
 input:focus,select:focus,textarea:focus{border-color:var(--violet);box-shadow:0 0 0 3px rgba(139,92,246,.25)}
 .row{display:flex;gap:10px}
 .row>*{flex:1}
 .btns{display:flex;gap:10px;margin-top:16px}
-.btn{flex:1;border:0;font:inherit;font-weight:700;font-size:1rem;color:#fff;padding:14px;border-radius:14px;cursor:pointer;background:var(--grad);transition:transform .12s,opacity .2s}
-.btn:active{transform:scale(.97)}
-.btn.ghost{background:var(--card);border:1px solid var(--bd);color:var(--tx)}
+.btn{flex:1;border:0;font:inherit;font-weight:700;font-size:1rem;color:#fff;padding:14px;border-radius:14px;cursor:pointer;background:var(--grad);box-shadow:inset 0 1px 0 rgba(255,255,255,.28);transition:transform .16s cubic-bezier(.22,1,.36,1),opacity .2s,filter .2s}
+.btn:hover:not(:disabled){filter:brightness(1.07)}
+.btn:active:not(:disabled){transform:scale(.97)}
+.btn.ghost{background:rgba(255,255,255,.06);border:1px solid var(--glass-bd);color:var(--tx)}
 .btn.stop{background:rgba(239,68,68,.16);border:1px solid rgba(239,68,68,.45);color:#fca5a5}
 .btn:disabled{opacity:.35;cursor:default}
+
+/* Anneau Pomodoro & Mode Fullscreen Apple */
 .ring{position:relative;width:min(280px,76vw);aspect-ratio:1;margin:4px auto 6px}
 .ring svg{width:100%;height:100%;transform:rotate(-90deg)}
 .ring .t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ring .t .big{font-size:clamp(2.6rem,12vw,3.6rem);margin:0}
 .phase{font-size:.9rem;font-weight:700;color:var(--mut)}
 .phase.work{color:#c4b5fd} .phase.rest{color:#93c5fd}
+
+/* Overlay Fullscreen Pomodoro */
+.pomo-fs{
+  position:fixed;inset:0;z-index:50;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:max(28px,env(safe-area-inset-top)) 24px max(32px,env(safe-area-inset-bottom));
+  background:rgba(8,8,16,.76);
+  backdrop-filter:blur(42px) saturate(190%);
+  -webkit-backdrop-filter:blur(42px) saturate(190%);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .55s cubic-bezier(.22,1,.36,1), visibility 0s .55s;
+}
+.pomo-fs.open{
+  opacity:1;visibility:visible;pointer-events:auto;
+  transition:opacity .55s cubic-bezier(.22,1,.36,1), visibility 0s;
+}
+.pomo-fs-inner{
+  width:min(440px,100%);
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  transform:scale(.84) translateY(24px);
+  opacity:0;
+  transition:transform .62s cubic-bezier(.22,1,.36,1), opacity .48s ease;
+}
+.pomo-fs.open .pomo-fs-inner{
+  transform:scale(1) translateY(0);
+  opacity:1;
+}
+.pomo-fs-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.82rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--tx);
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bd);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32);
+  padding:8px 18px;border-radius:99px;
+  margin-bottom:28px;
+}
+.pomo-fs-ring{
+  position:relative;width:min(340px,80vw);aspect-ratio:1;
+  margin:0 auto 32px;
+  filter:drop-shadow(0 20px 50px rgba(0,0,0,.5));
+}
+.pomo-fs-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.pomo-fs-ring .t{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pomo-fs-ring .t .big{font-size:clamp(3.4rem,15vw,4.8rem);margin:0}
+.pomo-fs-ring .phase{font-size:1.05rem;margin-top:6px;letter-spacing:.04em}
+.pomo-fs-btns{display:flex;gap:12px;width:100%;max-width:340px}
+.pomo-fs-btns .btn{
+  padding:16px;border-radius:16px;font-size:1.02rem;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+}
+html[data-theme="matte"] .pomo-fs{
+  background:rgba(5,5,6,.82);
+}
+
+/* Cartes Stats Liquid Glass */
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.stat{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px}
+.stat{
+  position:relative;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-bd);
+  border-radius:20px;
+  padding:18px;
+  backdrop-filter:blur(28px) saturate(190%);
+  -webkit-backdrop-filter:blur(28px) saturate(190%);
+  box-shadow:var(--glass-shadow);
+  transform:translateZ(0) scale(1);
+  transition:transform .42s cubic-bezier(.22,1,.36,1), border-color .35s ease, box-shadow .42s cubic-bezier(.22,1,.36,1);
+}
+.stat:hover{
+  transform:translateZ(0) scale(1.016);
+  border-color:var(--glass-bd-hover);
+  box-shadow:var(--glass-shadow-hover);
+}
 .stat small{color:var(--mut);font-size:.78rem}
 .stat b{display:block;font-size:1.6rem;margin:4px 0 2px;letter-spacing:-.02em}
 .up{color:#4ade80;font-size:.82rem;font-weight:600}
 .down{color:#f87171;font-size:.82rem;font-weight:600}
 .flat{color:var(--mut);font-size:.82rem}
+
 .chart{display:flex;align-items:flex-end;gap:8px;height:170px;padding-top:22px}
 .col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;min-width:0}
 .bar{width:100%;border-radius:8px 8px 4px 4px;background:var(--grad);min-height:3px;position:relative;transition:height .4s}
@@ -82,7 +212,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--violet);box-shadow:0 
 .hist .d{font-weight:700}
 .hist button{border:0;background:none;color:var(--mut);font-size:1.1rem;cursor:pointer;padding:4px 8px}
 .empty{color:var(--mut);font-size:.9rem;text-align:center;padding:10px 0}
-.toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translate(-50%,120px);background:#1c1c2e;border:1px solid var(--bd);padding:12px 18px;border-radius:14px;font-size:.9rem;transition:transform .3s;z-index:9}
+.toast{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translate(-50%,120px);background:#1c1c2e;border:1px solid var(--glass-bd);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:12px 18px;border-radius:14px;font-size:.9rem;transition:transform .3s;z-index:60}
 .toast.show{transform:translate(-50%,0)}
 textarea{resize:none}
 .glow{position:fixed;left:0;top:0;border-radius:50%;pointer-events:none;z-index:0;will-change:transform,opacity}
@@ -94,12 +224,13 @@ textarea{resize:none}
 .seg button.on{background:var(--grad);color:#fff}
 .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .hd h2{margin:0}
-.mini{border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:.8rem;font-weight:600;padding:6px 12px;border-radius:99px;cursor:pointer}
+.mini{border:1px solid var(--glass-bd);background:rgba(255,255,255,.07);color:var(--tx);font:inherit;font-size:.8rem;font-weight:600;padding:6px 12px;border-radius:99px;cursor:pointer;transition:.2s}
+.mini:hover{border-color:var(--glass-bd-hover);background:rgba(255,255,255,.12)}
 .chart.all{overflow-x:auto;padding-bottom:6px}
 .chart.all .col{flex:0 0 46px}
 .modal{position:fixed;inset:0;z-index:20;display:flex;align-items:flex-end;justify-content:center;padding:16px;background:rgba(5,5,12,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);visibility:hidden;transition:background .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s,visibility 0s .35s}
-.modal.open{background:rgba(5,5,12,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);visibility:visible;transition:background .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s,visibility 0s}
-.sheet{width:min(460px,100%);background:#14141f;border:1px solid var(--bd);border-radius:24px;padding:24px;transform:translateY(40px) scale(.97);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s;margin-bottom:env(safe-area-inset-bottom)}
+.modal.open{background:rgba(5,5,12,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);visibility:visible;transition:background .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s,visibility 0s}
+.sheet{width:min(460px,100%);background:rgba(22,22,34,.86);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:1px solid var(--glass-bd);box-shadow:var(--glass-shadow);border-radius:24px;padding:24px;transform:translateY(40px) scale(.97);opacity:0;transition:transform .45s cubic-bezier(.2,.8,.2,1),opacity .35s;margin-bottom:env(safe-area-inset-bottom)}
 .modal.open .sheet{transform:none;opacity:1}
 @media (min-width:600px){.modal{align-items:center}}
 .cheer{font-size:1.7rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
@@ -131,7 +262,7 @@ textarea{resize:none}
 .blk small{display:block;font-weight:500;opacity:.8;font-size:.64rem;margin-top:2px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;border:1px solid var(--bd);background:var(--card);color:var(--tx);font:inherit;font-size:.88rem;font-weight:600;padding:8px 14px;border-radius:99px;cursor:pointer}
+.chip{flex:0 0 auto;border:1px solid var(--glass-bd);background:var(--glass-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:var(--tx);font:inherit;font-size:.88rem;font-weight:600;padding:8px 14px;border-radius:99px;cursor:pointer;transition:.2s}
 .chip.on{background:var(--grad);border-color:transparent}
 .chip.add{color:var(--mut);border-style:dashed}
 .gGrid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
@@ -172,10 +303,9 @@ textarea{resize:none}
 .days .col:hover .bar,.days .col:focus-visible .bar{transform:scale(1.1,1.04);filter:brightness(1.18)}
 .days .col:hover span,.days .col:focus-visible span{color:var(--tx)}
 /* --- Vue détaillée d'un jour --- */
-:root{--panel:#14141f}
 .dv{position:fixed;inset:0;z-index:30;background:rgba(5,5,12,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0);visibility:hidden;transition:background .45s,backdrop-filter .45s,-webkit-backdrop-filter .45s,visibility 0s .5s}
 .dv.open{background:rgba(5,5,12,.62);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);visibility:visible;transition:background .45s,backdrop-filter .45s,-webkit-backdrop-filter .45s,visibility 0s}
-.dpanel{position:fixed;overflow:hidden;border-radius:10px;background:var(--panel);border:1px solid var(--bd);box-shadow:0 30px 80px rgba(0,0,0,.5);transition:left .5s cubic-bezier(.2,.8,.2,1),top .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1),border-radius .5s}
+.dpanel{position:fixed;overflow:hidden;border-radius:10px;background:var(--panel);border:1px solid var(--glass-bd);box-shadow:0 30px 80px rgba(0,0,0,.5);transition:left .5s cubic-bezier(.2,.8,.2,1),top .5s cubic-bezier(.2,.8,.2,1),width .5s cubic-bezier(.2,.8,.2,1),height .5s cubic-bezier(.2,.8,.2,1),border-radius .5s}
 .dpanel::before{content:"";position:absolute;inset:0;background:var(--grad);transition:opacity .5s}
 .dv.full .dpanel{border-radius:24px}
 .dv.full .dpanel::before{opacity:0}
@@ -197,34 +327,39 @@ textarea{resize:none}
 .dlist em{font-style:normal;color:var(--mut);width:46px;text-align:right;font-size:.85rem}
 /* --- Interrupteur de thème --- */
 .hr{display:flex;gap:10px;align-items:center}
-.tlab{font-size:.8rem;color:var(--mut)}
-.tsw{position:relative;width:48px;height:27px;border-radius:99px;border:1px solid var(--bd);background:var(--card);cursor:pointer;padding:0;transition:background .3s,border-color .3s}
+.tlab{font-size:.8rem;color:var(--mut);font-weight:600;min-width:68px;text-align:right}
+.tsw{position:relative;width:48px;height:27px;border-radius:99px;border:1px solid var(--glass-bd);background:var(--glass-bg);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);cursor:pointer;padding:0;transition:background .3s,border-color .3s}
 .tsw .knob{position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:var(--mut);transition:transform .3s cubic-bezier(.2,.8,.2,1),background .3s}
-.tsw[aria-checked="true"]{background:#1b1b1d;border-color:rgba(255,255,255,.25)}
+.tsw[aria-checked="true"]{background:#1b1b1d;border-color:rgba(255,255,255,.28)}
 .tsw[aria-checked="true"] .knob{transform:translateX(21px);background:#fff}
 @media (max-width:520px){.tlab,.lbl{display:none}}
-/* --- Thème noir mat profond --- */
+/* --- Thème noir mat profond (Granite) --- */
 html[data-theme="matte"]{
   --bg:#060606; --card:rgba(255,255,255,.045); --bd:rgba(255,255,255,.09);
   --tx:#ececec; --mut:#8c8c92; --violet:#a1a1aa; --blue:#71717a;
   --grad:linear-gradient(135deg,#5a5a62 0%,#46464d 50%,#303036 100%);
   --panel:#0e0e0f;
+  --glass-bg:linear-gradient(145deg, rgba(255,255,255,.085) 0%, rgba(255,255,255,.025) 55%, rgba(255,255,255,.055) 100%);
+  --glass-bd:rgba(255,255,255,.14);
+  --glass-bd-hover:rgba(255,255,255,.28);
+  --glass-shadow:0 18px 42px -12px rgba(0,0,0,.7), inset 0 1px 1px rgba(255,255,255,.32), inset 0 -1px 1px rgba(255,255,255,.05);
+  --glass-shadow-hover:0 26px 54px -12px rgba(0,0,0,.85), inset 0 1px 1.5px rgba(255,255,255,.48), inset 0 -1px 1px rgba(255,255,255,.1);
 }
 html[data-theme="matte"] body{background:radial-gradient(60% 40% at 0% 0%,rgba(255,255,255,.07),transparent 70%),radial-gradient(50% 40% at 100% 100%,rgba(255,255,255,.05),transparent 70%),var(--bg);background-attachment:fixed}
 html[data-theme="matte"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(135deg,#fafafa,#a1a1aa 60%,#6b6b73)}
 html[data-theme="matte"] .bar:not(.dim){background:linear-gradient(180deg,#d4d4d8,#6b6b73)}
 html[data-theme="matte"] .subj .tr i{background:linear-gradient(90deg,#71717a,#d4d4d8)}
-html[data-theme="matte"] nav button.on{box-shadow:0 4px 18px rgba(0,0,0,.5)}
+html[data-theme="matte"] nav button.on{box-shadow:0 4px 18px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.25)}
 html[data-theme="matte"] .cell:hover{background:rgba(255,255,255,.1)}
 html[data-theme="matte"] .mood.on{border-color:#a1a1aa;background:rgba(255,255,255,.1)}
 html[data-theme="matte"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(255,255,255,.12)}
-html[data-theme="matte"] .sheet{background:#0e0e0f}
+html[data-theme="matte"] .sheet{background:rgba(16,16,18,.88)}
 html[data-theme="matte"] .toast{background:#18181a}
 html[data-theme="matte"] .phase.work{color:#d4d4d8}
 html[data-theme="matte"] .phase.rest{color:#a1a1aa}
-html[data-theme="matte"] #g stop:nth-child(1){stop-color:#f4f4f5}
-html[data-theme="matte"] #g stop:nth-child(2){stop-color:#a1a1aa}
-html[data-theme="matte"] #g stop:nth-child(3){stop-color:#71717a}
+html[data-theme="matte"] #g stop:nth-child(1), html[data-theme="matte"] #gFs stop:nth-child(1){stop-color:#f4f4f5}
+html[data-theme="matte"] #g stop:nth-child(2), html[data-theme="matte"] #gFs stop:nth-child(2){stop-color:#a1a1aa}
+html[data-theme="matte"] #g stop:nth-child(3), html[data-theme="matte"] #gFs stop:nth-child(3){stop-color:#71717a}
 html[data-theme="matte"] #gA{background:radial-gradient(circle,rgba(255,255,255,.16),transparent 68%)}
 html[data-theme="matte"] #gB{background:radial-gradient(circle,rgba(190,190,200,.1),transparent 68%)}
 html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%)}
@@ -239,19 +374,19 @@ html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,
     <h1>Focus</h1>
     <div class="hr">
       <div class="today-pill"><span class="lbl">Aujourd'hui </span><b id="pillToday">0h 00m</b></div>
-      <span class="tlab">Noir mat</span>
-      <button class="tsw" id="tSw" role="switch" aria-checked="false" aria-label="Thème noir mat" title="Thème noir mat"><span class="knob"></span></button>
+      <span class="tlab" id="tLab">Crépuscule</span>
+      <button class="tsw" id="tSw" role="switch" aria-checked="false" aria-label="Changer de thème" title="Changer de thème"><span class="knob"></span></button>
     </div>
   </header>
 
   <nav id="nav">
     <button data-t="chrono" class="on">Chrono</button>
-    <button data-t="pomo">Pomodoro</button>
-    <button data-t="add">Ajouter</button>
     <button data-t="stats">Stats</button>
     <button data-t="sched">Emploi du temps</button>
+    <button data-t="pomo">Pomodoro</button>
     <button data-t="goals">Objectifs</button>
     <button data-t="moti">Motivation</button>
+    <button data-t="add">Ajouter</button>
   </nav>
 
   <!-- CHRONO -->
@@ -264,48 +399,6 @@ html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,
         <button class="btn" id="cToggle">Démarrer</button>
         <button class="btn stop" id="cStop">Terminer</button>
       </div>
-    </div>
-  </section>
-
-  <!-- POMODORO -->
-  <section id="pomo">
-    <div class="card">
-      <div class="seg" id="pMode"><button data-m="50" class="on">50 / 10</button><button data-m="30">30 / 5</button></div>
-      <div class="ring">
-        <svg viewBox="0 0 200 200">
-          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#a855f7"/><stop offset=".5" stop-color="#6366f1"/><stop offset="1" stop-color="#3b82f6"/>
-          </linearGradient></defs>
-          <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="12"/>
-          <circle id="pRing" cx="100" cy="100" r="88" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="552.92" stroke-dashoffset="0"/>
-        </svg>
-        <div class="t">
-          <div class="big" id="pClock">50:00</div>
-          <div class="phase work" id="pPhase">Travail</div>
-        </div>
-      </div>
-      <label for="pSubj" style="margin-top:14px">Matière</label>
-      <input id="pSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
-      <div class="btns">
-        <button class="btn" id="pToggle">Démarrer</button>
-        <button class="btn stop" id="pStop">Terminer</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- AJOUT MANUEL -->
-  <section id="add">
-    <div class="card">
-      <h2>Ajouter du temps travaillé</h2>
-      <label for="aDate">Date</label>
-      <input type="date" id="aDate">
-      <div class="row" style="margin-top:12px">
-        <div><label for="aH">Heures</label><input type="number" id="aH" min="0" max="24" inputmode="numeric" placeholder="0"></div>
-        <div><label for="aM">Minutes</label><input type="number" id="aM" min="0" max="59" inputmode="numeric" placeholder="0"></div>
-      </div>
-      <label for="aSubj" style="margin-top:12px">Matière</label>
-      <input id="aSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
-      <div class="btns"><button class="btn" id="aSave">Ajouter</button></div>
     </div>
   </section>
 
@@ -326,6 +419,32 @@ html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,
     <div class="card">
       <div class="sgrid" id="sGrid"></div>
       <div class="btns"><button class="btn ghost" id="sLess">Retirer une heure</button><button class="btn ghost" id="sMore">Ajouter une heure</button></div>
+    </div>
+  </section>
+
+  <!-- POMODORO -->
+  <section id="pomo">
+    <div class="card">
+      <div class="seg" id="pMode"><button data-m="30">30 / 5</button><button data-m="50" class="on">50 / 10</button><button data-m="90">1H30 / 15</button><button data-m="120">2H / 20</button></div>
+      <div class="ring">
+        <svg viewBox="0 0 200 200">
+          <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#a855f7"/><stop offset=".5" stop-color="#6366f1"/><stop offset="1" stop-color="#3b82f6"/>
+          </linearGradient></defs>
+          <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="12"/>
+          <circle id="pRing" cx="100" cy="100" r="88" fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round" stroke-dasharray="552.92" stroke-dashoffset="0"/>
+        </svg>
+        <div class="t">
+          <div class="big" id="pClock">50:00</div>
+          <div class="phase work" id="pPhase">Travail</div>
+        </div>
+      </div>
+      <label for="pSubj" style="margin-top:14px">Matière</label>
+      <input id="pSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
+      <div class="btns">
+        <button class="btn" id="pToggle">Démarrer</button>
+        <button class="btn stop" id="pStop">Terminer</button>
+      </div>
     </div>
   </section>
 
@@ -354,6 +473,46 @@ html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,
       <div class="btns"><button class="btn ghost" id="fReset">Recommencer</button><button class="btn" id="fNew">Nouvelle grille</button></div>
     </div>
   </section>
+
+  <!-- AJOUT MANUEL -->
+  <section id="add">
+    <div class="card">
+      <h2>Ajouter du temps travaillé</h2>
+      <label for="aDate">Date</label>
+      <input type="date" id="aDate">
+      <div class="row" style="margin-top:12px">
+        <div><label for="aH">Heures</label><input type="number" id="aH" min="0" max="24" inputmode="numeric" placeholder="0"></div>
+        <div><label for="aM">Minutes</label><input type="number" id="aM" min="0" max="59" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <label for="aSubj" style="margin-top:12px">Matière</label>
+      <input id="aSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
+      <div class="btns"><button class="btn" id="aSave">Ajouter</button></div>
+    </div>
+  </section>
+</div>
+
+<!-- OVERLAY FULLSCREEN POMODORO -->
+<div class="pomo-fs" id="pomoFs" aria-hidden="true">
+  <div class="pomo-fs-inner">
+    <div class="pomo-fs-tag" id="pFsSubj">Session Focus</div>
+    <div class="pomo-fs-ring">
+      <svg viewBox="0 0 200 200">
+        <defs><linearGradient id="gFs" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a855f7"/><stop offset=".5" stop-color="#6366f1"/><stop offset="1" stop-color="#3b82f6"/>
+        </linearGradient></defs>
+        <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="10"/>
+        <circle id="pFsRing" cx="100" cy="100" r="88" fill="none" stroke="url(#gFs)" stroke-width="10" stroke-linecap="round" stroke-dasharray="552.92" stroke-dashoffset="0"/>
+      </svg>
+      <div class="t">
+        <div class="big" id="pFsClock">50:00</div>
+        <div class="phase work" id="pFsPhase">Travail</div>
+      </div>
+    </div>
+    <div class="pomo-fs-btns">
+      <button class="btn" id="pFsToggle">Pause</button>
+      <button class="btn stop" id="pFsStop">Terminer</button>
+    </div>
+  </div>
 </div>
 
 <datalist id="subjList"></datalist>
@@ -381,7 +540,6 @@ html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,
   <input id="gName" placeholder="Ex : Réviser 1 h" autocomplete="off" maxlength="40">
   <div class="btns"><button class="btn ghost" id="gCancel">Annuler</button><button class="btn" id="gCreate">Créer</button></div>
 </div></div>
-
 
 <div class="modal" id="fb">
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="fbT">
@@ -428,7 +586,6 @@ const store = {
   set(k, v){ 
     try{ 
       localStorage.setItem(k, JSON.stringify(v)); 
-      // Sauvegarde automatique en arrière-plan sur Firestore
       db.collection("focus_data").doc(k).set({ data: v, updatedAt: new Date().toISOString() })
         .catch(err => console.log("Erreur synchro cloud:", err));
     }catch(e){} 
@@ -445,7 +602,6 @@ async function initCloudSync() {
         localStorage.setItem(key, JSON.stringify(doc.data().data));
       }
     }
-    // Recharger les données après synchro
     sessions = store.get('focus_sessions', []);
     sched = store.get('focus_sched', {end:18, blocks:[]});
     goals = store.get('focus_goals', []);
@@ -461,7 +617,8 @@ async function initCloudSync() {
 let sessions = store.get('focus_sessions', []);
 let chrono = store.get('focus_chrono', {running:false, start:0, acc:0, subj:''});
 let pomo = store.get('focus_pomo', {phase:'work', running:false, end:0, left:3000, subj:''});
-const MODES = {'50':{w:3000,r:600}, '30':{w:1800,r:300}};
+let pomoFsActive = false;
+const MODES = {'30':{w:1800,r:300}, '50':{w:3000,r:600}, '90':{w:5400,r:900}, '120':{w:7200,r:1200}};
 if(!MODES[pomo.mode]) pomo.mode = '50';
 const W = () => MODES[pomo.mode].w, R = () => MODES[pomo.mode].r;
 
@@ -540,8 +697,10 @@ function renderChrono(){
   $('#cStop').disabled = cElapsed() < 1;
 }
 
-/* ---------- Pomodoro ---------- */
+/* ---------- Pomodoro + Fullscreen ---------- */
 const pLeft = () => pomo.running ? Math.max(0, Math.round((pomo.end-Date.now())/1000)) : pomo.left;
+if(pomo.running || pomo.phase === 'rest' || pomo.left < W()) pomoFsActive = true;
+
 $('#pSubj').value = pomo.subj || '';
 $('#pSubj').addEventListener('input', e => { pomo.subj = e.target.value; store.set('focus_pomo', pomo); });
 $('#pMode').addEventListener('click', e => {
@@ -550,46 +709,91 @@ $('#pMode').addEventListener('click', e => {
   pomo.mode = b.dataset.m; pomo.left = W();
   store.set('focus_pomo', pomo); renderPomo();
 });
-$('#pToggle').onclick = () => {
-  if(pomo.running){ pomo.left = pLeft(); pomo.running = false; }
-  else { pomo.end = Date.now()+pomo.left*1000; pomo.running = true; }
-  store.set('focus_pomo', pomo); renderPomo();
-};
-$('#pStop').onclick = () => {
+
+function togglePomo(){
+  if(pomo.running){
+    pomo.left = pLeft();
+    pomo.running = false;
+  } else {
+    pomo.end = Date.now()+pomo.left*1000;
+    pomo.running = true;
+    pomoFsActive = true;
+  }
+  store.set('focus_pomo', pomo);
+  renderPomo();
+}
+
+function stopPomo(){
   let id = null, done = 0;
   if(pomo.phase === 'work'){
     done = W() - pLeft();
     if(done >= 60) id = addSession(done, pomo.subj, 'pomodoro');
   }
   pomo = {mode:pomo.mode, phase:'work', running:false, end:0, left:W(), subj:pomo.subj};
-  store.set('focus_pomo', pomo); renderPomo();
+  pomoFsActive = false;
+  store.set('focus_pomo', pomo);
+  renderPomo();
   askFeedback(id, done, false);
-};
+}
+
+$('#pToggle').onclick = togglePomo;
+$('#pFsToggle').onclick = togglePomo;
+$('#pStop').onclick = stopPomo;
+$('#pFsStop').onclick = stopPomo;
+
 function pomoCheck(){
   if(pomo.running && pLeft() <= 0){
     beep();
     if(pomo.phase === 'work'){
       const id = addSession(W(), pomo.subj, 'pomodoro');
       pomo.phase = 'rest'; pomo.left = R(); pomo.end = Date.now()+R()*1000; pomo.running = true;
+      pomoFsActive = true;
       store.set('focus_pomo', pomo);
       askFeedback(id, W(), false);
     } else {
       pomo.phase = 'work'; pomo.left = W(); pomo.running = false;
+      pomoFsActive = false;
       store.set('focus_pomo', pomo);
       toast('Pause terminée. Prêt pour une nouvelle session.');
     }
   }
 }
+
 function renderPomo(){
   const left = pLeft(), total = pomo.phase === 'work' ? W() : R();
-  $('#pClock').textContent = pad(Math.floor(left/60))+':'+pad(left%60);
-  $('#pRing').style.strokeDashoffset = 552.92 * (1 - left/total);
+  const timeStr = pad(Math.floor(left/60))+':'+pad(left%60);
+  const offset = 552.92 * (1 - left/total);
+  const isWork = pomo.phase === 'work';
+  const phaseLabel = isWork ? 'Travail' : 'Pause';
+  const phaseCls = 'phase ' + (isWork ? 'work' : 'rest');
+  const toggleLabel = pomo.running ? 'Pause' : (left < total ? 'Reprendre' : 'Démarrer');
+
+  $('#pClock').textContent = timeStr;
+  $('#pRing').style.strokeDashoffset = offset;
   const ph = $('#pPhase');
-  ph.textContent = pomo.phase === 'work' ? 'Travail' : 'Pause';
-  ph.className = 'phase ' + (pomo.phase === 'work' ? 'work' : 'rest');
-  $('#pToggle').textContent = pomo.running ? 'Pause' : (left < total ? 'Reprendre' : 'Démarrer');
+  ph.textContent = phaseLabel; ph.className = phaseCls;
+  $('#pToggle').textContent = toggleLabel;
   $('#pStop').disabled = !pomo.running && left === total;
   document.querySelectorAll('#pMode button').forEach(b => b.classList.toggle('on', b.dataset.m === pomo.mode));
+
+  // Mise à jour Fullscreen Pomodoro
+  const fs = $('#pomoFs');
+  $('#pFsClock').textContent = timeStr;
+  $('#pFsRing').style.strokeDashoffset = offset;
+  const fsPh = $('#pFsPhase');
+  fsPh.textContent = phaseLabel; fsPh.className = phaseCls;
+  $('#pFsToggle').textContent = toggleLabel;
+  $('#pFsSubj').textContent = (pomo.subj || '').trim() || 'Session Focus';
+
+  if(pomoFsActive && !fs.classList.contains('open')){
+    fs.classList.add('open');
+    fs.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  } else if(!pomoFsActive && fs.classList.contains('open')){
+    fs.classList.remove('open');
+    fs.setAttribute('aria-hidden', 'true');
+    if(!$('#dv').classList.contains('open')) document.body.style.overflow = '';
+  }
 }
 
 /* ---------- Ajout manuel ---------- */
@@ -943,7 +1147,7 @@ function showMoti(){
   const q = nextQuote();
   const build = () => {
     const words = q[0].split(' ');
-    words[0] = '«\u00a0'+words[0]; words[words.length-1] += '\u00a0»';
+    words[0] = '« '+words[0]; words[words.length-1] += ' »';
     const wh = words.map((w,i) => '<span class="w" style="animation-delay:'+(.3+i*.05).toFixed(2)+'s">'+esc(w)+'</span>').join(' ');
     const ad = (.3 + words.length*.05 + .15).toFixed(2);
     st.innerHTML = '<div class="mph"><span>'+esc(q[1].split(' ').map(x => x[0]).slice(0,2).join(''))+'</span><img alt=""></div>'
@@ -1110,7 +1314,7 @@ function closeDay(){
   const bar = document.querySelector('#chDays .col[data-k="'+dvKey+'"] .bar');
   dv.classList.remove('full'); dvBox(bar ? rectOf(bar) : dvFrom);
   dv.classList.remove('open'); dv.setAttribute('aria-hidden','true');
-  document.body.style.overflow = '';
+  if(!pomoFsActive) document.body.style.overflow = '';
 }
 $('#chDays').addEventListener('click', e => { const c = e.target.closest('.col'); if(c && c.dataset.k) openDay(c.dataset.k, c.querySelector('.bar')); });
 $('#chDays').addEventListener('keydown', e => { if(e.key !== 'Enter' && e.key !== ' ') return; const c = e.target.closest('.col'); if(c && c.dataset.k){ e.preventDefault(); openDay(c.dataset.k, c.querySelector('.bar')); } });
@@ -1119,13 +1323,14 @@ $('#dx').onclick = closeDay;
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDay(); });
 addEventListener('resize', () => { if($('#dv').classList.contains('full')) dvBox(dvTarget()); });
 
-/* ---------- Thème (noir mat) ---------- */
+/* ---------- Thème (Crépuscule / Granite) ---------- */
 (function(){
-  const sw = $('#tSw'), tc = document.querySelector('meta[name="theme-color"]');
+  const sw = $('#tSw'), lab = $('#tLab'), tc = document.querySelector('meta[name="theme-color"]');
   let on = false; try{ on = localStorage.getItem('focus_theme') === 'matte'; }catch(e){}
   const apply = v => {
     document.documentElement.dataset.theme = v ? 'matte' : 'dark';
     sw.setAttribute('aria-checked', v ? 'true' : 'false');
+    if(lab) lab.textContent = v ? 'Granite' : 'Crépuscule';
     if(tc) tc.content = v ? '#060606' : '#0b0b14';
   };
   apply(on);
@@ -1139,7 +1344,7 @@ setInterval(tick, 250);
 
 // Lancement initial
 refreshSubjects(); renderPill(); renderStats(); renderSched(); renderGoals(); newFlow(5); tick();
-initCloudSync(); // Récupère les données de Firestore en arrière-plan
+initCloudSync();
 </script>
 </body>
 </html>
