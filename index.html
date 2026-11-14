@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0b0b14">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%232e2e34'/%3E%3Cstop offset='50%25' stop-color='%2318181b'/%3E%3Cstop offset='100%25' stop-color='%23080809'/%3E%3C/linearGradient%3E%3ClinearGradient id='fg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='100%25' stop-color='%23a1a1aa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='15' fill='url(%23bg)' stroke='rgba(255,255,255,0.18)' stroke-width='2'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif' font-weight='800' font-size='38' fill='url(%23fg)'%3EF%3C/text%3E%3C/svg%3E">
-<script>try{var _t=localStorage.getItem('focus_theme');if(_t&&_t!=='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
+<script>try{var _t=localStorage.getItem('focus_theme');_t={fog:'chalk',dusk:'sapphire'}[_t]||_t;if(_t&&_t!=='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Focus</title>
 <style>
 :root{
@@ -373,9 +373,9 @@ html[data-theme="matte"] #gC{background:radial-gradient(circle,rgba(255,255,255,
 .tdot{display:inline-block;width:20px;height:20px;flex:0 0 20px;border-radius:50%;border:1px solid rgba(255,255,255,.4);box-shadow:inset 0 1px 1px rgba(255,255,255,.45);transition:background .4s}
 .t-dark{background:linear-gradient(135deg,#a855f7,#3b82f6)}
 .t-matte{background:linear-gradient(135deg,#8a8a92,#2a2a2e)}
-.t-fog{background:linear-gradient(135deg,#EEF1F6,#A9B4C6)}
-.t-dusk{background:linear-gradient(135deg,#8D99AE,#23253A)}
-.tpop{position:absolute;right:0;top:calc(100% + 10px);z-index:60;min-width:180px;padding:6px;border-radius:18px;background:var(--panel);border:1px solid var(--glass-bd);box-shadow:var(--glass-shadow-hover);transform-origin:top right;opacity:0;transform:scale(.88) translateY(-8px);pointer-events:none;transition:opacity .25s,transform .4s cubic-bezier(.22,1.3,.36,1)}
+.t-chalk{background:linear-gradient(135deg,#F4F3EF,#D6D3CB)}
+.t-sapphire{background:linear-gradient(135deg,#243656,#0B101B)}
+.tpop{position:absolute;right:0;top:calc(100% + 10px);z-index:60;min-width:218px;padding:6px;border-radius:18px;background:var(--panel);border:1px solid var(--glass-bd);box-shadow:var(--glass-shadow-hover);transform-origin:top right;opacity:0;transform:scale(.88) translateY(-8px);pointer-events:none;transition:opacity .25s,transform .4s cubic-bezier(.22,1.3,.36,1)}
 .tpop.open{opacity:1;transform:none;pointer-events:auto}
 .tpop button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;color:var(--tx);font:inherit;font-size:.9rem;font-weight:600;padding:9px 10px;border-radius:12px;cursor:pointer;text-align:left;transition:background .2s,transform .25s cubic-bezier(.22,1,.36,1)}
 .tpop button:hover{background:var(--card);transform:translateX(2px)}
@@ -452,76 +452,82 @@ button.dh:active{transform:scale(.94)}
 .dbody.re .tblk{animation:none}
 @media (max-width:520px){.sgrid{grid-template-columns:32px repeat(7,minmax(0,1fr));gap:2px}.blk{font-size:.58rem;padding:4px 3px}.blk small{display:none}.hl{font-size:.6rem;padding-right:3px}button.dh{font-size:.62rem}}
 
-/* ===== V4 : thème FOG (clair) ===== */
-html[data-theme="fog"]{
-  --bg:#d3d9e4; --card:rgba(255,255,255,.5); --bd:rgba(40,55,90,.14);
-  --tx:#1b2233; --mut:#4f5b74; --violet:#4a5775; --blue:#6b7a99;
-  --grad:linear-gradient(135deg,#6b7a99 0%,#4a5775 55%,#2f3a56 100%);
-  --panel:#e9edf4;
-  --glass-bg:linear-gradient(145deg,rgba(255,255,255,.78) 0%,rgba(255,255,255,.4) 55%,rgba(255,255,255,.6) 100%);
-  --glass-bd:rgba(255,255,255,.8); --glass-bd-hover:#fff;
-  --glass-shadow:0 16px 38px -14px rgba(40,55,90,.35), inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(80,95,130,.1);
-  --glass-shadow-hover:0 24px 50px -14px rgba(40,55,90,.45), inset 0 1px 1.5px #fff, inset 0 -1px 1px rgba(80,95,130,.15);
-  --dw1:rgba(90,110,160,.38); --dw2:rgba(120,140,185,.32); --dw3:rgba(60,80,130,.26);
+/* ===== V5 : thème CHALK (pierre chaude, aluminium brossé) ===== */
+html[data-theme="chalk"]{
+  --bg:#E6E4DF; --card:rgba(255,255,255,.55); --bd:rgba(60,56,48,.13);
+  --tx:#16181D; --mut:#5e5f63; --violet:#2B2F36; --blue:#4a4e56;
+  --grad:linear-gradient(135deg,#4a4f58 0%,#2B2F36 55%,#16181D 100%);
+  --panel:#EFEDE8;
+  --glass-bg:linear-gradient(145deg,rgba(255,255,255,.74) 0%,rgba(255,255,255,.65) 50%,rgba(255,255,255,.6) 100%);
+  --glass-bd:rgba(255,255,255,.9); --glass-bd-hover:#fff;
+  --glass-shadow:0 14px 34px -14px rgba(60,50,35,.28), inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(90,80,60,.08);
+  --glass-shadow-hover:0 22px 46px -14px rgba(60,50,35,.38), inset 0 1px 1.5px #fff, inset 0 -1px 1px rgba(90,80,60,.12);
+  --dw1:rgba(110,104,92,.32); --dw2:rgba(150,144,130,.3); --dw3:rgba(70,70,74,.22);
 }
-html[data-theme="fog"] body{background:linear-gradient(165deg,#EEF1F6 0%,#A9B4C6 100%);background-attachment:fixed}
-html[data-theme="fog"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(135deg,#1c2640,#5a6a92)}
-html[data-theme="fog"] :is(input,select,textarea){background:rgba(255,255,255,.62)}
-html[data-theme="fog"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(74,87,117,.22)}
-html[data-theme="fog"] .btn.ghost,html[data-theme="fog"] .mini{background:rgba(255,255,255,.58)}
-html[data-theme="fog"] .mini:hover{background:#fff}
-html[data-theme="fog"] .btn.stop{background:rgba(220,38,38,.1);border-color:rgba(220,38,38,.4);color:#b91c1c}
-html[data-theme="fog"] .seg{background:rgba(40,55,90,.1)}
-html[data-theme="fog"] .up{color:#15803d}
-html[data-theme="fog"] .down{color:#b91c1c}
-html[data-theme="fog"] .bar.dim{background:rgba(40,55,90,.18)}
-html[data-theme="fog"] .subj .tr{background:rgba(40,55,90,.1)}
-html[data-theme="fog"] .sheet{background:rgba(240,243,248,.92)}
-html[data-theme="fog"] .toast{background:rgba(255,255,255,.94)}
-html[data-theme="fog"] .mood{background:rgba(255,255,255,.55)}
-html[data-theme="fog"] .mood.on{border-color:#4a5775;background:rgba(74,87,117,.14)}
-html[data-theme="fog"] .sq{background:rgba(255,255,255,.55)}
-html[data-theme="fog"] .sq:hover{background:#fff}
-html[data-theme="fog"] .cell{background:rgba(40,55,90,.05);border-color:rgba(40,55,90,.1)}
-html[data-theme="fog"] .sw.on{border-color:#1b2233}
-html[data-theme="fog"] .phase.work{color:#3d4a6b}
-html[data-theme="fog"] .phase.rest{color:#5b7aa8}
-html[data-theme="fog"] .pomo-fs{background:rgba(232,236,244,.84)}
-html[data-theme="fog"] nav button.on{box-shadow:0 4px 16px rgba(47,58,86,.35), inset 0 1px 0 rgba(255,255,255,.35)}
-html[data-theme="fog"] #g stop:nth-child(1),html[data-theme="fog"] #gFs stop:nth-child(1){stop-color:#2f3a56}
-html[data-theme="fog"] #g stop:nth-child(2),html[data-theme="fog"] #gFs stop:nth-child(2){stop-color:#4a5775}
-html[data-theme="fog"] #g stop:nth-child(3),html[data-theme="fog"] #gFs stop:nth-child(3){stop-color:#7b8db5}
-html[data-theme="fog"] :is(.ring,.pomo-fs-ring) circle:first-of-type{stroke:rgba(40,55,90,.14)}
-html[data-theme="fog"] #fSvg rect[fill^="rgba(255"]{fill:rgba(40,55,90,.08)}
-html[data-theme="fog"] #gA{background:radial-gradient(circle,rgba(110,130,180,.5),transparent 68%)}
-html[data-theme="fog"] #gB{background:radial-gradient(circle,rgba(255,255,255,.7),transparent 68%)}
-html[data-theme="fog"] #gC{background:radial-gradient(circle,rgba(70,90,150,.35),transparent 70%)}
+html[data-theme="chalk"] body{background:radial-gradient(70% 55% at 0% 0%,#F4F3EF 0%,rgba(244,243,239,0) 70%),#E6E4DF;background-attachment:fixed}
+html[data-theme="chalk"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(135deg,#16181D 0%,#2B2F36 55%,#4a4f58 100%)}
+html[data-theme="chalk"] :is(input,select,textarea){background:rgba(255,255,255,.62)}
+html[data-theme="chalk"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(43,47,54,.16)}
+html[data-theme="chalk"] .btn.ghost,html[data-theme="chalk"] .mini{background:rgba(255,255,255,.6)}
+html[data-theme="chalk"] .mini:hover{background:#fff}
+html[data-theme="chalk"] .btn.stop{background:rgba(159,45,45,.09);border-color:rgba(159,45,45,.38);color:#8f2a2a}
+html[data-theme="chalk"] .seg{background:rgba(60,56,48,.08)}
+html[data-theme="chalk"] .up{color:#3f7a4f}
+html[data-theme="chalk"] .down{color:#a63232}
+html[data-theme="chalk"] .bar.dim{background:rgba(60,56,48,.15)}
+html[data-theme="chalk"] .subj .tr{background:rgba(60,56,48,.09)}
+html[data-theme="chalk"] .sheet{background:rgba(244,243,239,.92)}
+html[data-theme="chalk"] .toast{background:rgba(250,249,246,.95)}
+html[data-theme="chalk"] .mood{background:rgba(255,255,255,.55)}
+html[data-theme="chalk"] .mood.on{border-color:#2B2F36;background:rgba(43,47,54,.1)}
+html[data-theme="chalk"] .sq{background:rgba(255,255,255,.55)}
+html[data-theme="chalk"] .sq:hover{background:#fff}
+html[data-theme="chalk"] .cell{background:rgba(60,56,48,.04);border-color:rgba(60,56,48,.09)}
+html[data-theme="chalk"] .sw.on{border-color:#16181D}
+html[data-theme="chalk"] .phase.work{color:#2B2F36}
+html[data-theme="chalk"] .phase.rest{color:#6b6e75}
+html[data-theme="chalk"] .pomo-fs{background:rgba(230,228,223,.86)}
+html[data-theme="chalk"] nav button.on{box-shadow:0 4px 16px rgba(22,24,29,.28), inset 0 1px 0 rgba(255,255,255,.3)}
+html[data-theme="chalk"] #g stop:nth-child(1),html[data-theme="chalk"] #gFs stop:nth-child(1){stop-color:#16181D}
+html[data-theme="chalk"] #g stop:nth-child(2),html[data-theme="chalk"] #gFs stop:nth-child(2){stop-color:#3a3f48}
+html[data-theme="chalk"] #g stop:nth-child(3),html[data-theme="chalk"] #gFs stop:nth-child(3){stop-color:#8a8f98}
+html[data-theme="chalk"] :is(.ring,.pomo-fs-ring) circle:first-of-type{stroke:rgba(60,56,48,.12)}
+html[data-theme="chalk"] #fSvg rect[fill^="rgba(255"]{fill:rgba(60,56,48,.07)}
+html[data-theme="chalk"] #gA{background:radial-gradient(circle,rgba(255,255,255,.75),transparent 68%)}
+html[data-theme="chalk"] #gB{background:radial-gradient(circle,rgba(190,180,165,.4),transparent 68%)}
+html[data-theme="chalk"] #gC{background:radial-gradient(circle,rgba(255,255,255,.65),transparent 70%)}
 
-/* ===== V4 : thème DUSK (bleu nuit) ===== */
-html[data-theme="dusk"]{
-  --bg:#23253A; --card:rgba(255,255,255,.07); --bd:rgba(255,255,255,.13);
-  --tx:#eef0f7; --mut:#aab3c8; --violet:#8D99AE; --blue:#7f8fb5;
-  --grad:linear-gradient(135deg,#7a87a3 0%,#505b7c 55%,#2c3050 100%);
-  --panel:#2a2d47;
-  --dw1:rgba(160,172,198,.5); --dw2:rgba(110,120,175,.45); --dw3:rgba(205,214,236,.4);
+/* ===== V5 : thème MIDNIGHT SAPPHIRE (bleu nuit, chrome satiné) ===== */
+html[data-theme="sapphire"]{
+  --bg:#0B101B; --card:rgba(22,31,48,.55); --bd:rgba(210,220,238,.12);
+  --tx:#F8FAFC; --mut:#8e9bb3; --violet:#94A3B8; --blue:#64748b;
+  --grad:linear-gradient(135deg,#34507f 0%,#233a60 55%,#16253f 100%);
+  --panel:#111a2b;
+  --glass-bg:linear-gradient(145deg,rgba(32,44,66,.72) 0%,rgba(22,31,48,.68) 55%,rgba(26,36,56,.7) 100%);
+  --glass-bd:rgba(210,220,238,.16); --glass-bd-hover:rgba(210,220,238,.34);
+  --glass-shadow:0 18px 42px -12px rgba(0,0,0,.65), inset 0 1px 1px rgba(210,220,238,.22), inset 0 -1px 1px rgba(210,220,238,.04);
+  --glass-shadow-hover:0 26px 54px -12px rgba(0,0,0,.8), inset 0 1px 1.5px rgba(210,220,238,.34), inset 0 -1px 1px rgba(210,220,238,.08);
+  --dw1:rgba(60,100,170,.45); --dw2:rgba(148,163,184,.35); --dw3:rgba(30,58,110,.5);
 }
-html[data-theme="dusk"] body{background:linear-gradient(180deg,#23253A 0%,#4b5470 62%,#8D99AE 140%);background-attachment:fixed}
-html[data-theme="dusk"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(135deg,#f6f8fc,#8D99AE)}
-html[data-theme="dusk"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(141,153,174,.28)}
-html[data-theme="dusk"] .sheet{background:rgba(38,40,64,.9)}
-html[data-theme="dusk"] .toast{background:#2c2f4a}
-html[data-theme="dusk"] .mood.on{border-color:#8D99AE;background:rgba(141,153,174,.2)}
-html[data-theme="dusk"] .cell:hover{background:rgba(141,153,174,.2)}
-html[data-theme="dusk"] .phase.work{color:#d5dbe8}
-html[data-theme="dusk"] .phase.rest{color:#a9b8dc}
-html[data-theme="dusk"] .pomo-fs{background:rgba(26,28,48,.84)}
-html[data-theme="dusk"] nav button.on{box-shadow:0 4px 18px rgba(20,22,40,.5), inset 0 1px 0 rgba(255,255,255,.3)}
-html[data-theme="dusk"] #g stop:nth-child(1),html[data-theme="dusk"] #gFs stop:nth-child(1){stop-color:#d5dbe8}
-html[data-theme="dusk"] #g stop:nth-child(2),html[data-theme="dusk"] #gFs stop:nth-child(2){stop-color:#8D99AE}
-html[data-theme="dusk"] #g stop:nth-child(3),html[data-theme="dusk"] #gFs stop:nth-child(3){stop-color:#5b678a}
-html[data-theme="dusk"] #gA{background:radial-gradient(circle,rgba(141,153,174,.55),transparent 68%)}
-html[data-theme="dusk"] #gB{background:radial-gradient(circle,rgba(90,100,160,.5),transparent 68%)}
-html[data-theme="dusk"] #gC{background:radial-gradient(circle,rgba(205,214,236,.5),transparent 70%)}
+html[data-theme="sapphire"] body{background:radial-gradient(60% 45% at 12% -5%,#182338 0%,rgba(24,35,56,0) 72%),#0B101B;background-attachment:fixed}
+html[data-theme="sapphire"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(180deg,#F8FAFC 0%,#94A3B8 100%)}
+html[data-theme="sapphire"] .bar:not(.dim){background:linear-gradient(180deg,#94A3B8 0%,#3d5a8a 100%)}
+html[data-theme="sapphire"] .subj .tr i{background:linear-gradient(90deg,#3d5a8a,#cbd5e1)}
+html[data-theme="sapphire"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(148,163,184,.22)}
+html[data-theme="sapphire"] .sheet{background:rgba(16,24,40,.92)}
+html[data-theme="sapphire"] .toast{background:#141d30}
+html[data-theme="sapphire"] .mood.on{border-color:#94A3B8;background:rgba(148,163,184,.16)}
+html[data-theme="sapphire"] .cell:hover{background:rgba(148,163,184,.14)}
+html[data-theme="sapphire"] .phase.work{color:#E2E8F0}
+html[data-theme="sapphire"] .phase.rest{color:#9fb4d9}
+html[data-theme="sapphire"] .pomo-fs{background:rgba(8,12,22,.86)}
+html[data-theme="sapphire"] nav button.on{box-shadow:0 4px 18px rgba(0,0,0,.5), inset 0 1px 0 rgba(210,220,238,.3)}
+html[data-theme="sapphire"] #g stop:nth-child(1),html[data-theme="sapphire"] #gFs stop:nth-child(1){stop-color:#F8FAFC}
+html[data-theme="sapphire"] #g stop:nth-child(2),html[data-theme="sapphire"] #gFs stop:nth-child(2){stop-color:#94A3B8}
+html[data-theme="sapphire"] #g stop:nth-child(3),html[data-theme="sapphire"] #gFs stop:nth-child(3){stop-color:#3d5a8a}
+html[data-theme="sapphire"] #gA{background:radial-gradient(circle,rgba(40,66,112,.5),transparent 68%)}
+html[data-theme="sapphire"] #gB{background:radial-gradient(circle,rgba(24,35,56,.7),transparent 68%)}
+html[data-theme="sapphire"] #gC{background:radial-gradient(circle,rgba(148,163,184,.3),transparent 70%)}
 html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);--dw3:rgba(160,160,170,.18)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:420px){.card{padding:18px}.stats{gap:10px}}
@@ -539,8 +545,8 @@ html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);
         <div class="tpop" id="tPop" role="menu">
           <button role="menuitemradio" data-th="dark"><i class="tdot t-dark"></i>Crépuscule</button>
           <button role="menuitemradio" data-th="matte"><i class="tdot t-matte"></i>Granite</button>
-          <button role="menuitemradio" data-th="fog"><i class="tdot t-fog"></i>Fog</button>
-          <button role="menuitemradio" data-th="dusk"><i class="tdot t-dusk"></i>Dusk</button>
+          <button role="menuitemradio" data-th="chalk"><i class="tdot t-chalk"></i>Chalk</button>
+          <button role="menuitemradio" data-th="sapphire"><i class="tdot t-sapphire"></i>Midnight Sapphire</button>
         </div>
       </div>
     </div>
@@ -1615,11 +1621,11 @@ $('#rsYes').onclick = () => {
 };
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeM('#rs'); });
 
-/* ---------- Thèmes : Crépuscule / Granite / Fog / Dusk (changement animé) ---------- */
+/* ---------- Thèmes : Crépuscule / Granite / Chalk / Midnight Sapphire (changement animé) ---------- */
 (function(){
-  const THEMES = {dark:['Crépuscule','#0b0b14'], matte:['Granite','#060606'], fog:['Fog','#eef1f6'], dusk:['Dusk','#23253a']};
+  const THEMES = {dark:['Crépuscule','#0b0b14'], matte:['Granite','#060606'], chalk:['Chalk','#e6e4df'], sapphire:['Midnight Sapphire','#0b101b']};
   const tc = document.querySelector('meta[name="theme-color"]'), pop = $('#tPop'), btn = $('#tBtn'), root = document.documentElement;
-  let cur = 'dark'; try{ const s = localStorage.getItem('focus_theme'); if(THEMES[s]) cur = s; }catch(e){}
+  let cur = 'dark'; try{ let s = localStorage.getItem('focus_theme'); s = {fog:'chalk', dusk:'sapphire'}[s] || s; if(THEMES[s]){ cur = s; localStorage.setItem('focus_theme', s); } }catch(e){}
   function apply(k){
     root.dataset.theme = k;
     $('#tLab').textContent = THEMES[k][0];
