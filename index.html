@@ -529,6 +529,78 @@ html[data-theme="sapphire"] #gA{background:radial-gradient(circle,rgba(40,66,112
 html[data-theme="sapphire"] #gB{background:radial-gradient(circle,rgba(24,35,56,.7),transparent 68%)}
 html[data-theme="sapphire"] #gC{background:radial-gradient(circle,rgba(148,163,184,.3),transparent 70%)}
 html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);--dw3:rgba(160,160,170,.18)}
+
+/* ===== V6 : lecteur de musique Liquid Glass ===== */
+.mp{--mp-w:min(360px,calc(100vw - 32px));position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));z-index:55;width:56px;height:56px;border-radius:28px;overflow:hidden;color:var(--tx);background:var(--glass-bg);border:1px solid var(--glass-bd);box-shadow:var(--glass-shadow);backdrop-filter:blur(22px) saturate(1.6);-webkit-backdrop-filter:blur(22px) saturate(1.6);transition:width .75s cubic-bezier(.3,1.05,.4,1),height .75s cubic-bezier(.3,1.05,.4,1),border-radius .75s cubic-bezier(.3,1.05,.4,1),transform .35s cubic-bezier(.22,1,.36,1),box-shadow .4s}
+.mp:not(.open):hover{transform:scale(1.1);box-shadow:var(--glass-shadow-hover)}
+.mp:not(.open):active{transform:scale(.94)}
+.mp.open{width:var(--mp-w);height:var(--mp-h,300px);border-radius:32px;box-shadow:var(--glass-shadow-hover)}
+.mp-fab{position:absolute;left:0;bottom:0;width:56px;height:56px;border:0;background:none;color:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .25s,transform .45s cubic-bezier(.22,1,.36,1)}
+.mp.open .mp-fab{opacity:0;transform:scale(.4) rotate(-25deg);pointer-events:none}
+.eq{display:none;gap:3px;align-items:flex-end;height:18px}
+.eq u,.eqb u{display:block;width:3px;border-radius:2px;background:currentColor;height:25%;animation:eqA .9s ease-in-out infinite}
+.eq u:nth-child(2),.eqb u:nth-child(2){animation-delay:-.3s}
+.eq u:nth-child(3),.eqb u:nth-child(3){animation-delay:-.6s}
+@keyframes eqA{0%,100%{height:25%}50%{height:100%}}
+.mp.playing .note{display:none}
+.mp.playing .eq{display:flex}
+.mp-card{position:absolute;left:0;top:0;width:var(--mp-w);padding:20px 22px 18px;opacity:0;visibility:hidden;transform:translateY(12px) scale(.97);transform-origin:bottom left;transition:opacity .25s,transform .5s cubic-bezier(.22,1,.36,1),visibility 0s .5s}
+.mp.open .mp-card{opacity:1;visibility:visible;transform:none;transition:opacity .45s .18s,transform .7s cubic-bezier(.22,1,.36,1) .12s,visibility 0s}
+.mp-top{display:flex;align-items:flex-start;gap:8px}
+.mp-meta{display:flex;align-items:center;gap:14px;flex:1;min-width:0;transition:transform .15s ease-in,opacity .15s,filter .15s}
+.mp-meta.outL{opacity:0;transform:translateX(-18px);filter:blur(4px)}
+.mp-meta.outR{opacity:0;transform:translateX(18px);filter:blur(4px)}
+.mp-meta.inR,.mp-meta.inL{animation:mpIn .42s cubic-bezier(.22,1,.36,1) both}
+.mp-meta.inR{--from:18px}.mp-meta.inL{--from:-18px}
+@keyframes mpIn{from{opacity:0;transform:translateX(var(--from));filter:blur(4px)}to{opacity:1;transform:none;filter:blur(0)}}
+.mp-cover{width:56px;height:56px;flex:0 0 56px;border-radius:14px;object-fit:cover;box-shadow:0 6px 16px rgba(0,0,0,.3);border:1px solid var(--glass-bd)}
+.mp-txt{min-width:0}
+.mp-title{font-size:1.18rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-artist{font-size:.92rem;opacity:.72;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-b{border:0;background:none;color:inherit;cursor:pointer;padding:8px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:.92;transition:transform .28s cubic-bezier(.22,1,.36,1),opacity .2s,background .2s}
+.mp-b:hover{opacity:1;transform:scale(1.1)}
+.mp-b:active{transform:scale(.84)}
+.mp-b.on{background:var(--card)}
+.mp-b svg{display:block;overflow:visible}
+.mp-more{margin:-4px -6px 0 0}
+.mp-time{display:flex;justify-content:space-between;font-size:.78rem;font-weight:600;opacity:.8;margin:20px 2px 4px;font-variant-numeric:tabular-nums}
+.mp-bar{padding:8px 0;cursor:pointer;touch-action:none}
+.mp-track{height:6px;border-radius:3px;background:rgba(128,128,128,.32);overflow:hidden;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.mp-bar.press .mp-track,.mp-bar:hover .mp-track{transform:scaleY(1.5)}
+.mp-track i{display:block;height:100%;background:var(--tx);border-radius:3px;transform-origin:left;transform:scaleX(0)}
+.mp-ctl{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+.mp-ctl .mp-play{padding:6px}
+.mp-play .ic-pause{display:none}
+.mp.playing .mp-play .ic-play{display:none}
+.mp.playing .mp-play .ic-pause{display:block}
+.mp-play svg{animation:mpPop .35s cubic-bezier(.22,1.4,.36,1)}
+@keyframes mpPop{from{transform:scale(.7);opacity:.4}to{transform:none;opacity:1}}
+.mp-heart path{fill:none;stroke:currentColor;stroke-width:1.9;stroke-linejoin:round;transition:fill .25s,stroke .25s}
+.mp-heart.on path{fill:#ff4d6d;stroke:#ff4d6d}
+.mp-heart.on{background:none;animation:mpHeart .45s cubic-bezier(.22,1.5,.36,1)}
+@keyframes mpHeart{0%{transform:scale(.7)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+.nudgeL svg{animation:nudgeL .35s cubic-bezier(.22,1,.36,1)}
+.nudgeR svg{animation:nudgeR .35s cubic-bezier(.22,1,.36,1)}
+@keyframes nudgeL{0%{transform:none}35%{transform:translateX(-8px) scale(.9)}100%{transform:none}}
+@keyframes nudgeR{0%{transform:none}35%{transform:translateX(8px) scale(.9)}100%{transform:none}}
+.mp-extra{display:none;margin-top:14px}
+.mp-extra.show{display:block;animation:mpFade .45s .15s both}
+@keyframes mpFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mp-vol{align-items:center;gap:12px}
+.mp-extra.mp-vol.show{display:flex}
+.mp-vol .mp-bar{flex:1}
+.mp-list{max-height:min(44vh,276px);overflow-y:auto;scrollbar-width:none}
+.mp-list::-webkit-scrollbar{display:none}
+.mp-row{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;padding:7px 8px;border-radius:14px;cursor:pointer;transition:background .2s,transform .25s cubic-bezier(.22,1,.36,1)}
+.mp-row:hover{background:var(--card);transform:translateX(3px)}
+.mp-row.on{background:var(--card)}
+.mp-row img{width:38px;height:38px;border-radius:10px;object-fit:cover}
+.mp-row span{flex:1;min-width:0}
+.mp-row b{display:block;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-row small{display:block;opacity:.65;font-size:.78rem}
+.eqb{display:none;gap:2px;align-items:flex-end;height:14px;margin-right:4px}
+.mp.playing .mp-row.on .eqb{display:flex}
+@media (max-width:560px){body:has(.mp.open) .toast{bottom:auto;top:max(14px,env(safe-area-inset-top));transform:translate(-50%,-140px)}body:has(.mp.open) .toast.show{transform:translate(-50%,0)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:420px){.card{padding:18px}.stats{gap:10px}}
 </style>
@@ -766,6 +838,42 @@ html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);
     <button class="dx" id="dx" aria-label="Fermer">✕</button>
     <div class="dbody" id="db"></div>
   </div>
+</div>
+
+<!-- LECTEUR DE MUSIQUE -->
+<div class="mp" id="mp">
+  <button class="mp-fab" id="mpFab" aria-label="Ouvrir le lecteur de musique" aria-expanded="false">
+    <svg class="note" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path fill="currentColor" d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+    <span class="eq" aria-hidden="true"><u></u><u></u><u></u></span>
+  </button>
+  <div class="mp-card" id="mpCard" aria-hidden="true">
+    <div class="mp-top">
+      <div class="mp-meta" id="mpMeta">
+        <img class="mp-cover" id="mpCover" alt="">
+        <div class="mp-txt"><div class="mp-title" id="mpTitle"></div><div class="mp-artist" id="mpArtist"></div></div>
+      </div>
+      <button class="mp-b mp-more" id="mpMore" aria-label="Liste des morceaux"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
+    </div>
+    <div class="mp-time"><span id="mpCur">0:00</span><span id="mpTot">0:00</span></div>
+    <div class="mp-bar" id="mpBar" role="slider" aria-label="Progression de lecture"><div class="mp-track"><i id="mpFill"></i></div></div>
+    <div class="mp-ctl">
+      <button class="mp-b mp-heart" id="mpHeart" aria-label="Aimer"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+      <button class="mp-b" id="mpPrev" aria-label="Morceau précédent"><svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><polygon points="11.5,6 3.5,12 11.5,18"/><polygon points="20.5,6 12.5,12 20.5,18"/></svg></button>
+      <button class="mp-b mp-play" id="mpPlay" aria-label="Lecture / Pause">
+        <svg class="ic-play" width="54" height="54" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><polygon points="7,4.5 19.5,12 7,19.5"/></svg>
+        <svg class="ic-pause" width="54" height="54" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4.5" width="4.2" height="15" rx="1.4"/><rect x="13.8" y="4.5" width="4.2" height="15" rx="1.4"/></svg>
+      </button>
+      <button class="mp-b" id="mpNext" aria-label="Morceau suivant"><svg width="42" height="42" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><polygon points="12.5,6 20.5,12 12.5,18"/><polygon points="3.5,6 11.5,12 3.5,18"/></svg></button>
+      <button class="mp-b" id="mpVolBtn" aria-label="Volume"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5v5h3.8l5.2 4.3V5.2L6.8 9.5H3z"/><path d="M15.6 8.6a4.6 4.6 0 0 1 0 6.8"/><path d="M18.2 6.2a8.2 8.2 0 0 1 0 11.6"/></svg></button>
+    </div>
+    <div class="mp-extra mp-vol" id="mpVol">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.7"><path d="M3 9.5v5h3.8l5.2 4.3V5.2L6.8 9.5H3z"/></svg>
+      <div class="mp-bar" id="mpVolBar" role="slider" aria-label="Volume"><div class="mp-track"><i id="mpVolFill"></i></div></div>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.7"><path d="M3 9.5v5h3.8l5.2 4.3V5.2L6.8 9.5H3z"/><path d="M15.6 8.6a4.6 4.6 0 0 1 0 6.8"/><path d="M18.2 6.2a8.2 8.2 0 0 1 0 11.6"/></svg>
+    </div>
+    <div class="mp-extra mp-list" id="mpList"></div>
+  </div>
+  <audio id="mpAudio" preload="none" playsinline></audio>
 </div>
 
 <!-- Firebase SDKs (Compat version pour intégration HTML direct) -->
@@ -1653,6 +1761,164 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') closeM('#rs')
   pop.addEventListener('click', e => { const b = e.target.closest('button'); if(b) setTheme(b.dataset.th); });
   document.addEventListener('click', e => { if(!e.target.closest('#tPick')) closePop(); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closePop(); });
+})();
+
+/* ---------- Lecteur de musique (Liquid Glass) ---------- */
+(function(){
+  const mp = $('#mp'), card = $('#mpCard'), A = $('#mpAudio');
+  /* Pour une vraie pochette : ajoute  img:'mon-image.jpg'  à la piste (image à la racine du dépôt). */
+  const TR = [
+    {t:'There Is an Idea', a:'American Psycho',       src:'there is an idea.mp3', art:'ap'},
+    {t:'Maybach Song',     a:'Mercedes-Maybach GLS',  src:'maybach song.mp3',     art:'mb'},
+    {t:'Spider-Man',       a:'Spider-Man',            src:'spiderman.mp3',        art:'sp'},
+    {t:'Batman I',         a:'The Batman',            src:'batman 1.mp3',         art:'b1'},
+    {t:'Batman II',        a:'The Batman',            src:'batman 2.mp3',         art:'b2'}
+  ];
+  /* --- Pochettes illustrées (SVG intégrés, aucun fichier externe) --- */
+  const HEAD = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">';
+  const sky = (fill, win, seed) => {
+    const w = [18,24,16,30,20,26,22,24], h = [60,95,50,110,70,100,64,84]; let x = 0, s = '';
+    w.forEach((bw,i) => {
+      const bh = h[(i+seed)%h.length]; s += '<rect x="'+x+'" y="'+(200-bh)+'" width="'+(bw+1)+'" height="'+bh+'" fill="'+fill+'"/>';
+      for(let r=0;r<Math.floor(bh/14);r++) for(let c=0;c<Math.floor(bw/8);c++) if((i+r*3+c+seed)%4===0) s += '<rect x="'+(x+3+c*8)+'" y="'+(200-bh+5+r*14)+'" width="3" height="4" fill="'+win+'"/>';
+      x += bw;
+    });
+    return s;
+  };
+  const web = (stroke, cx, cy, flip) => {
+    let s = '<g stroke="'+stroke+'" stroke-width="1.1" fill="none" transform="'+(flip ? 'rotate(180 100 100)' : '')+'">';
+    for(let k=0;k<=8;k++){ const a = k*Math.PI/16; s += '<line x1="0" y1="0" x2="'+(280*Math.cos(a)).toFixed(1)+'" y2="'+(280*Math.sin(a)).toFixed(1)+'"/>'; }
+    for(let r=26;r<=260;r+=26) s += '<path d="M'+r+' 0 Q'+(r*.72)+' '+(r*.72)+' 0 '+r+'"/>';
+    return s+'</g>';
+  };
+  let rain = ''; for(let i=0;i<26;i++) rain += '<line x1="'+(i*8+(i%3)*3)+'" y1="'+((i*37)%120)+'" x2="'+(i*8-6+(i%3)*3)+'" y2="'+(((i*37)%120)+22)+'" stroke="rgba(255,255,255,.14)" stroke-width="1"/>';
+  const ART = {
+    ap: () => HEAD+'<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F1EBDD"/><stop offset="1" stop-color="#D5CBB5"/></linearGradient></defs><rect width="200" height="200" fill="url(#g)"/><rect x="22" y="50" width="156" height="100" rx="3" fill="#F8F3E7" stroke="#C4BAA1" stroke-width="1"/><rect x="28" y="56" width="144" height="88" rx="2" fill="none" stroke="#B3A88D" stroke-width=".6"/><text x="100" y="92" text-anchor="middle" font-family="Georgia,serif" font-size="13" letter-spacing="3" fill="#262626">THERE IS</text><text x="100" y="112" text-anchor="middle" font-family="Georgia,serif" font-size="13" letter-spacing="3" fill="#262626">AN IDEA</text><rect x="84" y="123" width="32" height="1.6" fill="#8e1b1b"/></svg>',
+    mb: () => HEAD+'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c0e13"/><stop offset="1" stop-color="#1c2535"/></linearGradient><radialGradient id="s" cx=".5" cy="0" r=".9"><stop offset="0" stop-color="#3a475e" stop-opacity=".8"/><stop offset="1" stop-color="#3a475e" stop-opacity="0"/></radialGradient><clipPath id="c"><path d="M26 132 L30 112 Q33 98 50 94 L82 88 Q92 70 112 68 L146 68 Q160 70 168 86 L176 100 Q186 104 186 116 L186 132 Z"/></clipPath></defs><rect width="200" height="200" fill="url(#g)"/><rect width="200" height="200" fill="url(#s)"/><ellipse cx="106" cy="150" rx="92" ry="6" fill="rgba(0,0,0,.55)"/><g clip-path="url(#c)"><rect x="20" y="60" width="180" height="80" fill="#11141b"/><rect x="20" y="116" width="180" height="20" fill="#8a7650"/></g><path d="M96 88 L108 74 L142 74 L158 88 Z" fill="#2a3447"/><line x1="30" y1="106" x2="182" y2="106" stroke="#aab4c4" stroke-width=".8" opacity=".8"/><circle cx="58" cy="134" r="15" fill="#08090c" stroke="#3a4252"/><circle cx="58" cy="134" r="7" fill="#6b7586"/><circle cx="154" cy="134" r="15" fill="#08090c" stroke="#3a4252"/><circle cx="154" cy="134" r="7" fill="#6b7586"/><text x="100" y="178" text-anchor="middle" font-family="Georgia,serif" font-size="12" letter-spacing="7" fill="#aab4c4">GLS</text></svg>',
+    sp: () => HEAD+'<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d9142f"/><stop offset="1" stop-color="#7a0a1c"/></linearGradient></defs><rect width="200" height="200" fill="url(#g)"/><polygon points="200,70 200,200 70,200" fill="#1c3f95"/>'+web('rgba(0,0,0,.42)')+'<g>'+web('rgba(255,255,255,.28)',0,0,true)+'</g></svg>',
+    b1: () => HEAD+'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#080405"/><stop offset="1" stop-color="#2d0c10"/></linearGradient><radialGradient id="m" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#e03030" stop-opacity=".75"/><stop offset="1" stop-color="#e03030" stop-opacity="0"/></radialGradient></defs><rect width="200" height="200" fill="url(#g)"/><circle cx="100" cy="64" r="74" fill="url(#m)"/>'+rain+sky('#050203','#c42b2b',0)+'<text x="176" y="28" text-anchor="end" font-family="Georgia,serif" font-size="15" fill="rgba(255,255,255,.65)">I</text></svg>',
+    b2: () => HEAD+'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#05070c"/><stop offset="1" stop-color="#18202f"/></linearGradient><linearGradient id="b" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".02"/><stop offset="1" stop-color="#cfe0ff" stop-opacity=".42"/></linearGradient></defs><rect width="200" height="200" fill="url(#g)"/><polygon points="88,200 112,200 158,8 42,8" fill="url(#b)"/><ellipse cx="100" cy="40" rx="30" ry="20" fill="rgba(220,232,255,.28)"/>'+sky('#04060a','#9db8e8',3)+'<text x="176" y="28" text-anchor="end" font-family="Georgia,serif" font-size="15" fill="rgba(255,255,255,.65)">II</text></svg>'
+  };
+  const cover = tr => tr.img || (tr._c || (tr._c = 'data:image/svg+xml;utf8,'+encodeURIComponent(ART[tr.art]())));
+
+  /* --- État (stocké en local sur l'appareil, sans passer par Firebase) --- */
+  const S = {idx:0, vol:.8, fav:[]};
+  try{ Object.assign(S, JSON.parse(localStorage.getItem('focus_music') || '{}')); }catch(e){}
+  S.idx = Math.min(Math.max(+S.idx || 0, 0), TR.length-1);
+  const save = () => { try{ localStorage.setItem('focus_music', JSON.stringify(S)); }catch(e){} };
+  let playing = false, opened = false, loaded = false, userPlay = false, dragging = false, raf = 0, panel = null;
+  const fmtT = s => { s = Math.max(0, Math.floor(s || 0)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
+  const setH = () => mp.style.setProperty('--mp-h', card.offsetHeight+'px');
+  A.volume = S.vol;
+
+  $('#mpList').innerHTML = TR.map((t,i) => '<button class="mp-row" data-i="'+i+'"><img alt="" src="'+cover(t)+'"><span><b>'+esc(t.t)+'</b><small>'+esc(t.a)+'</small></span><i class="eqb"><u></u><u></u><u></u></i></button>').join('');
+
+  function fill(){
+    const t = TR[S.idx];
+    $('#mpTitle').textContent = t.t; $('#mpArtist').textContent = t.a; $('#mpCover').src = cover(t);
+    $('#mpHeart').classList.toggle('on', S.fav.includes(S.idx));
+    document.querySelectorAll('#mpList .mp-row').forEach((r,i) => r.classList.toggle('on', i === S.idx));
+  }
+  function swap(dir){
+    const m = $('#mpMeta');
+    if(!dir || !opened){ fill(); return; }
+    m.classList.remove('inR','inL'); m.classList.add(dir > 0 ? 'outL' : 'outR');
+    setTimeout(() => {
+      fill(); m.classList.remove('outL','outR'); void m.offsetWidth;
+      m.classList.add(dir > 0 ? 'inR' : 'inL');
+      setTimeout(() => m.classList.remove('inR','inL'), 450);
+    }, 150);
+  }
+  function media(){
+    if(!('mediaSession' in navigator)) return;
+    try{
+      const t = TR[S.idx];
+      navigator.mediaSession.metadata = new MediaMetadata({title:t.t, artist:t.a, artwork:[{src:cover(t), sizes:'200x200'}]});
+      navigator.mediaSession.setActionHandler('play', go);
+      navigator.mediaSession.setActionHandler('pause', () => A.pause());
+      navigator.mediaSession.setActionHandler('previoustrack', () => load(S.idx-1, -1, true));
+      navigator.mediaSession.setActionHandler('nexttrack', () => load(S.idx+1, 1, true));
+    }catch(e){}
+  }
+  function ui(){ mp.classList.toggle('playing', playing); }
+  function loop(){
+    cancelAnimationFrame(raf);
+    const f = () => {
+      if(!dragging && A.duration){ $('#mpFill').style.transform = 'scaleX('+(A.currentTime/A.duration)+')'; $('#mpCur').textContent = fmtT(A.currentTime); }
+      if(playing) raf = requestAnimationFrame(f);
+    };
+    f();
+  }
+  function go(){ userPlay = true; const p = A.play(); if(p && p.catch) p.catch(() => { playing = false; ui(); }); }
+  function load(i, dir, play){
+    S.idx = (i + TR.length) % TR.length; save(); loaded = true;
+    A.src = encodeURI(TR[S.idx].src); A.preload = 'metadata';
+    $('#mpCur').textContent = '0:00'; $('#mpTot').textContent = '0:00'; $('#mpFill').style.transform = 'scaleX(0)';
+    swap(dir); media();
+    if(play) go();
+  }
+  A.addEventListener('play', () => { playing = true; ui(); loop(); });
+  A.addEventListener('pause', () => { playing = false; ui(); });
+  A.addEventListener('ended', () => load(S.idx+1, 1, true));
+  A.addEventListener('loadedmetadata', () => { $('#mpTot').textContent = fmtT(A.duration); });
+  A.addEventListener('durationchange', () => { $('#mpTot').textContent = fmtT(A.duration); });
+  A.addEventListener('timeupdate', () => { if(!playing) loop(); });
+  A.addEventListener('error', () => { if(userPlay) toast('Fichier introuvable : '+TR[S.idx].src); playing = false; ui(); });
+
+  /* --- Ouverture / fermeture (le bouton rond se transforme en widget) --- */
+  function open(){
+    if(opened) return;
+    if(!loaded) load(S.idx, 0, false);
+    opened = true; setH();
+    mp.classList.add('open'); card.setAttribute('aria-hidden', 'false'); $('#mpFab').setAttribute('aria-expanded', 'true');
+  }
+  function close(){
+    if(!opened) return;
+    opened = false; mp.classList.remove('open'); card.setAttribute('aria-hidden', 'true'); $('#mpFab').setAttribute('aria-expanded', 'false');
+  }
+  $('#mpFab').onclick = open;
+  document.addEventListener('pointerdown', e => { if(opened && !e.target.closest('#mp')) close(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') close(); });
+  addEventListener('resize', () => { if(opened) setH(); });
+
+  /* --- Contrôles --- */
+  $('#mpPlay').onclick = () => { if(!loaded) load(S.idx, 0, true); else if(A.paused) go(); else A.pause(); };
+  const nudge = (id, cls) => { const b = $(id); b.classList.remove(cls); void b.offsetWidth; b.classList.add(cls); setTimeout(() => b.classList.remove(cls), 400); };
+  $('#mpPrev').onclick = () => { nudge('#mpPrev', 'nudgeL'); load(S.idx-1, -1, true); };
+  $('#mpNext').onclick = () => { nudge('#mpNext', 'nudgeR'); load(S.idx+1, 1, true); };
+  $('#mpHeart').onclick = () => {
+    const h = $('#mpHeart'), i = S.fav.indexOf(S.idx);
+    if(i >= 0) S.fav.splice(i, 1); else S.fav.push(S.idx);
+    save(); h.classList.remove('on'); void h.offsetWidth; h.classList.toggle('on', S.fav.includes(S.idx));
+  };
+  function showPanel(name){
+    panel = panel === name ? null : name;
+    $('#mpList').classList.toggle('show', panel === 'list'); $('#mpVol').classList.toggle('show', panel === 'vol');
+    $('#mpMore').classList.toggle('on', panel === 'list'); $('#mpVolBtn').classList.toggle('on', panel === 'vol');
+    setH();
+  }
+  $('#mpMore').onclick = () => showPanel('list');
+  $('#mpVolBtn').onclick = () => showPanel('vol');
+  $('#mpList').addEventListener('click', e => { const r = e.target.closest('.mp-row'); if(!r) return; const i = +r.dataset.i; if(i !== S.idx || !loaded) load(i, i > S.idx ? 1 : -1, true); else if(A.paused) go(); });
+
+  /* --- Barres (progression et volume) : clic ou glissement --- */
+  function bindBar(bar, onMove, onEnd){
+    let id = null;
+    const pct = e => { const r = bar.getBoundingClientRect(); return Math.min(1, Math.max(0, (e.clientX-r.left)/r.width)); };
+    bar.addEventListener('pointerdown', e => { id = e.pointerId; bar.setPointerCapture(id); bar.classList.add('press'); onMove(pct(e)); });
+    bar.addEventListener('pointermove', e => { if(id === e.pointerId) onMove(pct(e)); });
+    const end = e => { if(id !== e.pointerId) return; id = null; bar.classList.remove('press'); onEnd(pct(e)); };
+    bar.addEventListener('pointerup', end); bar.addEventListener('pointercancel', end);
+  }
+  bindBar($('#mpBar'),
+    p => { if(!A.duration) return; dragging = true; $('#mpFill').style.transform = 'scaleX('+p+')'; $('#mpCur').textContent = fmtT(p*A.duration); },
+    p => { if(dragging && A.duration) A.currentTime = p*A.duration; dragging = false; loop(); });
+  $('#mpVolFill').style.transform = 'scaleX('+S.vol+')';
+  bindBar($('#mpVolBar'),
+    p => { S.vol = p; A.volume = p; $('#mpVolFill').style.transform = 'scaleX('+p+')'; },
+    () => save());
+
+  fill(); media();
 })();
 
 /* ---------- Boucle & Initialisation Cloud ---------- */
