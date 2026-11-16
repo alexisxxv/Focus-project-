@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="sapphire">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0b0b14">
+<meta name="theme-color" content="#0b101b">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%232e2e34'/%3E%3Cstop offset='50%25' stop-color='%2318181b'/%3E%3Cstop offset='100%25' stop-color='%23080809'/%3E%3C/linearGradient%3E%3ClinearGradient id='fg' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='100%25' stop-color='%23a1a1aa'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='15' fill='url(%23bg)' stroke='rgba(255,255,255,0.18)' stroke-width='2'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif' font-weight='800' font-size='38' fill='url(%23fg)'%3EF%3C/text%3E%3C/svg%3E">
-<script>try{var _t=localStorage.getItem('focus_theme');_t={fog:'chalk',dusk:'sapphire'}[_t]||_t;if(_t&&_t!=='dark')document.documentElement.dataset.theme=_t}catch(e){}</script>
+<script>try{var _t=localStorage.getItem('focus_theme');_t={fog:'chalk',dusk:'sapphire'}[_t]||_t;if(!_t||_t==='dark')_t='sapphire';document.documentElement.dataset.theme=_t}catch(e){}</script>
 <title>Focus</title>
 <style>
 :root{
@@ -601,6 +601,137 @@ html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);
 .eqb{display:none;gap:2px;align-items:flex-end;height:14px;margin-right:4px}
 .mp.playing .mp-row.on .eqb{display:flex}
 @media (max-width:560px){body:has(.mp.open) .toast{bottom:auto;top:max(14px,env(safe-area-inset-top));transform:translate(-50%,-140px)}body:has(.mp.open) .toast.show{transform:translate(-50%,0)}}
+
+/* ===== V7 : pastilles des nouveaux thèmes ===== */
+.t-hotspur{background:linear-gradient(135deg,#F3EDE2,#B5233F)}
+.t-emerald{background:linear-gradient(135deg,#1f9a6f,#04100C)}
+
+/* ===== V7 : thème HOTSPUR RED (nacré chaud, rouge rubis) ===== */
+html[data-theme="hotspur"]{
+  --bg:#F1EADD; --card:rgba(255,253,248,.6); --bd:rgba(92,40,40,.14);
+  --tx:#2A1A1B; --mut:#6b5b57; --violet:#9B1C31; --blue:#B5233F;
+  --grad:linear-gradient(135deg,#c2243d 0%,#9b1c31 55%,#6f1222 100%);
+  --panel:#F7F1E6;
+  --glass-bg:linear-gradient(145deg,rgba(255,254,250,.8) 0%,rgba(255,250,242,.66) 50%,rgba(255,246,236,.62) 100%);
+  --glass-bd:rgba(255,255,255,.92); --glass-bd-hover:#fff;
+  --glass-shadow:0 14px 34px -14px rgba(90,40,30,.3), inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(150,90,70,.08);
+  --glass-shadow-hover:0 22px 46px -14px rgba(90,40,30,.4), inset 0 1px 1.5px #fff, inset 0 -1px 1px rgba(150,90,70,.12);
+  --dw1:rgba(155,28,49,.28); --dw2:rgba(181,35,63,.24); --dw3:rgba(120,70,60,.22);
+}
+html[data-theme="hotspur"] body{background:radial-gradient(70% 55% at 0% 0%,#FBF8F1 0%,rgba(251,248,241,0) 70%),#F1EADD;background-attachment:fixed}
+html[data-theme="hotspur"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(135deg,#2A1A1B 0%,#5a1a26 60%,#9B1C31 100%)}
+html[data-theme="hotspur"] :is(input,select,textarea){background:rgba(255,255,255,.65)}
+html[data-theme="hotspur"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(155,28,49,.2)}
+html[data-theme="hotspur"] .btn.ghost,html[data-theme="hotspur"] .mini{background:rgba(255,255,255,.62)}
+html[data-theme="hotspur"] .mini:hover{background:#fff}
+html[data-theme="hotspur"] .btn.stop{background:rgba(155,28,49,.08);border-color:rgba(120,20,30,.4);color:#8f1d2c}
+html[data-theme="hotspur"] .seg{background:rgba(92,40,40,.08)}
+html[data-theme="hotspur"] .up{color:#3f7a4f}
+html[data-theme="hotspur"] .down{color:#a63232}
+html[data-theme="hotspur"] .bar.dim{background:rgba(92,40,40,.15)}
+html[data-theme="hotspur"] .subj .tr{background:rgba(92,40,40,.09)}
+html[data-theme="hotspur"] .sheet{background:rgba(250,245,236,.94)}
+html[data-theme="hotspur"] .toast{background:rgba(255,252,246,.95)}
+html[data-theme="hotspur"] .mood{background:rgba(255,255,255,.55)}
+html[data-theme="hotspur"] .mood.on{border-color:#9B1C31;background:rgba(155,28,49,.1)}
+html[data-theme="hotspur"] .sq{background:rgba(255,255,255,.55)}
+html[data-theme="hotspur"] .sq:hover{background:#fff}
+html[data-theme="hotspur"] .cell{background:rgba(92,40,40,.04);border-color:rgba(92,40,40,.09)}
+html[data-theme="hotspur"] .sw.on{border-color:#2A1A1B}
+html[data-theme="hotspur"] .phase.work{color:#9B1C31}
+html[data-theme="hotspur"] .phase.rest{color:#7a5a56}
+html[data-theme="hotspur"] .pomo-fs{background:rgba(241,234,221,.88)}
+html[data-theme="hotspur"] nav button.on{box-shadow:0 4px 16px rgba(111,18,34,.38), inset 0 1px 0 rgba(255,255,255,.3)}
+html[data-theme="hotspur"] #g stop:nth-child(1),html[data-theme="hotspur"] #gFs stop:nth-child(1){stop-color:#6f1222}
+html[data-theme="hotspur"] #g stop:nth-child(2),html[data-theme="hotspur"] #gFs stop:nth-child(2){stop-color:#9B1C31}
+html[data-theme="hotspur"] #g stop:nth-child(3),html[data-theme="hotspur"] #gFs stop:nth-child(3){stop-color:#d1495b}
+html[data-theme="hotspur"] :is(.ring,.pomo-fs-ring) circle:first-of-type{stroke:rgba(92,40,40,.12)}
+html[data-theme="hotspur"] #fSvg rect[fill^="rgba(255"]{fill:rgba(92,40,40,.07)}
+html[data-theme="hotspur"] #gA{background:radial-gradient(circle,rgba(255,255,255,.75),transparent 68%)}
+html[data-theme="hotspur"] #gB{background:radial-gradient(circle,rgba(210,150,140,.35),transparent 68%)}
+html[data-theme="hotspur"] #gC{background:radial-gradient(circle,rgba(155,28,49,.22),transparent 70%)}
+html:is([data-theme="chalk"],[data-theme="hotspur"]) .sp-btn{background:rgba(255,255,255,.62)}
+
+
+/* ===== V7 : thème DARK EMERALD (vert quasi noir, éclats émeraude) ===== */
+html[data-theme="emerald"]{
+  --bg:#04100C; --card:rgba(12,38,29,.55); --bd:rgba(150,230,190,.13);
+  --tx:#EAF6F0; --mut:#8fb3a3; --violet:#5fd0a0; --blue:#3aa77e;
+  --grad:linear-gradient(135deg,#1f9a6f 0%,#127a57 55%,#0a4d38 100%);
+  --panel:#0a1d16;
+  --glass-bg:linear-gradient(145deg,rgba(20,58,44,.72) 0%,rgba(10,34,26,.68) 55%,rgba(14,44,34,.7) 100%);
+  --glass-bd:rgba(150,230,190,.16); --glass-bd-hover:rgba(150,230,190,.36);
+  --glass-shadow:0 18px 42px -12px rgba(0,0,0,.7), inset 0 1px 1px rgba(170,240,205,.22), inset 0 -1px 1px rgba(170,240,205,.04);
+  --glass-shadow-hover:0 26px 54px -12px rgba(0,0,0,.82), inset 0 1px 1.5px rgba(170,240,205,.36), inset 0 -1px 1px rgba(170,240,205,.08);
+  --dw1:rgba(40,170,120,.45); --dw2:rgba(150,230,190,.32); --dw3:rgba(20,110,80,.5);
+}
+html[data-theme="emerald"] body{background:radial-gradient(60% 45% at 12% -5%,#0f3a2b 0%,rgba(15,58,43,0) 72%),#04100C;background-attachment:fixed}
+html[data-theme="emerald"] :is(h1,.big,.cheer,.ma b){background-image:linear-gradient(180deg,#F1FBF6 0%,#8ECFB0 100%)}
+html[data-theme="emerald"] .bar:not(.dim){background:linear-gradient(180deg,#8ecfb0 0%,#1f9a6f 100%)}
+html[data-theme="emerald"] .subj .tr i{background:linear-gradient(90deg,#1f9a6f,#b9ecd3)}
+html[data-theme="emerald"] :is(input,select,textarea):focus{box-shadow:0 0 0 3px rgba(95,208,160,.24)}
+html[data-theme="emerald"] .sheet{background:rgba(8,24,18,.94)}
+html[data-theme="emerald"] .toast{background:#0d2a21}
+html[data-theme="emerald"] .mood.on{border-color:#5fd0a0;background:rgba(95,208,160,.16)}
+html[data-theme="emerald"] .cell:hover{background:rgba(95,208,160,.14)}
+html[data-theme="emerald"] .phase.work{color:#c9f0dc}
+html[data-theme="emerald"] .phase.rest{color:#8fd4b4}
+html[data-theme="emerald"] .pomo-fs{background:rgba(3,12,9,.88)}
+html[data-theme="emerald"] nav button.on{box-shadow:0 4px 18px rgba(0,0,0,.55), inset 0 1px 0 rgba(170,240,205,.3)}
+html[data-theme="emerald"] #g stop:nth-child(1),html[data-theme="emerald"] #gFs stop:nth-child(1){stop-color:#F1FBF6}
+html[data-theme="emerald"] #g stop:nth-child(2),html[data-theme="emerald"] #gFs stop:nth-child(2){stop-color:#5fd0a0}
+html[data-theme="emerald"] #g stop:nth-child(3),html[data-theme="emerald"] #gFs stop:nth-child(3){stop-color:#127a57}
+html[data-theme="emerald"] #gA{background:radial-gradient(circle,rgba(30,140,100,.5),transparent 68%)}
+html[data-theme="emerald"] #gB{background:radial-gradient(circle,rgba(10,60,44,.7),transparent 68%)}
+html[data-theme="emerald"] #gC{background:radial-gradient(circle,rgba(150,230,190,.3),transparent 70%)}
+
+/* ===== V7 : couleurs par matière (emploi du temps) ===== */
+.sc-phys{background:linear-gradient(135deg,#a07bff,#7c3aed)}
+.sc-svt{background:linear-gradient(135deg,#14b8a6,#0f766e)}
+.sc-math{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.sc-es{background:linear-gradient(135deg,#1e3a8a,#172554)}
+.sc-eng{background:linear-gradient(135deg,#f472b6,#db2777)}
+.sc-ger{background:linear-gradient(135deg,#fde047,#facc15)}
+.sc-hist{background:linear-gradient(135deg,#86efac,#4ade80)}
+.blk.sc-ger,.tblk.sc-ger{color:#2b2300}
+.blk.sc-hist,.tblk.sc-hist{color:#052e16}
+
+.lf{display:inline}.ls{display:none}
+@media (max-width:520px){.lf{display:none}.ls{display:inline}body:has(.modal.open) .mp,body:has(.dv.open) .mp{opacity:0;pointer-events:none;transform:scale(.8)}}
+.mp{transition:width .75s cubic-bezier(.3,1.05,.4,1),height .75s cubic-bezier(.3,1.05,.4,1),border-radius .75s cubic-bezier(.3,1.05,.4,1),transform .35s cubic-bezier(.22,1,.36,1),box-shadow .4s,opacity .35s}
+
+/* ===== V7 : menu de choix de la matière (style iOS) ===== */
+.sp-btn{display:flex;align-items:center;gap:12px;width:100%;border:1px solid var(--bd);background:rgba(0,0,0,.28);color:inherit;font:inherit;font-size:1rem;font-weight:600;padding:12px 14px;border-radius:14px;cursor:pointer;transition:border-color .25s,background .25s,transform .3s cubic-bezier(.22,1,.36,1)}
+.sp-btn:hover{border-color:var(--glass-bd-hover)}
+.sp-btn:active{transform:scale(.98)}
+.sp-btn svg{margin-left:auto;opacity:.7;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.sp.open .sp-btn svg{transform:rotate(180deg)}
+.sp-btn:not(.set) #spTxt{opacity:.6;font-weight:500}
+.sp-dot{width:14px;height:14px;flex:0 0 14px;border-radius:50%;box-shadow:inset 0 1px 1px rgba(255,255,255,.4)}
+.sp-dot:not([class*="sc-"]){background:rgba(128,128,128,.4)}
+.sp-menu{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .55s cubic-bezier(.22,1,.36,1),opacity .3s,margin .4s}
+.sp.open .sp-menu{grid-template-rows:1fr;opacity:1;margin-top:8px}
+.sp-menu>div{overflow:hidden;min-height:0;border-radius:16px;background:var(--glass-bg);border:1px solid transparent;transition:border-color .3s}
+.sp.open .sp-menu>div{border-color:var(--glass-bd)}
+.sp-menu button{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;color:inherit;font:inherit;font-weight:600;padding:11px 14px;cursor:pointer;opacity:0;transform:translateY(-8px);transition:opacity .2s,transform .2s,background .2s}
+.sp.open .sp-menu button{opacity:1;transform:none;transition:opacity .35s calc(var(--i)*.04s + .1s),transform .5s cubic-bezier(.22,1,.36,1) calc(var(--i)*.04s + .1s),background .2s}
+.sp-menu button:hover{background:var(--card)}
+.sp-menu button.on::after{content:"✓";margin-left:auto;color:var(--mut)}
+
+/* ===== V7 : compteur du jour cliquable + correction du temps ===== */
+.today-pill{cursor:pointer;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.today-pill:hover{transform:scale(1.06)}
+.today-pill:active{transform:scale(.95)}
+.rm-list{list-style:none;padding:0;margin:0 0 6px;max-height:min(52vh,380px);overflow-y:auto}
+.rm-list li{overflow:hidden;max-height:80px;transition:max-height .32s cubic-bezier(.22,1,.36,1),opacity .25s,transform .3s}
+.rm-list li.gone{max-height:0;opacity:0;transform:translateX(34px)}
+.rm-list button{display:flex;align-items:center;gap:12px;width:100%;border:0;border-bottom:1px solid var(--bd);background:none;color:inherit;font:inherit;text-align:left;padding:12px 6px;cursor:pointer;transition:background .2s}
+.rm-list button:hover{background:var(--card)}
+.rm-list .dot{width:12px;height:12px;flex:0 0 12px;border-radius:50%}
+.rm-list .rn{flex:1;min-width:0;font-weight:600;word-break:break-word}
+.rm-list .rn small{display:block;color:var(--mut);font-size:.76rem;font-weight:400}
+.rm-list i{font-style:normal;color:var(--mut);transition:color .2s}
+.rm-list button:hover i{color:#ef4444}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:420px){.card{padding:18px}.stats{gap:10px}}
 </style>
@@ -611,14 +742,16 @@ html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);
   <header>
     <h1>Focus</h1>
     <div class="hr">
-      <div class="today-pill"><span class="lbl">Aujourd'hui </span><b id="pillToday">0h 00m</b></div>
+      <div class="today-pill" id="todayPill" role="button" tabindex="0" title="Détail de la journée"><span class="lbl">Aujourd'hui </span><b id="pillToday">0h 00m</b></div>
       <div class="tpick" id="tPick">
-        <button class="tbtn" id="tBtn" aria-haspopup="true" aria-expanded="false" title="Changer de thème"><i class="tdot t-dark" id="tDot"></i><span class="tlab" id="tLab">Crépuscule</span></button>
+        <button class="tbtn" id="tBtn" aria-haspopup="true" aria-expanded="false" title="Changer de thème"><i class="tdot t-sapphire" id="tDot"></i><span class="tlab" id="tLab">Midnight Sapphire</span></button>
         <div class="tpop" id="tPop" role="menu">
-          <button role="menuitemradio" data-th="dark"><i class="tdot t-dark"></i>Crépuscule</button>
-          <button role="menuitemradio" data-th="matte"><i class="tdot t-matte"></i>Granite</button>
           <button role="menuitemradio" data-th="chalk"><i class="tdot t-chalk"></i>Chalk</button>
+          <button role="menuitemradio" data-th="hotspur"><i class="tdot t-hotspur"></i>Hotspur Red</button>
+     
           <button role="menuitemradio" data-th="sapphire"><i class="tdot t-sapphire"></i>Midnight Sapphire</button>
+          <button role="menuitemradio" data-th="emerald"><i class="tdot t-emerald"></i>Dark Emerald</button>
+          <button role="menuitemradio" data-th="matte"><i class="tdot t-matte"></i>Granite</button>
         </div>
       </div>
     </div>
@@ -735,6 +868,19 @@ html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);
       <input id="aSubj" list="subjList" placeholder="Ex : Maths" autocomplete="off">
       <div class="btns"><button class="btn" id="aSave">Ajouter</button></div>
     </div>
+    <div class="card">
+      <h2>Corriger une erreur</h2>
+      <p class="fnote" id="rmDate"></p>
+      <div class="btns" style="margin-top:0"><button class="btn stop" id="rmOpen">Retirer une session</button></div>
+      <label style="margin-top:22px">Ou retirer une durée</label>
+      <div class="row">
+        <div><label for="rmH">Heures</label><input type="number" id="rmH" min="0" max="24" inputmode="numeric" placeholder="0"></div>
+        <div><label for="rmM">Minutes</label><input type="number" id="rmM" min="0" max="59" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <label for="rmSubj" style="margin-top:12px">Matière (facultatif)</label>
+      <input id="rmSubj" list="subjList" placeholder="Toutes les matières" autocomplete="off">
+      <div class="btns"><button class="btn stop" id="rmDur">Retirer cette durée</button></div>
+    </div>
   </section>
 </div>
 
@@ -799,14 +945,21 @@ html[data-theme="matte"]{--dw1:rgba(255,255,255,.2);--dw2:rgba(200,200,210,.16);
 <datalist id="subjList"></datalist>
 <div class="toast" id="toast"></div>
 
+<div class="modal" id="rm"><div class="sheet" role="dialog" aria-modal="true">
+  <h3>Retirer une session</h3><p id="rmSub"></p>
+  <ul class="rm-list" id="rmList"></ul>
+  <div class="btns"><button class="btn ghost" id="rmClose">Fermer</button></div>
+</div></div>
+
 <div class="modal" id="bk"><div class="sheet" role="dialog" aria-modal="true">
   <h3 id="bkH">Créneau</h3><p id="bkSub"></p>
-  <label for="bkTitle">Titre</label>
-  <input id="bkTitle" placeholder="Ex : Cours de maths" autocomplete="off" maxlength="40">
+  <label>Matière</label>
+  <div class="sp" id="sp">
+    <button class="sp-btn" id="spBtn" aria-haspopup="listbox" aria-expanded="false"><i class="sp-dot" id="spDot"></i><span id="spTxt">Choisir une matière</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="sp-menu" id="spMenu" role="listbox"></div>
+  </div>
   <label style="margin-top:12px">Durée</label>
   <div class="seg" id="bkDur"><button data-n="1">1 h</button><button data-n="2">2 h</button><button data-n="4">4 h</button></div>
-  <label>Couleur</label>
-  <div class="sws" id="bkCol"><button class="sw c0" data-c="c0"></button><button class="sw c1" data-c="c1"></button><button class="sw c2" data-c="c2"></button><button class="sw c3" data-c="c3"></button><button class="sw c4" data-c="c4"></button><button class="sw c5" data-c="c5"></button></div>
   <div class="btns"><button class="btn stop" id="bkDel">Supprimer</button><button class="btn" id="bkSave">Enregistrer</button></div>
 </div></div>
 
@@ -1289,12 +1442,13 @@ function closeM(id){ $(id).classList.remove('open'); }
 ['#bk','#q','#gm'].forEach(id => $(id).addEventListener('click', e => { if(e.target === $(id)) closeM(id); }));
 
 /* ---------- Emploi du temps ---------- */
-let sched = store.get('focus_sched', {end:18, blocks:[]});
-if(!sched.end || sched.end < 18) sched.end = 18;
+let sched = store.get('focus_sched', {end:21, blocks:[]});
+if(!sched.end || sched.end < 21) sched.end = 21;
 const DAYS5 = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'], DAYS5L = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
 const saveSched = () => store.set('focus_sched', sched);
 let bkCur = null;
 function renderSched(){
+  if(!sched.end || sched.end < 21) sched.end = 21;
   const n = sched.end - 8;
   const g = $('#sGrid');
   g.style.gridTemplateRows = '30px repeat('+n+',56px)';
@@ -1304,44 +1458,71 @@ function renderSched(){
     for(let d=0;d<7;d++) h += '<button class="cell" aria-label="'+DAYS5L[d]+' '+(8+i)+'h" data-day="'+d+'" data-h="'+(8+i)+'" style="grid-row:'+(i+2)+';grid-column:'+(d+2)+'"></button>';
   }
   sched.blocks.forEach(b => {
-    h += '<button class="blk '+b.color+'" data-id="'+b.id+'" style="grid-row:'+(b.start-8+2)+' / span '+b.dur+';grid-column:'+(b.day+2)+'">'+esc(b.title)+'<small>'+pad(b.start)+'h–'+pad((b.start+b.dur)%24)+'h</small></button>';
+    h += '<button class="blk '+bcls(b)+'" data-id="'+b.id+'" style="grid-row:'+(b.start-8+2)+' / span '+b.dur+';grid-column:'+(b.day+2)+'">'+blab(b)+'<small>'+pad(b.start)+'h–'+pad((b.start+b.dur)%24)+'h</small></button>';
   });
   g.innerHTML = h;
   $('#sMore').style.display = sched.end < 24 ? '' : 'none';
   $('#sMore').textContent = 'Ajouter '+pad(sched.end)+'h–'+pad((sched.end+1)%24)+'h';
-  $('#sLess').style.display = (sched.end > 18 && sched.blocks.every(b => b.start+b.dur <= sched.end-1)) ? '' : 'none';
+  $('#sLess').style.display = (sched.end > 21 && sched.blocks.every(b => b.start+b.dur <= sched.end-1)) ? '' : 'none';
   $('#sReset').disabled = !sched.blocks.length;
   if(sdDay !== null && $('#sd').classList.contains('open')) renderSd();
 }
 $('#sMore').onclick = () => { if(sched.end < 24){ sched.end++; saveSched(); renderSched(); } };
-$('#sLess').onclick = () => { if(sched.end > 18){ sched.end--; saveSched(); renderSched(); } };
+$('#sLess').onclick = () => { if(sched.end > 21){ sched.end--; saveSched(); renderSched(); } };
+const SUBJ = [
+  {k:'phys', n:'Physique', s:'Phys', c:'sc-phys'},
+  {k:'svt',  n:'SVT',      s:'SVT', c:'sc-svt'},
+  {k:'math', n:'Maths',    s:'Maths', c:'sc-math'},
+  {k:'es',   n:'ES',       s:'ES', c:'sc-es'},
+  {k:'eng',  n:'Anglais',  s:'Angl.', c:'sc-eng'},
+  {k:'ger',  n:'Allemand', s:'All.', c:'sc-ger'},
+  {k:'hist', n:'Histoire', s:'Hist.', c:'sc-hist'}
+];
+function subjOf(b){
+  if(b.subj) return SUBJ.find(s => s.k === b.subj) || null;
+  return SUBJ.find(s => s.n.toLowerCase() === String(b.title || '').trim().toLowerCase()) || null;
+}
+function bcls(b){ const s = subjOf(b); return s ? s.c : b.color; }
+function blab(b){ const s = subjOf(b); return s ? '<span class="lf">'+esc(s.n)+'</span><span class="ls">'+esc(s.s)+'</span>' : esc(b.title); }
+$('#spMenu').innerHTML = '<div>'+SUBJ.map((s,i) => '<button role="option" data-k="'+s.k+'" style="--i:'+i+'"><i class="sp-dot '+s.c+'"></i>'+s.n+'</button>').join('')+'</div>';
+function setSubj(s){
+  bkCur.subj = s ? s.k : null;
+  $('#spTxt').textContent = s ? s.n : 'Choisir une matière';
+  $('#spDot').className = 'sp-dot'+(s ? ' '+s.c : '');
+  $('#spBtn').classList.toggle('set', !!s);
+  document.querySelectorAll('#spMenu button').forEach(b => b.classList.toggle('on', !!s && b.dataset.k === s.k));
+}
+function spOpen(v){ $('#sp').classList.toggle('open', v); $('#spBtn').setAttribute('aria-expanded', v ? 'true' : 'false'); }
+$('#spBtn').onclick = () => spOpen(!$('#sp').classList.contains('open'));
+$('#spMenu').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  setSubj(SUBJ.find(s => s.k === b.dataset.k)); spOpen(false);
+});
 function openBlock(x){
   bkCur = x;
   $('#bkH').textContent = x.isNew ? 'Nouveau créneau' : 'Modifier le créneau';
   $('#bkSub').textContent = DAYS5L[x.day]+' · à partir de '+pad(x.start)+'h';
-  $('#bkTitle').value = x.title;
+  setSubj(subjOf(x));
   document.querySelectorAll('#bkDur button').forEach(b => b.classList.toggle('on', +b.dataset.n === x.dur));
-  document.querySelectorAll('#bkCol .sw').forEach(b => b.classList.toggle('on', b.dataset.c === x.color));
   $('#bkDel').style.display = x.isNew ? 'none' : '';
+  spOpen(false);
   openM('#bk');
+  if(x.isNew) setTimeout(() => { if($('#bk').classList.contains('open') && bkCur === x) spOpen(true); }, 380);
 }
 $('#sGrid').addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
   if(b.dataset.id){ const x = sched.blocks.find(k => String(k.id) === b.dataset.id); if(x) openBlock({...x}); }
-  else if(b.dataset.day !== undefined) openBlock({day:+b.dataset.day, start:+b.dataset.h, dur:1, title:'', color:'c0', isNew:true});
+  else if(b.dataset.day !== undefined) openBlock({day:+b.dataset.day, start:+b.dataset.h, dur:1, title:'', color:'sc-phys', subj:null, isNew:true});
 });
 $('#bkDur').addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
   bkCur.dur = +b.dataset.n;
   document.querySelectorAll('#bkDur button').forEach(x => x.classList.toggle('on', x === b));
 });
-$('#bkCol').addEventListener('click', e => {
-  const b = e.target.closest('.sw'); if(!b) return;
-  bkCur.color = b.dataset.c;
-  document.querySelectorAll('#bkCol .sw').forEach(x => x.classList.toggle('on', x === b));
-});
 $('#bkSave').onclick = () => {
-  const x = bkCur; x.title = $('#bkTitle').value.trim() || 'Sans titre';
+  const x = bkCur, s = SUBJ.find(q => q.k === x.subj);
+  if(!s){ toast('Choisis une matière'); spOpen(true); return; }
+  x.title = s.n; x.color = s.c;
   if(x.start + x.dur > 24){ toast('Dépasse minuit'); return; }
   if(sched.blocks.some(k => k.id !== x.id && k.day === x.day && k.start < x.start+x.dur && x.start < k.start+k.dur)){ toast('Créneau déjà occupé'); return; }
   if(x.start + x.dur > sched.end) sched.end = x.start + x.dur;
@@ -1626,10 +1807,22 @@ $('#fSize').addEventListener('click', e => {
 
 /* ---------- Détail d'un jour ---------- */
 const SUBJ_COL = ['#a78bfa','#60a5fa','#22d3ee','#f472b6','#34d399','#fb7185','#818cf8','#2dd4bf'];
-const subjColor = name => SUBJ_COL[Math.max(0, [...new Set(sessions.map(s => s.subj))].sort().indexOf(name)) % SUBJ_COL.length];
+const SUBJ_FIX = {phys:'#8b5cf6', svt:'#14b8a6', math:'#ef4444', es:'#4a63d6', eng:'#f472b6', ger:'#facc15', hist:'#4ade80'};
+const subjKey = n => {
+  const s = String(n).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  if(/^(physique|physique[- ]chimie|pc)$/.test(s)) return 'phys';
+  if(/^(svt|sciences? de la vie.*)$/.test(s)) return 'svt';
+  if(/^(maths?|mathematiques?)$/.test(s)) return 'math';
+  if(/^(es|enseignement scientifique)$/.test(s)) return 'es';
+  if(s === 'anglais') return 'eng';
+  if(s === 'allemand') return 'ger';
+  if(s === 'histoire') return 'hist';
+  return null;
+};
+const subjColor = name => SUBJ_FIX[subjKey(name)] || SUBJ_COL[Math.max(0, [...new Set(sessions.map(s => s.subj))].sort().indexOf(name)) % SUBJ_COL.length];
 const DAYS_L = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 const MONTHS_L = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-let dvFrom = null, dvKey = null;
+let dvFrom = null, dvKey = null, dvSrcEl = null;
 function dvTarget(){ const w = Math.min(520, innerWidth-32), h = Math.min(innerHeight*.84, 600); return {l:(innerWidth-w)/2, t:(innerHeight-h)/2, w, h}; }
 function dvBox(r){ const p = $('#dp'); p.style.left = r.l+'px'; p.style.top = r.t+'px'; p.style.width = r.w+'px'; p.style.height = r.h+'px'; }
 const rectOf = el => { const b = el.getBoundingClientRect(); return {l:b.left, t:b.top, w:b.width, h:Math.max(b.height, 8)}; };
@@ -1646,7 +1839,7 @@ function dayContent(k){
   return h;
 }
 function openDay(k, barEl){
-  dvKey = k; dvFrom = rectOf(barEl);
+  dvKey = k; dvFrom = rectOf(barEl); dvSrcEl = barEl;
   const dv = $('#dv'), p = $('#dp');
   $('#db').innerHTML = dayContent(k); $('#db').scrollTop = 0;
   p.style.transition = 'none'; dv.classList.remove('full'); dvBox(dvFrom);
@@ -1657,8 +1850,9 @@ function openDay(k, barEl){
 }
 function closeDay(){
   const dv = $('#dv'); if(!dv.classList.contains('open')) return;
-  const bar = document.querySelector('#chDays .col[data-k="'+dvKey+'"] .bar');
-  dv.classList.remove('full'); dvBox(bar ? rectOf(bar) : dvFrom);
+  const live = document.querySelector('#chDays .col[data-k="'+dvKey+'"] .bar');
+  const el = [dvSrcEl, live].find(x => x && x.isConnected && x.getClientRects().length);
+  dv.classList.remove('full'); dvBox(el ? rectOf(el) : dvFrom);
   dv.classList.remove('open'); dv.setAttribute('aria-hidden','true');
   if(!pomoFsActive) document.body.style.overflow = '';
 }
@@ -1666,6 +1860,9 @@ $('#chDays').addEventListener('click', e => { const c = e.target.closest('.col')
 $('#chDays').addEventListener('keydown', e => { if(e.key !== 'Enter' && e.key !== ' ') return; const c = e.target.closest('.col'); if(c && c.dataset.k){ e.preventDefault(); openDay(c.dataset.k, c.querySelector('.bar')); } });
 $('#dv').addEventListener('click', e => { if(e.target.id === 'dv') closeDay(); });
 $('#dx').onclick = closeDay;
+const openToday = () => openDay(dkey(new Date()), $('#todayPill'));
+$('#todayPill').addEventListener('click', openToday);
+$('#todayPill').addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openToday(); } });
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDay(); });
 addEventListener('resize', () => { if($('#dv').classList.contains('full')) dvBox(dvTarget()); });
 
@@ -1684,7 +1881,7 @@ function sdContent(d){
     h += '<button class="tcell" aria-label="Ajouter à '+(8+i)+'h" data-h="'+(8+i)+'" style="grid-row:'+(i+1)+';grid-column:2"></button>';
   }
   bl.forEach((b,i) => {
-    h += '<button class="tblk '+b.color+'" data-id="'+b.id+'" style="grid-row:'+(b.start-8+1)+' / span '+b.dur+';grid-column:2;animation-delay:'+(.3+i*.07).toFixed(2)+'s"><b>'+esc(b.title)+'</b><small>'+pad(b.start)+'h–'+pad((b.start+b.dur)%24)+'h · '+b.dur+' h</small></button>';
+    h += '<button class="tblk '+bcls(b)+'" data-id="'+b.id+'" style="grid-row:'+(b.start-8+1)+' / span '+b.dur+';grid-column:2;animation-delay:'+(.3+i*.07).toFixed(2)+'s"><b>'+esc(b.title)+'</b><small>'+pad(b.start)+'h–'+pad((b.start+b.dur)%24)+'h · '+b.dur+' h</small></button>';
   });
   return h+'</div>';
 }
@@ -1729,11 +1926,11 @@ $('#rsYes').onclick = () => {
 };
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeM('#rs'); });
 
-/* ---------- Thèmes : Crépuscule / Granite / Chalk / Midnight Sapphire (changement animé) ---------- */
+/* ---------- Thèmes : Chalk / Hotspur Red /   Midnight Sapphire / Dark Emerald / Granite (changement animé) ---------- */
 (function(){
-  const THEMES = {dark:['Crépuscule','#0b0b14'], matte:['Granite','#060606'], chalk:['Chalk','#e6e4df'], sapphire:['Midnight Sapphire','#0b101b']};
+  const THEMES = {chalk:['Chalk','#e6e4df'], hotspur:['Hotspur Red','#f1eadd'],  sapphire:['Midnight Sapphire','#0b101b'], emerald:['Dark Emerald','#04100c'], matte:['Granite','#060606']};
   const tc = document.querySelector('meta[name="theme-color"]'), pop = $('#tPop'), btn = $('#tBtn'), root = document.documentElement;
-  let cur = 'dark'; try{ let s = localStorage.getItem('focus_theme'); s = {fog:'chalk', dusk:'sapphire'}[s] || s; if(THEMES[s]){ cur = s; localStorage.setItem('focus_theme', s); } }catch(e){}
+  let cur = 'sapphire'; try{ let s = localStorage.getItem('focus_theme'); s = {fog:'chalk', dusk:'sapphire', dark:'sapphire'}[s] || s; if(THEMES[s]){ cur = s; localStorage.setItem('focus_theme', s); } }catch(e){}
   function apply(k){
     root.dataset.theme = k;
     $('#tLab').textContent = THEMES[k][0];
@@ -1920,6 +2117,53 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape') closeM('#rs')
 
   fill(); media();
 })();
+
+/* ---------- Corriger le temps : retirer une session / une durée ---------- */
+const rmDay = () => $('#aDate').value || dkey(new Date());
+const frDate = k => { const p = k.split('-'); return +p[2]+'/'+p[1]; };
+const dayName = k => k === dkey(new Date()) ? "aujourd'hui" : 'le '+frDate(k);
+function rmLabel(){ $('#rmDate').textContent = 'Jour concerné : '+dayName(rmDay())+' (date choisie dans « Ajouter du temps travaillé »).'; }
+$('#aDate').addEventListener('change', rmLabel); rmLabel();
+function afterChange(){
+  store.set('focus_sessions', sessions);
+  refreshSubjects(); renderStats(); renderPill();
+  if($('#dv').classList.contains('open')) $('#db').innerHTML = dayContent(dvKey);
+}
+function rmRender(){
+  const k = rmDay(), list = sessions.filter(s => s.date === k).sort((a,b) => b.id-a.id);
+  const tot = list.reduce((a,s) => a+s.sec, 0);
+  $('#rmSub').textContent = dayName(k).replace(/^./, c => c.toUpperCase())+' · total '+fmt(tot)+(list.length ? ' · touche une session pour la retirer' : '');
+  $('#rmList').innerHTML = list.length
+    ? list.map(s => '<li><button data-id="'+s.id+'"><span class="dot" style="background:'+subjColor(s.subj)+'"></span><span class="rn">'+esc(s.subj)+'<small>'+esc(s.src)+(s.mood ? ' · '+s.mood : '')+(s.note ? ' · '+esc(s.note) : '')+'</small></span><b>'+fmt(s.sec)+'</b><i>✕</i></button></li>').join('')
+    : '<li class="empty">Aucune session ce jour-là.</li>';
+}
+$('#rmOpen').onclick = () => { rmRender(); openM('#rm'); };
+$('#rmClose').onclick = () => closeM('#rm');
+$('#rm').addEventListener('click', e => { if(e.target.id === 'rm') closeM('#rm'); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeM('#rm'); });
+$('#rmList').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b || b.disabled) return;
+  b.disabled = true; b.closest('li').classList.add('gone');
+  const id = b.dataset.id;
+  setTimeout(() => {
+    sessions = sessions.filter(s => String(s.id) !== id);
+    afterChange(); rmRender(); toast('Session retirée');
+  }, 300);
+});
+$('#rmDur').onclick = () => {
+  const need = (parseInt($('#rmH').value) || 0)*3600 + (parseInt($('#rmM').value) || 0)*60;
+  if(need <= 0){ toast('Entre une durée'); return; }
+  const k = rmDay(), sub = ($('#rmSubj').value || '').trim().toLowerCase();
+  const pool = sessions.filter(s => s.date === k && (!sub || String(s.subj).toLowerCase() === sub)).sort((a,b) => b.id-a.id);
+  const avail = pool.reduce((a,s) => a+s.sec, 0);
+  if(avail <= 0){ toast(sub ? 'Aucune session de cette matière ce jour-là' : 'Aucun temps à retirer ce jour-là'); return; }
+  if(need > avail){ toast('Maximum retirable : '+fmt(avail)); return; }
+  let left = need;
+  pool.forEach(s => { if(left <= 0) return; const d = Math.min(s.sec, left); s.sec -= d; left -= d; });
+  sessions = sessions.filter(s => s.sec > 0);
+  afterChange(); $('#rmH').value = ''; $('#rmM').value = '';
+  toast('Retiré : '+fmt(need));
+};
 
 /* ---------- Boucle & Initialisation Cloud ---------- */
 function tick(){ pomoCheck(); renderChrono(); renderPomo(); }
