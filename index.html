@@ -732,6 +732,73 @@ html[data-theme="emerald"] #gC{background:radial-gradient(circle,rgba(150,230,19
 .rm-list .rn small{display:block;color:var(--mut);font-size:.76rem;font-weight:400}
 .rm-list i{font-style:normal;color:var(--mut);transition:color .2s}
 .rm-list button:hover i{color:#ef4444}
+
+/* ===== V8 : Objectifs — sélecteur Liquid Glass + To-Do par jour ===== */
+.gsel{display:flex;gap:16px;justify-content:center;margin:clamp(8px,9vh,80px) 0 24px}
+.gsq,.td-day{position:relative;overflow:hidden;border:1px solid var(--glass-bd);background:var(--glass-bg);box-shadow:var(--glass-shadow);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);color:var(--tx);font:inherit;cursor:pointer;transition:transform .45s cubic-bezier(.22,1.2,.36,1),box-shadow .4s,border-color .3s,opacity .3s}
+.gsq::after,.td-day::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.3),transparent 55%);transition:opacity .35s}
+.gsq:hover::after,.td-day:hover::after{opacity:1}
+.gsq{flex:1 1 0;max-width:210px;aspect-ratio:1;border-radius:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:12px}
+.gsq b{font-size:1.02rem;line-height:1.25;text-align:center}
+.gsq svg{width:44px;height:44px;transition:transform .5s cubic-bezier(.22,1.4,.36,1)}
+.gsq:hover{transform:translateY(-5px) scale(1.04);opacity:1;box-shadow:var(--glass-shadow-hover);border-color:var(--glass-bd-hover)}
+.gsq:hover svg{transform:scale(1.12) rotate(-4deg)}
+.gsq:active{transform:scale(.94);transition-duration:.15s}
+.gsq.on{opacity:1;transform:scale(1);box-shadow:var(--glass-shadow-hover),0 0 34px -8px var(--violet);border-color:var(--glass-bd-hover)}
+.gsq.on:hover{transform:translateY(-4px) scale(1.04)}
+.gsq.on svg{color:var(--violet)}
+.pane-in{animation:paneIn .55s cubic-bezier(.22,1,.36,1)}
+@keyframes paneIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+#tdPane[hidden],#gPane[hidden]{display:none}
+.td-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.td-hd h2{font-size:1rem;margin:0;text-align:center}
+.td-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.td-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.td-grid .td-day:last-child{grid-column:1/-1}}
+.td-day{border-radius:22px;padding:16px 6px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:136px}
+.td-day .tdn{font-size:.82rem;font-weight:700;color:var(--mut)}
+.td-day .tdd{font-size:2.3rem;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.td-day .tdc{margin-top:6px;font-size:.74rem;font-weight:600;color:var(--mut);padding:3px 9px;border-radius:99px;background:var(--card)}
+.td-day .tdc.ok{color:#16a34a;background:rgba(34,197,94,.16)}
+.td-day.today{box-shadow:var(--glass-shadow),0 0 0 2px var(--violet)}
+.td-day:hover{transform:translateY(-6px) scale(1.05);box-shadow:var(--glass-shadow-hover);border-color:var(--glass-bd-hover)}
+.td-day:active{transform:scale(.95);transition-duration:.15s}
+.td-grid.anim .td-day{animation:tdIn .65s cubic-bezier(.22,1,.36,1) backwards;animation-delay:calc(var(--d)*.05s)}
+@keyframes tdIn{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+#tdv{z-index:58}
+#cf{z-index:70}
+.td-prog{height:6px;border-radius:3px;background:rgba(128,128,128,.28);overflow:hidden;margin:14px 0 16px}
+.td-prog i{display:block;height:100%;background:linear-gradient(90deg,#34d399,#16a34a);border-radius:3px;transform-origin:left;transform:scaleX(0);transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.td-add{display:flex;gap:10px}
+.td-add input{flex:1;min-width:0}
+.td-add .btn{flex:0 0 auto;padding:12px 18px}
+.td-list{list-style:none;padding:0;margin:14px 0 6px}
+.td-item{display:flex;align-items:center;gap:12px;padding:12px 4px;border-bottom:1px solid var(--bd);overflow:hidden;max-height:160px;transition:max-height .32s cubic-bezier(.22,1,.36,1),opacity .25s,transform .3s,padding .3s}
+.td-item.new{animation:tdNew .5s cubic-bezier(.22,1,.36,1)}
+@keyframes tdNew{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.td-item.gone{max-height:0;opacity:0;transform:translateX(34px);padding-top:0;padding-bottom:0}
+.td-chk{width:28px;height:28px;flex:0 0 28px;border-radius:50%;border:2px solid var(--mut);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:transform .3s cubic-bezier(.22,1.4,.36,1),background .3s,border-color .3s}
+.td-chk:hover{transform:scale(1.12)}
+.td-chk:active{transform:scale(.88)}
+.td-chk svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .4s .05s}
+.td-item.done .td-chk{background:linear-gradient(135deg,#34d399,#16a34a);border-color:transparent;transform:scale(1.08)}
+.td-item.done .td-chk svg{stroke-dashoffset:0}
+.td-t{flex:1;min-width:0;word-break:break-word;transition:opacity .3s}
+.td-item.done .td-t{text-decoration:line-through;opacity:.5}
+.td-x{border:0;background:none;color:var(--mut);cursor:pointer;font-size:1.05rem;padding:6px 8px;border-radius:50%;transition:color .2s,background .2s,transform .25s}
+.td-x:hover{color:#ef4444;background:var(--card);transform:scale(1.12)}
+
+/* ===== V8 fix : vue "choix" puis contenu, avec flèche de retour ===== */
+.gsel[hidden],.gbar[hidden]{display:none}
+.gsel,#gPane,#tdPane,.gbar{transition:opacity .28s,transform .35s cubic-bezier(.22,1,.36,1),filter .28s}
+.gsel.out,#gPane.out,#tdPane.out,.gbar.out{opacity:0;transform:scale(.94);filter:blur(6px);pointer-events:none}
+.gsel.gs-in .gsq{animation:gsIn .65s cubic-bezier(.22,1,.36,1) backwards}
+.gsel.gs-in .gsq:nth-child(2){animation-delay:.09s}
+@keyframes gsIn{from{opacity:0;transform:translateY(20px) scale(.9)}}
+.gbar{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.gbar span{font-weight:700;font-size:1.05rem}
+.gback{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;border:1px solid var(--glass-bd);background:var(--glass-bg);box-shadow:var(--glass-shadow);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);color:var(--tx);cursor:pointer;transition:transform .3s cubic-bezier(.22,1.3,.36,1),box-shadow .3s}
+.gback:hover{transform:translateX(-3px) scale(1.08);box-shadow:var(--glass-shadow-hover)}
+.gback:active{transform:scale(.9)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 @media (max-width:420px){.card{padding:18px}.stats{gap:10px}}
 </style>
@@ -830,12 +897,30 @@ html[data-theme="emerald"] #gC{background:radial-gradient(circle,rgba(150,230,19
 
   <!-- OBJECTIFS -->
   <section id="goals">
+    <div class="gsel" id="gSel">
+      <button class="gsq" data-pane="goals">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="15" height="15" rx="4"/><rect x="27" y="6" width="15" height="15" rx="4"/><rect x="6" y="27" width="15" height="15" rx="4"/><rect x="27" y="27" width="15" height="15" rx="4"/><path d="M10.5 13.5l2.6 2.6 4.4-5"/></svg>
+        <b>Suivi /<br>Objectifs</b>
+      </button>
+      <button class="gsq" data-pane="todo">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="13" r="4.5"/><path d="M9 13l1.6 1.6 3-3.4"/><path d="M22 13h20"/><circle cx="11" cy="25" r="4.5"/><path d="M22 25h20"/><circle cx="11" cy="37" r="4.5"/><path d="M22 37h14"/></svg>
+        <b>To-Do<br>List</b>
+      </button>
+    </div>
+    <div class="gbar" id="gBar" hidden><button class="gback" id="gBack" aria-label="Retour aux onglets"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><span id="gBarT"></span></div>
+    <div id="gPane" hidden>
     <div class="chips" id="gChips"></div>
     <p class="empty" id="gEmpty">Crée ton premier objectif.</p>
     <div class="card" id="gCard">
       <div class="hd"><button class="mini" id="gPrev" aria-label="Mois précédent">‹</button><h2 id="gMonth"></h2><button class="mini" id="gNext" aria-label="Mois suivant">›</button></div>
       <div class="gGrid" id="gGrid"></div>
       <div class="btns"><button class="btn ghost" id="gDel">Supprimer cet objectif</button></div>
+    </div>
+    </div>
+    <div id="tdPane" hidden>
+      <div class="td-hd"><button class="mini" id="tdPrev" aria-label="Semaine précédente">‹</button><h2 id="tdWeek"></h2><button class="mini" id="tdNext" aria-label="Semaine suivante">›</button></div>
+      <div class="td-grid" id="tdGrid"></div>
+      <div class="btns"><button class="btn ghost" id="tdToday">Aujourd'hui</button><button class="btn stop" id="tdReset">Tout réinitialiser</button></div>
     </div>
   </section>
 
@@ -993,6 +1078,18 @@ html[data-theme="emerald"] #gC{background:radial-gradient(circle,rgba(150,230,19
   </div>
 </div>
 
+<!-- TO-DO D'UN JOUR -->
+<div class="dv" id="tdv" aria-hidden="true">
+  <div class="dpanel" id="tdp" role="dialog" aria-modal="true" aria-label="To-Do du jour">
+    <button class="dx" id="tdx" aria-label="Fermer">✕</button>
+    <div class="dbody" id="tdb"></div>
+  </div>
+</div>
+<div class="modal" id="cf"><div class="sheet" role="alertdialog" aria-modal="true">
+  <h3 id="cfT"></h3><p id="cfP"></p>
+  <div class="btns" style="margin-top:0"><button class="btn ghost" id="cfNo">Annuler</button><button class="btn stop" id="cfYes">Vider</button></div>
+</div></div>
+
 <!-- LECTEUR DE MUSIQUE -->
 <div class="mp" id="mp">
   <button class="mp-fab" id="mpFab" aria-label="Ouvrir le lecteur de musique" aria-expanded="false">
@@ -1140,7 +1237,7 @@ $('#nav').addEventListener('click', e => {
   document.querySelectorAll('section').forEach(s => s.classList.toggle('on', s.id === b.dataset.t));
   if(b.dataset.t === 'stats') renderStats();
   if(b.dataset.t === 'sched') renderSched();
-  if(b.dataset.t === 'goals') renderGoals();
+  if(b.dataset.t === 'goals') showView('sel', false);
   b.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'});
 });
 
@@ -2164,6 +2261,172 @@ $('#rmDur').onclick = () => {
   afterChange(); $('#rmH').value = ''; $('#rmM').value = '';
   toast('Retiré : '+fmt(need));
 };
+
+/* ---------- Objectifs : sélecteur + To-Do par jour ---------- */
+var tdPaneNow = 'sel';
+let todos = store.get('focus_todos', {});
+let tdMon = mondayOf(new Date()), tdKey = null, tdFrom = null, tdSrc = null, cfCb = null;
+const MS = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+const saveTodos = () => store.set('focus_todos', todos);
+const keyDate = k => { const p = k.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); };
+
+/* vues : choix des 2 onglets -> contenu (flèche de retour) */
+function showView(v, anim){
+  const els = {sel:$('#gSel'), goals:$('#gPane'), todo:$('#tdPane')}, bar = $('#gBar'), cur = tdPaneNow;
+  const apply = () => {
+    Object.keys(els).forEach(k => { els[k].hidden = k !== v; els[k].classList.remove('out'); });
+    bar.classList.remove('out'); bar.hidden = v === 'sel';
+    $('#gBarT').textContent = v === 'todo' ? 'To-Do List' : 'Suivi / Objectifs';
+    tdPaneNow = v;
+    if(v === 'goals') renderGoals();
+    if(v === 'todo') renderTodo(true);
+    const n = els[v], c = v === 'sel' ? 'gs-in' : 'pane-in';
+    n.classList.remove('pane-in','gs-in'); void n.offsetWidth; n.classList.add(c);
+    if(v !== 'sel'){ bar.classList.remove('pane-in'); void bar.offsetWidth; bar.classList.add('pane-in'); }
+  };
+  if(anim && cur !== v && !els[cur].hidden){
+    els[cur].classList.add('out'); if(cur !== 'sel') bar.classList.add('out');
+    setTimeout(apply, 280);
+  } else apply();
+}
+$('#gSel').addEventListener('click', e => { const b = e.target.closest('.gsq'); if(b) showView(b.dataset.pane, true); });
+$('#gBack').onclick = () => showView('sel', true);
+document.addEventListener('pointermove', e => {
+  const t = e.target.closest && e.target.closest('.gsq,.td-day'); if(!t) return;
+  const r = t.getBoundingClientRect(); t.style.setProperty('--mx', (e.clientX-r.left)+'px'); t.style.setProperty('--my', (e.clientY-r.top)+'px');
+});
+
+/* semaine et tuiles des 7 jours */
+function weekLabel(){
+  const a = tdMon, b = addDays(tdMon, 6);
+  return a.getMonth() === b.getMonth()
+    ? 'Semaine du '+a.getDate()+' au '+b.getDate()+' '+MS[b.getMonth()]
+    : a.getDate()+' '+MS[a.getMonth()]+' – '+b.getDate()+' '+MS[b.getMonth()];
+}
+function renderTodo(anim){
+  $('#tdWeek').textContent = weekLabel();
+  const today = dkey(new Date()); let h = '';
+  for(let i=0;i<7;i++){
+    const d = addDays(tdMon, i), k = dkey(d), list = todos[k] || [], done = list.filter(x => x.d).length;
+    const all = list.length > 0 && done === list.length;
+    const lab = !list.length ? 'Vide' : (all ? '✓ Terminé' : done+' / '+list.length);
+    h += '<button class="td-day'+(k === today ? ' today' : '')+'" data-k="'+k+'" style="--d:'+i+'" aria-label="To-Do du '+DAYS5L[i]+' '+d.getDate()+'"><span class="tdn">'+DAYS5L[i]+'</span><span class="tdd">'+d.getDate()+'</span><span class="tdc'+(all ? ' ok' : '')+'">'+lab+'</span></button>';
+  }
+  const g = $('#tdGrid'); g.classList.toggle('anim', !!anim); g.innerHTML = h;
+}
+$('#tdPrev').onclick = () => { tdMon = addDays(tdMon, -7); renderTodo(true); };
+$('#tdNext').onclick = () => { tdMon = addDays(tdMon, 7); renderTodo(true); };
+$('#tdToday').onclick = () => { tdMon = mondayOf(new Date()); renderTodo(true); };
+$('#tdGrid').addEventListener('click', e => { const b = e.target.closest('.td-day'); if(b) tdOpen(b.dataset.k, b); });
+
+/* fenêtre d'un jour (ouverture fluide depuis la tuile) */
+const tdTarget = () => { const w = Math.min(520, innerWidth-32), h = Math.min(innerHeight*.86, 680); return {l:(innerWidth-w)/2, t:(innerHeight-h)/2, w, h}; };
+function tdBox(r){ const p = $('#tdp'); p.style.left = r.l+'px'; p.style.top = r.t+'px'; p.style.width = r.w+'px'; p.style.height = r.h+'px'; }
+function tdShell(k){
+  const d = keyDate(k);
+  return '<small class="dsub">'+d.getDate()+' '+MONTHS_L[d.getMonth()]+' '+d.getFullYear()+'</small>'
+    +'<div class="big dbig">'+DAYS5L[(d.getDay()+6)%7]+'</div>'
+    +'<p class="dmeta" id="tdMeta"></p>'
+    +'<div class="td-prog"><i id="tdProg"></i></div>'
+    +'<div class="td-add"><input id="tdIn" placeholder="Nouvelle tâche…" maxlength="120" autocomplete="off"><button class="btn" id="tdAdd">Ajouter</button></div>'
+    +'<ul class="td-list" id="tdList"></ul>'
+    +'<div class="btns"><button class="btn stop" id="tdClear">Vider ce jour</button></div>';
+}
+function tdMeta(){
+  const list = todos[tdKey] || [], done = list.filter(x => x.d).length;
+  $('#tdMeta').textContent = list.length ? done+' / '+list.length+' faite'+(done > 1 ? 's' : '') : 'Aucune tâche pour ce jour';
+  $('#tdProg').style.transform = 'scaleX('+(list.length ? done/list.length : 0)+')';
+  $('#tdClear').disabled = !list.length;
+}
+function tdList(newId){
+  const list = todos[tdKey] || [];
+  $('#tdList').innerHTML = list.map(x => '<li class="td-item'+(x.d ? ' done' : '')+(x.id === newId ? ' new' : '')+'" data-id="'+x.id+'"><button class="td-chk" aria-label="Valider"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg></button><span class="td-t">'+esc(x.t)+'</span><button class="td-x" aria-label="Supprimer">✕</button></li>').join('');
+  tdMeta();
+}
+function tdOpen(k, src){
+  tdKey = k; tdSrc = src; tdFrom = rectOf(src);
+  const dv = $('#tdv'), p = $('#tdp');
+  $('#tdb').innerHTML = tdShell(k); tdList(); $('#tdb').scrollTop = 0;
+  p.style.transition = 'none'; dv.classList.remove('full'); tdBox(tdFrom);
+  void p.offsetWidth; p.style.transition = '';
+  dv.classList.add('open'); dv.setAttribute('aria-hidden', 'false');
+  requestAnimationFrame(() => { tdBox(tdTarget()); dv.classList.add('full'); });
+  document.body.style.overflow = 'hidden';
+  if(matchMedia('(hover:hover)').matches) setTimeout(() => { const i = $('#tdIn'); if(i && dv.classList.contains('open')) i.focus(); }, 650);
+}
+function tdClose(){
+  const dv = $('#tdv'); if(!dv.classList.contains('open')) return;
+  const live = document.querySelector('#tdGrid .td-day[data-k="'+tdKey+'"]');
+  const el = [live, tdSrc].find(x => x && x.isConnected && x.getClientRects().length);
+  dv.classList.remove('full'); tdBox(el ? rectOf(el) : tdFrom);
+  dv.classList.remove('open'); dv.setAttribute('aria-hidden', 'true'); tdKey = null;
+  if(!$('#chronoFs').classList.contains('open') && !$('#pomoFs').classList.contains('open')) document.body.style.overflow = '';
+}
+$('#tdx').onclick = tdClose;
+$('#tdv').addEventListener('click', e => { if(e.target.id === 'tdv') tdClose(); });
+addEventListener('resize', () => { if($('#tdv').classList.contains('full')) tdBox(tdTarget()); });
+
+/* tâches : ajouter / valider / supprimer / vider */
+function tdAdd(){
+  const inp = $('#tdIn'), txt = inp.value.trim(); if(!txt || !tdKey) return;
+  const id = Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  (todos[tdKey] = todos[tdKey] || []).push({id, t:txt, d:false});
+  saveTodos(); inp.value = ''; tdList(id); renderTodo(false); inp.focus();
+  const ul = $('#tdList'); ul.scrollIntoView({block:'nearest'});
+}
+$('#tdb').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.id === 'tdAdd') return tdAdd();
+  if(b.id === 'tdClear'){
+    return confirmBox('Vider ce jour ?', 'Toutes les tâches de ce jour seront supprimées.', () => {
+      delete todos[tdKey]; saveTodos(); tdList(); renderTodo(false); toast('Jour réinitialisé');
+    });
+  }
+  const li = b.closest('.td-item'); if(!li) return;
+  const list = todos[tdKey] || [], item = list.find(x => x.id === li.dataset.id); if(!item) return;
+  if(b.classList.contains('td-chk')){
+    item.d = !item.d; li.classList.toggle('done', item.d); saveTodos(); tdMeta(); renderTodo(false);
+  } else if(b.classList.contains('td-x')){
+    b.disabled = true; li.classList.add('gone');
+    setTimeout(() => {
+      todos[tdKey] = (todos[tdKey] || []).filter(x => x.id !== item.id);
+      if(!todos[tdKey].length) delete todos[tdKey];
+      saveTodos(); tdList(); renderTodo(false);
+    }, 300);
+  }
+});
+$('#tdb').addEventListener('keydown', e => { if(e.key === 'Enter' && e.target.id === 'tdIn'){ e.preventDefault(); tdAdd(); } });
+
+/* réinitialisation globale (les 7 jours affichés) */
+$('#tdReset').onclick = () => confirmBox('Tout réinitialiser ?', 'Les To-Do lists des 7 jours de cette semaine seront vidées.', () => {
+  for(let i=0;i<7;i++) delete todos[dkey(addDays(tdMon, i))];
+  saveTodos(); renderTodo(false); toast('Semaine réinitialisée');
+});
+
+/* boîte de confirmation (premier plan) */
+function confirmBox(title, text, yes){
+  $('#cfT').textContent = title; $('#cfP').textContent = text; cfCb = yes; openM('#cf');
+}
+$('#cfNo').onclick = () => closeM('#cf');
+$('#cfYes').onclick = () => { closeM('#cf'); const f = cfCb; cfCb = null; if(f) f(); };
+$('#cf').addEventListener('click', e => { if(e.target.id === 'cf') closeM('#cf'); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') e.__cfOpen = $('#cf').classList.contains('open'); }, true);
+document.addEventListener('keydown', e => { if(e.key === 'Escape'){ closeM('#cf'); if(!e.__cfOpen) tdClose(); } });
+
+/* synchro Firebase des To-Do (même collection que le reste, sans toucher à ton bloc Firebase) */
+async function syncTodos(){
+  try{
+    const doc = await db.collection("focus_data").doc("focus_todos").get();
+    if(doc.exists && doc.data().data){
+      localStorage.setItem('focus_todos', JSON.stringify(doc.data().data));
+      todos = store.get('focus_todos', {});
+      renderTodo(false);
+      if(tdKey && $('#tdv').classList.contains('open')) tdList();
+    }
+  }catch(e){ console.log("To-Do : mode hors-ligne ou erreur de synchro", e); }
+}
+renderTodo(false);
+syncTodos();
 
 /* ---------- Boucle & Initialisation Cloud ---------- */
 function tick(){ pomoCheck(); renderChrono(); renderPomo(); }
